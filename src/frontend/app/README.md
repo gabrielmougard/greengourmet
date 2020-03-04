@@ -1,5 +1,5 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
+## Online resources
+* i18next setup : https://www.codeandweb.com/babeledit/tutorials/how-to-translate-your-react-app-with-react-i18next
 ## Available Scripts
 
 In the project directory, you can run:
