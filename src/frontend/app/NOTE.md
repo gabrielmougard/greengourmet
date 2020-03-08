@@ -1,0 +1,1 @@
+* https://stackoverflow.com/questions/48458832/reactjs-change-color-of-element-on-scroll-and-when-certain-position-is-reached (change a component while scrolling)
