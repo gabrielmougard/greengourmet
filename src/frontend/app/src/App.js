@@ -2,13 +2,18 @@ import React from 'react';
 import './App.css';
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
-import LandingPage from './components/LandingPage';
-import Login from './components/Login';
-import Signup from './components/Signup';
-import Console from './components/Console';
-import Error404 from './components/Error404';
+import LandingPage from './components/home/LandingPage';
+import Login from './components/authentication/Login';
+import Signup from './components/authentication/Signup';
+import Console from './components/console/Console';
+import Error404 from './components/shared/Error404';
 
 function App() {
+
+  //Call to saga to retrieve the cookie of session.
+  //If present, check with the server. If correct,
+  //we go directly to /console.
+
   return (
     <Router>
       <div>

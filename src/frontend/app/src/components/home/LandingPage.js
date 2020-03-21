@@ -1,5 +1,8 @@
 import React, { Component } from "react";
-
+import Hero from './Hero';
+import Imagine from './Imagine';
+import Access from './Access';
+import Form from './Form';
 
 class LandingPage extends Component {
     constructor(props) {
@@ -12,10 +15,7 @@ class LandingPage extends Component {
     render() {
         return (
             <>
-                <Hero
-                    id='home'
-                    scrollId='imagine'
-                />
+                <Hero />
                 <Imagine />
                 <Access />
                 <Form />
@@ -24,4 +24,4 @@ class LandingPage extends Component {
     }
 }
 
-export default LandingPage
+export default LandingPage;

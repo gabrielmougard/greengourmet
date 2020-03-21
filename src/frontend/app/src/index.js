@@ -21,6 +21,10 @@ import { Client as Styletron } from "styletron-engine-atomic";
 import {I18nextProvider} from 'react-i18next';
 import i18next from 'i18next';
 
+//Typo
+import Typography from "typography"
+import { theme } from './assets/js/global'
+
 const engine = new Styletron();
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
@@ -32,6 +36,29 @@ sagaMiddleware.run(rootSaga);
 i18next.init({
     interpolation: { escapeValue: false },  // React already does escaping
 });
+
+//typography
+const typography = new Typography({
+    googleFonts: [
+      {
+        name: 'Montserrat',
+        styles: ['800', '700', '500', '400']
+      },
+      {
+        name: 'Lato',
+        styles: ['200', '400', '500', '700']
+      }
+    ],
+    baseFontSize: "18px",
+    baseLineHeight: 1.6,
+    scaleRatio: 2,
+    headerFontFamily: ['Montserrat', 'BlinkMacSystemFont', '-apple-system', 'Roboto', 'Lucida Sans'],
+    bodyFontFamily: ['Lato', 'BlinkMacSystemFont', '-apple-system', 'Roboto', 'Lucida Sans'],
+    headerColor: theme.blue,
+    bodyColor: theme.lightFont,
+    bodyWeight: '400'
+  })
+  typography.injectStyles()
 
 ReactDOM.render(
     <StyletronProvider value={engine}>

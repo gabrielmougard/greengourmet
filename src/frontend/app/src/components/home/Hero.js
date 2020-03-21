@@ -1,12 +1,20 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import GatsbyImg from 'gatsby-image'
-import { FaChevronDown } from 'react-icons/fa'
+
 import styled, { css } from 'styled-components'
 import { scroller } from 'react-scroll'
 
 import StartPageBackground from '../backgrounds/pageStart'
 import phonelogo from '../../assets/svg/iphone-x.svg';
+
+import { rem, flex, phone, mobile } from '../../assets/js/utils'
+import { Container, Title, Header, SubHeader, Button } from '../../assets/js/index'
+
+//Scanner
+import Scanner from './Scanner';
+
+//CSS
+import './Hero.css'
 
 const scrollToForm = () => scroller.scrollTo("subscribe", {
     smooth: true,
@@ -38,19 +46,6 @@ const Content = styled(Container)`
   `)}
 `
 
-const Icon = styled(FaChevronDown)`
-  width: ${rem(50)};
-  height: ${rem(50)};
-  padding: ${rem(8)};
-  color: ${({ theme }) => theme.blue};
-  cursor: pointer;
-
-  ${hover(css`
-    transform: scale(1.1)
-  `)}
-
-  ${transitions('transform 0.2s ease-in')}
-`
 const IconWrapper = styled.div`
   position: absolute;
   bottom: ${rem(50)};
@@ -88,7 +83,6 @@ const TextWrapper = styled.div`
 const ImageWrapper = styled.div`
   flex: 5;
   padding-right: ${rem(40)};
-  ${flex({ x: "flex-end", y: 'flex-start' })}
   min-width: 200px;
 
   ${mobile(css`
@@ -108,22 +102,12 @@ const ImageWrapper = styled.div`
 const StaticImage = styled.div`
   min-width: 340px;
 
-  ${({ id }) => id === 'portfolio' && css`
-    min-width: 600px;
-    transform: translateX(-60px) translateY(50px) scale(1.5);
-
-    ${mobile(css`
-      transform: translateX(-100px) translateY(50px) scale(1.5);
-    `)}
-  `}
-
   ${({ id }) => id === 'home' && css`
     cursor: pointer;
   `}
 
   ${phone(css`
     transform: none;
-    min-width: 320px;
 
     ${({ id }) => id === 'home' && css`
       transform: translateX(14px);
@@ -133,7 +117,7 @@ const StaticImage = styled.div`
   transition: transform .2s ease-in;
 `
 
-export const EarlyAccess = styled(Button)`
+export const ConsoleButton = styled(Button)`
   margin-top: ${rem(30)};
 
   ${phone(css`
@@ -143,7 +127,7 @@ export const EarlyAccess = styled(Button)`
 
 const Sub = styled(SubHeader)`
   white-space: pre-line;
-  color: ${({ theme }) => theme.lightFont};
+  color: #f0f3bd};
 
   ${mobile(css`
     white-space: normal;
@@ -157,7 +141,7 @@ const Sub = styled(SubHeader)`
 const Text = ({ subHeader, header, description, button }) => (
     <TextWrapper>
       <Header
-        style={{ margin: `0 0 ${rem(20)}` }}
+        style={{ margin: `0 0 ${rem(20)}`}}
         color='lightFont'
         size={18}
       >
@@ -166,7 +150,7 @@ const Text = ({ subHeader, header, description, button }) => (
       <Title
         style={{ margin: `0 0 ${rem(20)}` }}
         size={72}
-        color="#fff"
+        color="#02c39a"
       >
         {header}
       </Title>
@@ -174,16 +158,16 @@ const Text = ({ subHeader, header, description, button }) => (
         style={{ margin: `0 0 ${rem(8)}` }}
         size={18}
       >
-        {description.md.rawMarkdownBody}
+        {description}
       </Sub>
       {
         button && button.length &&
-        <EarlyAccess
+        <ConsoleButton
           mint
           onClick={() => scrollToForm()}
         >
           {button}
-        </EarlyAccess>
+        </ConsoleButton>
       }
     </TextWrapper>
 )
@@ -192,16 +176,21 @@ Text.propTypes = {
   header: PropTypes.string.isRequired,
   subHeader: PropTypes.string.isRequired,
   button: PropTypes.string,
-  description: PropTypes.object.isRequired
+  description: PropTypes.string.isRequired
 }
   
+const onResultDetected = result => {
+  console.log("le result : "+result);
+}
+
 const Image = ({ image, id }) => (
   <ImageWrapper id={id}>
     <StaticImage id={id}>
-      <div
-        onClick={() => id === 'home' && scrollToForm()}
-      >
-        <img src={image}/>
+      <div onClick={() => id === 'home' && scrollToForm()}>
+        <div className="scanner-wrapper">
+          <img id="iphone-wrapper" src={image}/>
+          <Scanner onDetected={onResultDetected} />
+        </div>
       </div>
     </StaticImage>
   </ImageWrapper>
@@ -209,46 +198,31 @@ const Image = ({ image, id }) => (
   
 Image.propTypes = {
   id: PropTypes.string.isRequired,
-  image: PropTypes.object.isRequired
+  image: PropTypes.string.isRequired
 }
 
-const Hero = ({subHeader, content, image, scrollId, buttonText, id}) => (
-    <Wrapper>
+class Hero extends Component {
+
+    render() {
+      return (
+      <Wrapper>
         <StartPageBackground />
         <Content>
             <Image
-                id={id}
-                image={image}
+                id="home"
+                image={phonelogo}
             />
             <Text
-                header={content.header}
-                subHeader={subHeader}
-                description={content.description}
-                button={buttonText} 
+                header='Tu as faim ? Pourquoi attendre ? Prends-toi un GreenGourmet' 
+                subHeader="Reprends le contrôle de ton frigo !"
+                description="La première application de gestion et de création d'une cuisine plus écologique, économique et créative !"
+                button="J'y vais !" 
             />
         </Content>
-        <IconWrapper>
-        <Icon
-        onClick={() => scroller.scrollTo(scrollId, {
-            duration: 1000,
-            smooth: "easeOutQuint",
-            offset: -40
-        })}
-        />
-    </IconWrapper>
-    </Wrapper>
-)
+        <IconWrapper></IconWrapper>
+      </Wrapper>
+      )
+    }
+};
   
-Hero.propTypes = {
-    subHeader: PropTypes.string.isRequired,
-    content: PropTypes.shape({
-      header: PropTypes.string,
-      description: PropTypes.object
-    }).isRequired,
-    image: PropTypes.object.isRequired,
-    id: PropTypes.string.isRequired,
-    scrollId: PropTypes.string,
-    buttonText: PropTypes.string
-}
-  
-export default Hero
+export default Hero;

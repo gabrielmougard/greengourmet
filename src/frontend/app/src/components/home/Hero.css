@@ -1,0 +1,9 @@
+.scanner-wrapper {
+    position: relative; 
+    z-index: 1;
+}
+
+#iphone-wrapper {
+    position: absolute;
+    z-index: 3;
+}
