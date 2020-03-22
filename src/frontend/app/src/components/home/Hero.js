@@ -5,9 +5,9 @@ import styled, { css } from 'styled-components'
 import { scroller } from 'react-scroll'
 
 import StartPageBackground from '../backgrounds/pageStart'
-import phonelogo from '../../assets/svg/iphone-x.svg';
+import phonelogo from '../../assets/svg/iphone-x-after.svg';
 
-import { rem, flex, phone, mobile } from '../../assets/js/utils'
+import { rem, flex, phone, mobile, isPhone } from '../../assets/js/utils'
 import { Container, Title, Header, SubHeader, Button } from '../../assets/js/index'
 
 //Scanner
@@ -188,8 +188,14 @@ const Image = ({ image, id }) => (
     <StaticImage id={id}>
       <div onClick={() => id === 'home' && scrollToForm()}>
         <div className="scanner-wrapper">
-          <img id="iphone-wrapper" src={image}/>
-          <Scanner onDetected={onResultDetected} />
+          {isPhone() ? (
+              <Scanner onDetected={onResultDetected} />
+          ) : (
+            <>
+              <img id="iphone-wrapper" src={image}/>
+              <Scanner onDetected={onResultDetected} />
+            </>
+          )}
         </div>
       </div>
     </StaticImage>
@@ -213,7 +219,7 @@ class Hero extends Component {
                 image={phonelogo}
             />
             <Text
-                header='Tu as faim ? Pourquoi attendre ? Prends-toi un GreenGourmet' 
+                header='Tu as faim ? Pourquoi attendre ? Prends-toi un " GreenGourmet "' 
                 subHeader="Reprends le contrôle de ton frigo !"
                 description="La première application de gestion et de création d'une cuisine plus écologique, économique et créative !"
                 button="J'y vais !" 

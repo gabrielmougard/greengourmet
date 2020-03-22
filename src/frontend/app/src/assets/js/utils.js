@@ -9,6 +9,13 @@ const screenBreak = {
   phone: 650
 }
 
+export const isPhone = () => {
+  if (window.screen.width <= screenBreak.phone) {
+    return true
+  }
+  return false
+}
+
 export const rem = (...arg) => _rem(...arg)
 export const transitions = (...arg) => _transitions(...arg)
 

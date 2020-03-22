@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import config from "../../libs/scanner/configHome.json";
 import Quagga from "quagga";
 
+import { rem, flex, phone, mobile, isPhone } from '../../assets/js/utils'
+import { Container, Title, Header, SubHeader, Button } from '../../assets/js/index'
 //CSS
 import './Scanner.css'
 
@@ -74,9 +76,13 @@ const Scanner = props => {
     // QuaggaJS would look for an element that matches
     // the CSS selector #interactive.viewport
     <>
-    <div id="interactive" className="viewport">
+    <div id="interactive" className="viewport"></div>
+    <div className="scanner-result">
+      <div className="scanner-text-result">
+        <h2>Faîte chauffer le scanner !</h2>
+        <p>9781849967204</p>
+      </div>
     </div>
-    <div className="scanner-result"></div>
     </>
   );
 };
