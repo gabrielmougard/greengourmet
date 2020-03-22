@@ -14,7 +14,7 @@ const Logo = styled.div`
     background-repeat: no-repeat;
     cursor: pointer;
     width: 210px;
-    height: 40px;
+    height: 50px;
     
     ${phone(css`
         background: url(${logoMobile});

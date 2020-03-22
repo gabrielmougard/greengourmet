@@ -4,10 +4,12 @@ import styled, { css } from 'styled-components'
 import { flex, rem, phone } from '../../assets/js/utils'
 import { Button } from '../../assets/js'
 
+import Logo from './Logo';
+
 const Wrapper = styled.header`
   ${flex({ x: 'space-between', y: 'center' })}
   padding: 0 ${rem(20)};
-  height: ${({ theme }) => theme.navHeight};
+  height: ${rem(70)};
   position: fixed;
   width: 100%;
   z-index: 9;
@@ -17,15 +19,6 @@ const Wrapper = styled.header`
     background: #fff;
   `}
   transition: all .4s ease;
-`
-
-const LanguageSwitcher = styled.button`
-  background: transparent;
-  border: none;
-  padding: ${rem(4)} ${rem(12)};
-  font-size: ${rem(13)};
-  cursor: pointer;
-  color: ${({ transparent, theme }) => transparent ? theme.lightFont : theme.black};
 `
 
 const Nav = styled.nav`
@@ -64,27 +57,14 @@ class Header extends Component {
         return (
             <Wrapper transparent={transparent}>
                 <Logo
-                    onClick={() => navigate(`${language || ''}/`)}
+                    onClick={() => console.log("le logo !")}
                     transparent={transparent}
                 />
                 <Nav>
-                    {nav.map(({ name, path, section }) => section === 'header' && (
-                        <Fragment key={name}>
-                            {name !== 'Whitepaper' ?
-                                <Button onClick={() => navigate((language || '') + path)}>{name}</Button> :
-                                <Button as='a' href={path}>{name}</Button>
-                            }
-                        </Fragment>
-                    ))}
-                    {
-                        !location.pathname.match(noTranslate) &&
-                        <LanguageSwitcher
-                            transparent={transparent}
-                            onClick={() => onChangeLanguage()}
-                        >
-                        {language === "en" ? "中文" : "English"}
-                        </LanguageSwitcher>
-                    }
+                    <Fragment>
+                        <Button onClick={() => console.log("Mon frigo !!")} href="/console">Mon frigo</Button>
+                        <Button href="/login">Connexion</Button>      
+                    </Fragment>  
                 </Nav>
             </Wrapper>
         )

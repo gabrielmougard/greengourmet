@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Header from './Header';
 import Hero from './Hero';
 import Imagine from './Imagine';
 import Access from './Access';
@@ -15,6 +16,7 @@ class LandingPage extends Component {
     render() {
         return (
             <>
+                <Header />
                 <Hero />
                 <Imagine />
                 <Access />
