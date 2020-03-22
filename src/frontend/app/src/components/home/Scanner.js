@@ -80,7 +80,7 @@ const Scanner = props => {
     <div className="scanner-result">
       <div className="scanner-text-result">
         <h2>Faîte chauffer le scanner !</h2>
-        <p>9781849967204</p>
+        <p>(TODO : implémenter les tags baseui sous forme d'une liste de course)</p>
       </div>
     </div>
     </>
