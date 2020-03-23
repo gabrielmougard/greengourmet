@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import styled, { css } from 'styled-components'
-
+import { withRouter, Link } from "react-router-dom";
 import { flex, rem, phone } from '../../assets/js/utils'
 import { Button } from '../../assets/js'
 
@@ -54,6 +54,7 @@ class Header extends Component {
     }
     render() {
         const { transparent } = this.state
+
         return (
             <Wrapper transparent={transparent}>
                 <Logo
@@ -62,8 +63,8 @@ class Header extends Component {
                 />
                 <Nav>
                     <Fragment>
-                        <Button onClick={() => console.log("Mon frigo !!")} href="/console">Mon frigo</Button>
-                        <Button href="/login">Connexion</Button>      
+                      <Button onClick={() => { this.props.history.push('/console')}}>Mon frigo</Button>
+                      <Button onClick={() => { this.props.history.push('/login')}}>Connexion</Button>     
                     </Fragment>  
                 </Nav>
             </Wrapper>

@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import LandingPage from './components/home/LandingPage';
 import Login from './components/authentication/Login';
@@ -18,9 +18,7 @@ function App() {
     <Router>
       <div>
         <Switch>
-          <Route exact path="/">
-            <LandingPage />
-          </Route>
+          <Route exact path="/" component={LandingPage}/>
           <Route path="/login">
             <Login />
           </Route>

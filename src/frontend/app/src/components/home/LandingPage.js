@@ -3,6 +3,7 @@ import Header from './Header';
 import Hero from './Hero';
 import Imagine from './Imagine';
 import ContactForm from "./ContactForm";
+import Footer from './Footer';
 
 class LandingPage extends Component {
     constructor(props) {
@@ -13,12 +14,13 @@ class LandingPage extends Component {
     }
 
     render() {
+
         return (
             <>
-                <Header />
+                <Header history={this.props.history}/>
                 <Hero />
                 <Imagine />
-                
+                <Footer />
             </>
         )
     }
