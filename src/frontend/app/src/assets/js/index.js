@@ -61,7 +61,7 @@ export const Header = styled.h2`
   font-weight: ${({ weight }) => (weight && weight) || 500};
 
   ${({ color }) => color && css`
-    color: #f0f3bd};
+    color: #02c39a};
   `}
 
   ${phone(css`
@@ -94,7 +94,7 @@ export const Paragraph = styled.p`
   `}
 
   ${({ color }) => color && css`
-    color: ${({ theme }) => theme[color]};
+    color: ${({ color }) => color};
   `}
 
   ${({ pre }) => pre && css`

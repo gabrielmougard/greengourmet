@@ -22,51 +22,42 @@ const Wrapper = styled(Container)`
   `)}
 `
 
-const Text = ({ header, description, color, pre }) => (
+const Text = () => (
   <Container centrate>
     <Wrapper col>
       <Fade>
         <Header
-          color={color && color.title}
+          color="#02c39a"
           style={{ fontWeight: 'bold' }}
         >
-          {header}
+          Imagines une plateforme qui gère ton frigo de la manière la plus optimisée possible...
         </Header>
         <Fade delay={100}>
-          {
-            description.md ?
-              <Paragraph
-                pre={pre}
-                color={color && color.paragraph}
-              >
-                {description.md.rawMarkdownBody}
-              </Paragraph> :
-              description
-          }
+          <Paragraph pre={true} color="#a1a1a1">
+          Avec GreenGourmet, vous pouvez désormais :
+          </Paragraph>
+          <Paragraph pre={true} color="#a1a1a1">
+          gérer vos inventaires de courses, avoir des propositions de recettes guidées en fonction du contenu de votre frigo, 
+          </Paragraph>
+          <Paragraph pre={true} color="#a1a1a1">
+          mesurer vos performances de chef cuisto avec vos amis et encore bien plus !
+          </Paragraph>
         </Fade>
       </Fade>
     </Wrapper>
   </Container>
 )
 
-const SectionText = ({ header, description, color, padding, pre }) => (
+const SectionText = () => (
   <Background
-    padding={padding}
-    color={color}
+    padding='14vh 0 4vh'
+    color={false}
   >
     <Text
-      pre={pre}
-      header={header}
-      description={description}
-      color={color}
+      header="Imagines une plateforme qui gère ton frigo de la manire la plus optimisée possible..."
+      description="Avec GreenGourmet, vous pouvez désormais : gérer vos inventaires de courses, avoir des propositions de recettes guidées\n en fonction du contenu de votre frigo, mesurer vos performances de chef cuisto avec vos amis et encore bien plus !"
     />
   </Background>
 )
-
-
-SectionText.defaultProps = {
-  pre: false
-}
-
 
 export default SectionText

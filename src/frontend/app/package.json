@@ -11,6 +11,7 @@
     "i18next": "^19.3.2",
     "node-sass": "^4.13.1",
     "polished": "^3.5.0",
+    "prop-types": "^15.7.2",
     "quagga": "^0.12.1",
     "react": "^16.13.0",
     "react-content-loader": "^5.0.2",
@@ -22,6 +23,7 @@
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.0",
     "react-scroll": "^1.7.16",
+    "react-spinkit": "^3.0.0",
     "react-websocket": "^2.1.0",
     "redux": "^4.0.5",
     "redux-logger": "^3.0.6",
@@ -30,7 +32,8 @@
     "styled-components": "^5.0.1",
     "styletron-engine-atomic": "^1.4.6",
     "styletron-react": "^5.2.7",
-    "typography": "^0.16.19"
+    "typography": "^0.16.19",
+    "validator": "^13.0.0"
   },
   "scripts": {
     "start": "react-scripts start",
