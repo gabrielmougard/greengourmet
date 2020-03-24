@@ -10,6 +10,8 @@ import './Login.css'
 
 import logo from '../../assets/svg/nameWhite.svg'
 import googleLogo from '../../assets/svg/google.svg'
+import { GoogleLogin } from 'react-google-login';
+import { GOOGLE_OAUTH2_CLIENT_ID } from '../../CONSTANTS';
 
 const Wrapper = styled.section`height: 100vh;
         padding-top: ${({ theme }) => theme.navHeight};
@@ -23,6 +25,9 @@ const Wrapper = styled.section`height: 100vh;
             height: auto;
         `)}
 `
+const responseGoogle = (response) => {
+    console.log(response);
+}
 
 class Login extends Component {
     constructor(props) {
@@ -68,7 +73,15 @@ class Login extends Component {
                             </div>
                             
                             <p className="divider-login-center"> Or connect with </p>
-                            <img onClick={() => (console.log("hello google"))}src={googleLogo} width={30} height={30}/>
+                            <GoogleLogin
+                                clientId={GOOGLE_OAUTH2_CLIENT_ID}
+                                render={() => (
+                                    <img src={googleLogo} width={30} height={30}/>
+                                )}
+                                onSuccess={responseGoogle}
+                                onFailure={responseGoogle}
+                                cookiePolicy={'single_host_origin'}
+                            />
                             
                         </StyledAction>
                     </Card>
