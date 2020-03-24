@@ -1,3 +1,15 @@
+
+## Docker launch
+Type the following :
+
+**docker build -t frontend-react .**
+**docker run -it -p 3000:3000 -t frontend-react**
+
+then go to **localhost:3000**
+
+
+
+
 ## Online resources
 * i18next setup : https://www.codeandweb.com/babeledit/tutorials/how-to-translate-your-react-app-with-react-i18next
 ## Available Scripts
