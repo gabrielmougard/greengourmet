@@ -1,5 +1,5 @@
 plugins {
-	id 'org.springframework.boot' version '2.2.5.RELEASE'
+	id 'org.springframework.boot' version '2.2.0.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
 	id 'java'
 }
@@ -23,7 +23,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-hateoas'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 
-	implementation 'org.springframework.security:spring-security-oauth2-core:5.1.0.RELEASE'
+	implementation 'org.springframework.security:spring-security-oauth2-core:5.2.0.RELEASE'
 	implementation 'org.springframework.security:spring-security-oauth2-client:5.2.0.RELEASE'
 
 	implementation 'org.springframework.security:spring-security-test'
