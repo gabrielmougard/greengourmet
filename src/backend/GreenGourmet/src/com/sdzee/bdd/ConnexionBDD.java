@@ -7,8 +7,8 @@ import java.sql.SQLException;
 
 public class ConnexionBDD{
 		private String url = "jdbc:mysql://localhost:3306/greengourmet";
-		private String utilisateur = "olivier";
-		private String motDePasse = "Laroseraie_1821";
+		private String utilisateur = "utilisateur";
+		private String motDePasse = "mot_de_passe";
         String Data="";
         private Connection cn=null;
         //Statement st=null;
