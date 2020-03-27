@@ -8,7 +8,7 @@ services:
             - dbtest
         ports:
             - "3000:3000"
-        container_name: frontend
+        container_name: frontendservice
 
     authservice:
         build:
@@ -18,7 +18,7 @@ services:
             - dbtest
         ports: 
             - "8080:8080"
-        container_name: backend-auth
+        container_name: authservice
     
     dbtest:
         image: mysql

@@ -1,0 +1,28 @@
+.page-container .bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-size: cover;
+    mix-blend-mode: overlay;
+}
+
+.page-container .title {
+    font-family: 'Alfa Slab One', cursive;
+    font-size: 144px;
+    height: 100vh;
+    color: white;
+    width: 100%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    background-position: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    background-size: cover;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+  }

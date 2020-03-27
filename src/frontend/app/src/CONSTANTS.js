@@ -1,3 +1,7 @@
 // here we will put all the constants (i.e : API endpoints )
-export const GOOGLE_OAUTH2_CLIENT_ID = "25452287489-sfesb7mua0plspc2gd6uq25hjtajemr7.apps.googleusercontent.com"
-export const GOOGLE_OAUTH2_PASSWORD = "URHipuXfd0zr14FwFmJlB58h" 
+export const AUTH_API_BASE_URL = 'http://localhost:8080';
+export const ACCESS_TOKEN = 'accessToken';
+
+export const OAUTH2_REDIRECT_URI = 'http://localhost:3000/oauth2/redirect'; 
+
+export const GOOGLE_AUTH_URL = AUTH_API_BASE_URL + '/oauth2/authorize/google?redirect_uri=' + OAUTH2_REDIRECT_URI;

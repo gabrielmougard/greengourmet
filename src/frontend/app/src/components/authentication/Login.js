@@ -10,8 +10,12 @@ import './Login.css'
 
 import logo from '../../assets/svg/nameWhite.svg'
 import googleLogo from '../../assets/svg/google.svg'
-import { GoogleLogin } from 'react-google-login';
-import { GOOGLE_OAUTH2_CLIENT_ID } from '../../CONSTANTS';
+
+import { GOOGLE_AUTH_URL, ACCESS_TOKEN } from '../../CONSTANTS';
+import { Redirect } from 'react-router-dom';
+import Alert from 'react-s-alert';
+
+import { login } from '../../libs/APIUtils';
 
 const Wrapper = styled.section`height: 100vh;
         padding-top: ${({ theme }) => theme.navHeight};
@@ -25,18 +29,41 @@ const Wrapper = styled.section`height: 100vh;
             height: auto;
         `)}
 `
-const responseGoogle = (response) => {
-    console.log(response);
-}
 
 class Login extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            passwordValue: "",
+            email: "",
+            password: "",
         }
+
+        this.handleLogin = this.handleLogin.bind(this);
     }
+
+    handleLogin() {
+        const loginRequest = Object.assign({}, this.state);
+
+        login(loginRequest)
+        .then(response => {
+            localStorage.setItem(ACCESS_TOKEN, response.accessToken);
+            Alert.success("Successfully logged in !");
+            this.props.history.push("/console/me");
+        }).catch(error => {
+            Alert.error((error && error.message) || "Oups ! Une erreur s'est produite.");
+        })
+    }
+
     render() {
+
+        if(this.props.authenticated) {
+            return <Redirect
+                to={{
+                pathname: "/console/me",
+                state: { from: this.props.location }
+            }}/>;            
+        }
+
         return (
             <Wrapper>
                 <StartPageBackground />
@@ -51,20 +78,22 @@ class Login extends Component {
                         <StyledBody>
                         <Input
                             startEnhancer="@"
-                            placeholder="username (ou email)"
+                            placeholder="email"
+                            onChange={event => this.setState({email: event.currentTarget.value})}
+                            value={this.state.email}
                         />
                         <br />
                         <Input
                             placeholder="mot de passe"
-                            onChange={event => this.setState({passwordValue: event.currentTarget.value})}
+                            onChange={event => this.setState({password: event.currentTarget.value})}
                             type="password"
-                            value={this.state.passwordValue}
+                            value={this.state.password}
                         />
                         <br />
                         </StyledBody>
                         <StyledAction>
                             <div>
-                                <Button id="login-button" overrides={{BaseButton: {style: {width: '100%'}}}}>
+                                <Button onClick={this.handleLogin} id="login-button" overrides={{BaseButton: {style: {width: '100%'}}}}>
                                     Login
                                 </Button>
                                 <Button id="signup-button" overrides={{BaseButton: {style: {width: '100%'}}}}>
@@ -73,15 +102,9 @@ class Login extends Component {
                             </div>
                             
                             <p className="divider-login-center"> Or connect with </p>
-                            <GoogleLogin
-                                clientId={GOOGLE_OAUTH2_CLIENT_ID}
-                                render={() => (
-                                    <img src={googleLogo} width={30} height={30}/>
-                                )}
-                                onSuccess={responseGoogle}
-                                onFailure={responseGoogle}
-                                cookiePolicy={'single_host_origin'}
-                            />
+                            <a href={GOOGLE_AUTH_URL}>
+                            <img className="google-button" src={googleLogo} width={30} height={30}/>
+                            </a>
                             
                         </StyledAction>
                     </Card>

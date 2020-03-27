@@ -1,43 +1,110 @@
-import React from 'react';
+import React, { Component } from 'react';
 import './App.css';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-
+import PrivateRoute from './components/shared/PrivateRoute';
+import LoadingIndicator from './components/shared/LoadingIndicator';
 import LandingPage from './components/home/LandingPage';
 import Login from './components/authentication/Login';
 import Signup from './components/authentication/Signup';
+import OAuth2RedirectHandler from './components/authentication/OAuth2RedirectHandler';
 import Console from './components/console/Console';
 import Error404 from './components/shared/Error404';
 import Header from './components/home/Header';
 import Footer from './components/home/Footer';
 
-function App() {
+import { ACCESS_TOKEN } from './CONSTANTS';
+import Alert from 'react-s-alert';
+import { getCurrentUser } from './libs/APIUtils';
+
+class App extends Component {
 
   //Call to saga to retrieve the cookie of session.
   //If present, check with the server. If correct,
   //we go directly to /console.
+  constructor(props) {
+    super(props);
+    this.state = {
+      authenticated: false,
+      currentUser: null,
+      loading: false
+    }
 
-  return (
-    <Router>
-      <div>
-        <Switch>
-          <Route exact path="/" component={LandingPage}/>
-          <Route path="/login">
-            <Header />
-            <Login />
-          </Route>
-          <Route path="/signup">
-            <Signup />
-          </Route>
-          <Route path="/console">
-            <Console />
-          </Route>
-          <Route path="*">
-            <Error404 />
-          </Route>
-        </Switch>
-      </div>
-    </Router>
-  );
+    this.loadCurrentlyLoggedInUser = this.loadCurrentlyLoggedInUser.bind(this);
+    this.handleLogout = this.handleLogout.bind(this);
+
+  }
+
+  loadCurrentlyLoggedInUser() {
+    this.setState({
+      loading: true
+    });
+
+    getCurrentUser()
+    .then(response => {
+      this.setState({
+        currentUser: response,
+        authenticated: true,
+        loading: false
+      });
+    }).catch(error => {
+      this.setState({
+        loading: false
+      });  
+    });    
+  }
+
+  handleLogout() {
+    localStorage.removeItem(ACCESS_TOKEN);
+    this.setState({
+      authenticated: false,
+      currentUser: null
+    });
+    Alert.success("You're safely logged out!");
+  }
+
+  componentDidMount() {
+    this.loadCurrentlyLoggedInUser();
+  }
+
+  render() {
+
+    if(this.state.loading) {
+      return <LoadingIndicator />
+    }
+
+    return (
+      <Router>
+        <div>
+          <Switch>
+            <Route exact path="/" component={LandingPage}/>
+
+            <Route path="/login">
+              <Header />
+              <Login authenticated={this.state.authenticated} {...this.props}/>
+            </Route>
+
+            <Route path="/signup">
+              <Signup authenticated={this.state.authenticated} {...this.props}/>
+            </Route>
+
+            <PrivateRoute 
+              path="/console/me" 
+              authenticated={this.state.authenticated} 
+              currentUser={this.state.currentUser} 
+              component={Console}>
+            </PrivateRoute>
+
+            <Route path="/oauth2/redirect" component={OAuth2RedirectHandler}></Route> 
+            
+            <Route path="*">
+              <Error404 />
+            </Route>
+
+          </Switch>
+        </div>
+      </Router>
+    );
+  }
 }
 
 export default App;
