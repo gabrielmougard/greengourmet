@@ -63,7 +63,7 @@ class Header extends Component {
                 />
                 <Nav>
                     <Fragment>
-                      <Button onClick={() => { this.props.history.push('/console')}}>Mon frigo</Button>
+                      <Button onClick={() => { this.props.history.push('/console/me')}}>Mon frigo</Button>
                       <Button onClick={() => { this.props.history.push('/login')}}>Connexion</Button>     
                     </Fragment>  
                 </Nav>

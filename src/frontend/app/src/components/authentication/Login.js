@@ -36,9 +36,11 @@ class Login extends Component {
         this.state = {
             email: "",
             password: "",
+            signupClicked: false,
         }
 
         this.handleLogin = this.handleLogin.bind(this);
+        this.handleSignupButton = this.handleSignupButton.bind(this);
     }
 
     handleLogin() {
@@ -48,10 +50,15 @@ class Login extends Component {
         .then(response => {
             localStorage.setItem(ACCESS_TOKEN, response.accessToken);
             Alert.success("Successfully logged in !");
+            console.log(response)
             this.props.history.push("/console/me");
         }).catch(error => {
             Alert.error((error && error.message) || "Oups ! Une erreur s'est produite.");
         })
+    }
+
+    handleSignupButton() {
+        this.setState({signupClicked: true})
     }
 
     render() {
@@ -60,6 +67,14 @@ class Login extends Component {
             return <Redirect
                 to={{
                 pathname: "/console/me",
+                state: { from: this.props.location }
+            }}/>;            
+        }
+
+        if(this.state.signupClicked) {
+            return <Redirect
+                to={{
+                pathname: "/signup",
                 state: { from: this.props.location }
             }}/>;            
         }
@@ -96,7 +111,7 @@ class Login extends Component {
                                 <Button onClick={this.handleLogin} id="login-button" overrides={{BaseButton: {style: {width: '100%'}}}}>
                                     Login
                                 </Button>
-                                <Button id="signup-button" overrides={{BaseButton: {style: {width: '100%'}}}}>
+                                <Button onClick={this.handleSignupButton} id="signup-button" overrides={{BaseButton: {style: {width: '100%'}}}}>
                                     Sign up
                                 </Button>
                             </div>

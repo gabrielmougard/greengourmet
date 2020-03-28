@@ -84,6 +84,7 @@ class App extends Component {
             </Route>
 
             <Route path="/signup">
+              <Header />
               <Signup authenticated={this.state.authenticated} {...this.props}/>
             </Route>
 
