@@ -12,6 +12,8 @@ import logo from '../../assets/svg/nameWhite.svg'
 
 import { Redirect } from 'react-router-dom';
 import Alert from 'react-s-alert';
+import 'react-s-alert/dist/s-alert-default.css';
+import 'react-s-alert/dist/s-alert-css-effects/slide.css';
 
 import { signup } from '../../libs/APIUtils';
 
@@ -50,6 +52,7 @@ class Signup extends Component {
             .then(response => {
                 Alert.success("Vous avez bien été enregistré ! Connectez vous pour continuer !");
                 console.log(response)
+                console.log(this.props.history);
                 this.props.history.push("/login");
             }).catch(error => {
                 Alert.error((error && error.message) || "Oups ! Une erreur s'est produite.");

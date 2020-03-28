@@ -14,6 +14,8 @@ import googleLogo from '../../assets/svg/google.svg'
 import { GOOGLE_AUTH_URL, ACCESS_TOKEN } from '../../CONSTANTS';
 import { Redirect } from 'react-router-dom';
 import Alert from 'react-s-alert';
+import 'react-s-alert/dist/s-alert-default.css';
+import 'react-s-alert/dist/s-alert-css-effects/slide.css';
 
 import { login } from '../../libs/APIUtils';
 
@@ -62,6 +64,7 @@ class Login extends Component {
     }
 
     render() {
+        console.log(this.props.history)
 
         if(this.props.authenticated) {
             return <Redirect

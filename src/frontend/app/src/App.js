@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
 import PrivateRoute from './components/shared/PrivateRoute';
 import LoadingIndicator from './components/shared/LoadingIndicator';
 import LandingPage from './components/home/LandingPage';
@@ -15,6 +15,40 @@ import Footer from './components/home/Footer';
 import { ACCESS_TOKEN } from './CONSTANTS';
 import Alert from 'react-s-alert';
 import { getCurrentUser } from './libs/APIUtils';
+
+
+class LoginComponent extends Component {
+  constructor(props) {
+    super(props)
+  }
+  render() {
+    return (
+      <><Header {...this.props}/><Login {...this.props}/></>
+    )
+  }
+}
+
+class SignupComponent extends Component {
+  constructor(props) {
+    super(props)
+  }
+  render() {
+    return (
+      <><Header {...this.props}/><Signup {...this.props}/></>
+    )
+  }
+}
+
+class ErrorComponent extends Component {
+  constructor(props) {
+    super(props)
+  }
+  render() {
+    return (
+      <><Header {...this.props}/><Error404 {...this.props}/></>
+    )
+  }
+}
 
 class App extends Component {
 
@@ -73,20 +107,14 @@ class App extends Component {
     }
 
     return (
-      <Router>
+      <BrowserRouter>
         <div>
           <Switch>
             <Route exact path="/" component={LandingPage}/>
 
-            <Route path="/login">
-              <Header />
-              <Login authenticated={this.state.authenticated} {...this.props}/>
-            </Route>
+            <Route path="/login" component={LoginComponent}/>
 
-            <Route path="/signup">
-              <Header />
-              <Signup authenticated={this.state.authenticated} {...this.props}/>
-            </Route>
+            <Route path="/signup" component={SignupComponent}/>
 
             <PrivateRoute 
               path="/console/me" 
@@ -97,13 +125,14 @@ class App extends Component {
 
             <Route path="/oauth2/redirect" component={OAuth2RedirectHandler}></Route> 
             
-            <Route path="*">
-              <Error404 />
-            </Route>
+            <Route path="*" component={ErrorComponent}/>
 
           </Switch>
         </div>
-      </Router>
+        <Alert stack={{limit: 3}} 
+          timeout = {3000}
+          position='top-right' effect='slide' offset={65} />
+      </BrowserRouter>
     );
   }
 }
