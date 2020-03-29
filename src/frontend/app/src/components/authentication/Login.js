@@ -64,7 +64,6 @@ class Login extends Component {
     }
 
     render() {
-        console.log(this.props.history)
 
         if(this.props.authenticated) {
             return <Redirect
