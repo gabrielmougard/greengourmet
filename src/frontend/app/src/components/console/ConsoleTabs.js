@@ -60,7 +60,7 @@ export default function ConsoleTabs() {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static" color="default">
+      <AppBar position="static" color="#02c39a">
         <Tabs
           value={value}
           onChange={handleChange}

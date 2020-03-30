@@ -9,13 +9,22 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
+import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import AccountCircle from '@material-ui/icons/AccountCircle';
+import List from '@material-ui/core/List';
+import Drawer from '@material-ui/core/Drawer';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import SettingsIcon from '@material-ui/icons/Settings';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import DashboardIcon from '@material-ui/icons/Dashboard';
+import VideocamIcon from '@material-ui/icons/Videocam';
+import KitchenIcon from '@material-ui/icons/Kitchen';
+import MenuBookIcon from '@material-ui/icons/MenuBook';
+import EmojiEventsIcon from '@material-ui/icons/EmojiEvents';
+import EqualizerIcon from '@material-ui/icons/Equalizer';
 
 import './ConsoleHeader.css';
 
@@ -91,6 +100,9 @@ const useStyles = makeStyles((theme) => ({
             },
         },
     },
+    listDrawer : {
+        width: 250,
+    },
 }));
 
 
@@ -100,7 +112,7 @@ export default function ConsoleHeader() {
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-
+    const [isDrawerOpen, setIsDrawerOpen ] = React.useState(false);
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
@@ -120,6 +132,13 @@ export default function ConsoleHeader() {
     const handleMobileMenuOpen = (event) => {
         setMobileMoreAnchorEl(event.currentTarget);
     };
+
+    const toggleDrawer = (open) => (event) => {
+        if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+            return;
+        }
+        setIsDrawerOpen(open);
+    }
 
     const menuId = "console-header-menu-desktop"
         const renderMenu = (
@@ -217,6 +236,56 @@ export default function ConsoleHeader() {
         )
 
         const ggLogo = <img className="logo-console-header" src={ggLogoWhite} width={300} height={40}/>
+        
+        const listDrawer = (
+            <div
+                className={classes.listDrawer}
+                role="presentation"
+                onClick={toggleDrawer(false)}
+                onKeyDown={toggleDrawer(false)}
+            >
+                <List>
+                    <ListItem button key='Tableau de bord'>
+                        <ListItemIcon>
+                            <DashboardIcon />
+                        </ListItemIcon>
+                        <ListItemText primary='Tableau de bord' />
+                    </ListItem>
+                    <ListItem button key='Scanner'>
+                        <ListItemIcon>
+                            <VideocamIcon />
+                        </ListItemIcon>
+                        <ListItemText primary='Scanner' />
+                    </ListItem>
+                    <ListItem button key='Inventaire'>
+                        <ListItemIcon>
+                            <KitchenIcon />
+                        </ListItemIcon>
+                        <ListItemText primary='Inventaire' />
+                    </ListItem>
+                        <ListItem button key='Recettes'>
+                        <ListItemIcon>
+                            <MenuBookIcon />
+                        </ListItemIcon>
+                        <ListItemText primary='Recettes' />
+                    </ListItem>
+                    <ListItem button key='Leaderboard'>
+                        <ListItemIcon>
+                            <EmojiEventsIcon />
+                        </ListItemIcon>
+                        <ListItemText primary='Leaderboard' />
+                    </ListItem>
+                    <ListItem button key='Statistiques'>
+                        <ListItemIcon>
+                            <EqualizerIcon />
+                        </ListItemIcon>
+                        <ListItemText primary='Statistiques' />
+                    </ListItem>
+                </List>
+            </div>
+        )
+        console.log("le drawer")
+        console.log(isDrawerOpen)
 
         return (
             <div className={classes.grow}>
@@ -227,9 +296,13 @@ export default function ConsoleHeader() {
                             className={classes.menuButton}
                             color="inherit"
                             aria-label="open drawer"
+                            onClick={toggleDrawer(true)}
                         >
                             <MenuIcon />
                         </IconButton>
+                        <Drawer anchor='left' open={isDrawerOpen} onClose={toggleDrawer(false)}>
+                                {listDrawer}
+                        </Drawer>
                         {ggLogo}
                         <div className={classes.search}>
                             <div className={classes.searchIcon}>
