@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 
 import ConsoleHeader from './ConsoleHeader';
+import ConsoleTabs from './ConsoleTabs';
+
+import GridList from '@material-ui/core/GridList';
+import GridListTile from '@material-ui/core/GridListTile';
 
 class Console extends Component {
     constructor(props) {
@@ -18,7 +22,10 @@ class Console extends Component {
             imgHere = true
         }
         return (
-            <ConsoleHeader />
+            <>
+                <ConsoleHeader />
+                <ConsoleTabs />
+            </>
         )
     }
 }
