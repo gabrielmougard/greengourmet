@@ -3,21 +3,23 @@ import { fade, makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
 import InputBase from '@material-ui/core/InputBase';
 import Badge from '@material-ui/core/Badge';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import SettingsIcon from '@material-ui/icons/Settings';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
-import ggLogoWhite from '../../assets/images/nameWHITEHeader.png';
+import './ConsoleHeader.css';
+
+import ggLogoWhite from '../../assets/svg/nameWhite2.svg';
 
 const useStyles = makeStyles((theme) => ({
     grow: {
@@ -66,7 +68,7 @@ const useStyles = makeStyles((theme) => ({
       transition: theme.transitions.create('width'),
       width: '100%',
       [theme.breakpoints.up('md')]: {
-        width: '20ch',
+        width: '50ch',
       },
     },
     sectionDesktop: {
@@ -81,84 +83,113 @@ const useStyles = makeStyles((theme) => ({
         display: 'none',
       },
     },
+    menuItemRoot : {
+        '&:focus': {
+            backgroundColor: theme.palette.primary.main,
+            '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
+                color: theme.palette.common.white,
+            },
+        },
+    },
 }));
 
-const StyledMenu = withStyles({
-    paper: {
-      border: '1px solid #02C39A',
-    },
-  })((props) => (
-    <Menu
-      elevation={0}
-      anchorOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-      }}
-      transformOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-      }}
-      {...props}
-    />
-));
 
-const StyledMenuItem = withStyles((theme) => ({
-    root: {
-      '&:focus': {
-        backgroundColor: theme.palette.primary.main,
-        '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
-          color: theme.palette.common.white,
-        },
-      },
-    },
-  }))(MenuItem);
+export default function ConsoleHeader() {
 
-class ConsoleHeader extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
+    const classes = useStyles();
 
-        }
-    }
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
-    render() {
-        const classes = useStyles();
-        const ggLogo = <img src={ggLogoWhite}/>
+    const isMenuOpen = Boolean(anchorEl);
+    const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
-        const menuId = "console-header-menu-desktop"
+    const handleProfileMenuOpen = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleMobileMenuClose = () => {
+        setMobileMoreAnchorEl(null);
+    };
+
+    const handleMenuClose = () => {
+        setAnchorEl(null);
+        handleMobileMenuClose();
+    };
+
+    const handleMobileMenuOpen = (event) => {
+        setMobileMoreAnchorEl(event.currentTarget);
+    };
+
+    const menuId = "console-header-menu-desktop"
         const renderMenu = (
-            <StyledMenu 
+            <Menu
+                elevation={0}
+                anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                }}
+                transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                }}
                 anchorEl={anchorEl}
                 id={menuId}
                 keepMounted
                 open={isMenuOpen}
                 onClose={handleMenuClose}
+                classes={{
+                    paper : {
+                        border: '1px solid #02c39a',
+                    }
+                }}
             >
-                <StyledMenuItem>
+                <MenuItem 
+                    classes={{
+                        root: classes.menuItemRoot
+                    }}
+                >
                     <ListItemIcon>
                         <ExitToAppIcon fontSize="small" />
                     </ListItemIcon>
                     <ListItemText primary="Déconnexion" />
-                </StyledMenuItem>
-                <StyledMenuItem>
+                </MenuItem>
+                <MenuItem 
+                    classes={{
+                        root: classes.menuItemRoot
+                    }}
+                >
                     <ListItemIcon>
                         <SettingsIcon fontSize="small" />
                     </ListItemIcon>
                     <ListItemText primary="Paramètres" />
-                </StyledMenuItem>
-            </StyledMenu>
+                </MenuItem>
+            </Menu>
         )
 
         const mobileMenuId = "console-header-menu-mobile"
         const renderMobileMenu = (
-            <StyledMenu 
+            <Menu
+                elevation={0}
+                anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                }}
+                transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                }} 
                 anchorEl={anchorEl}
                 id={mobileMenuId}
                 keepMounted
-                open={isMenuOpen}
+                open={isMobileMenuOpen}
                 onClose={handleMenuClose}
             >
-                <MenuItem>
+                <MenuItem 
+                    classes={{
+                        root: classes.menuItemRoot
+                    }}
+                >
                     <IconButton aria-label="show 11 new notifications" color="inherit">
                         <Badge badgeContent={11} color="secondary">
                             <NotificationsIcon />
@@ -166,7 +197,12 @@ class ConsoleHeader extends Component {
                     </IconButton>
                     <p>Notifications</p>
                 </MenuItem>
-                <MenuItem onClick={handleProfileMenuOpen}>
+                <MenuItem 
+                    onClick={handleProfileMenuOpen}  
+                    classes={{
+                        root: classes.menuItemRoot
+                    }}
+                >
                     <IconButton
                         aria-label="account of current user"
                         aria-controls="primary-search-account-menu"
@@ -177,9 +213,10 @@ class ConsoleHeader extends Component {
                     </IconButton>
                     <p>Profile</p>
                 </MenuItem>
-            </StyledMenu>
+            </Menu>
         )
 
+        const ggLogo = <img className="logo-console-header" src={ggLogoWhite} width={300} height={40}/>
 
         return (
             <div className={classes.grow}>
@@ -242,7 +279,5 @@ class ConsoleHeader extends Component {
                 {renderMenu}
             </div>
         )
-    }
+    
 }
-
-export default ConsoleHeader;

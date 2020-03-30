@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 
+import ConsoleHeader from './ConsoleHeader';
+
 class Console extends Component {
     constructor(props) {
         super(props)
@@ -16,16 +18,8 @@ class Console extends Component {
             imgHere = true
         }
         return (
-        <div>
-            <p>coucou {name}, ton mail est : {email}</p>
-        {(imgHere) ? (
-            <img src= {imgURL} />
-        ) : (
-            <p>no detected image</p>
-        )}
-        </div>    
+            <ConsoleHeader />
         )
-        
     }
 }
 
