@@ -1,11 +1,11 @@
 FROM openjdk:13 AS TEMP_BUILD_IMAGE
 ENV APP_HOME=/usr/app/
 WORKDIR $APP_HOME
-COPY build.gradle settings.gradle gradlew $APP_HOME
+COPY build.gradle settings.gradle gradlew.sh $APP_HOME
 COPY gradle $APP_HOME/gradle
-RUN ./gradlew build || return 0 
+RUN ./gradlew.sh build || return 0 
 COPY . .
-RUN ./gradlew build
+RUN ./gradlew.sh build
 
 FROM openjdk:13
 ENV ARTIFACT_NAME=greengourmet-authentication-0.0.1-SNAPSHOT.jar
