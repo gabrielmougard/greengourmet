@@ -1,0 +1,94 @@
+.dashboard-root-content {
+    width: 100%;
+    height: 100%;
+    background-color: #f0f3bd;
+}
+
+.split {
+    height: 100%;
+    width: 50%;
+    position: fixed;
+    overflow-x: hidden;
+    padding-top: 20px;
+}
+  
+  /* Control the left side */
+.left {
+    left: 0;
+    background-color: #f0f3bd;
+}
+  
+  /* Control the right side */
+.right {
+    right: 0;
+    background-color: #f0f3bd;
+}
+
+.scanner-wrapper {
+    margin-left: auto;
+    margin-right: auto;
+    width: auto;
+    height: 50%;
+}
+.scanner-preview {
+    filter: blur(1rem);
+}
+.scanner-button-wrapper {
+    position: relative;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+.scanner-wrapper-controls {
+    position: relative; 
+}
+.recipes-wrapper {
+    width: auto;
+    height: 50%;
+}
+
+.dashboard-gridlist {
+    width: 100%;
+    height: 70%;
+}
+
+.scanner-card {   
+    margin-left: auto;
+    margin-right: auto;
+    width: 90%;
+    height: auto;
+    
+}
+
+.scanner-card-title {
+    font-size: 14;
+}
+
+.recipes-card {
+    width: 100%;
+    height: auto;
+}
+
+.inventory-card {
+    width: 100%;
+    height: 500;
+}
+
+.generate-recipe-button-wrapper {
+    margin-top: 30px;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.recipes-button-wrapper {
+    margin-top: 30px;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.itemloader-container {
+    margin-left: auto;
+    margin-right: auto;
+}

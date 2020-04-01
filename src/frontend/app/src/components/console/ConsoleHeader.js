@@ -26,6 +26,9 @@ import MenuBookIcon from '@material-ui/icons/MenuBook';
 import EmojiEventsIcon from '@material-ui/icons/EmojiEvents';
 import EqualizerIcon from '@material-ui/icons/Equalizer';
 
+import Alert from 'react-s-alert';
+import { ACCESS_TOKEN } from '../../CONSTANTS';
+
 import './ConsoleHeader.css';
 
 import ggLogoWhite from '../../assets/svg/nameWhite2.svg';
@@ -140,6 +143,11 @@ export default function ConsoleHeader() {
         setIsDrawerOpen(open);
     }
 
+    const handleLogout = () => {
+        localStorage.removeItem(ACCESS_TOKEN);
+        Alert.success("You're safely logged out!");
+    }
+
     const menuId = "console-header-menu-desktop"
         const renderMenu = (
             <Menu
@@ -163,7 +171,8 @@ export default function ConsoleHeader() {
                     }
                 }}
             >
-                <MenuItem 
+                <MenuItem
+                    onClick={handleLogout}
                     classes={{
                         root: classes.menuItemRoot
                     }}
@@ -284,8 +293,6 @@ export default function ConsoleHeader() {
                 </List>
             </div>
         )
-        console.log("le drawer")
-        console.log(isDrawerOpen)
 
         return (
             <div className={classes.grow}>

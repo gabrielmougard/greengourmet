@@ -1,15 +1,9 @@
 //here we define our reducer(s)
 const reducer = (state = {}, action) => {
     switch (action.type) {
-        case 'GET_RAP':
-            return { ...state, loading: true};
-        case 'RAP_RECEIVED':
-            return { ...state, rap: action.rapBLOB, loading: false }
-        case 'FETCH_RAP_ENDED':
-            return { ...state, heartbeatUUID: action.payload.outputUUID}
-        case 'DOWNLOAD_ENDED':
-            if (action.payload.success) {
-                return { ...state, outputResponse: action.payload.response}
+        case 'TAB_POSITION_ENDED':
+            if (action.payload.position) {
+                return { ...state, tabPosition: action.payload.position}
             } else {
                 return state;
             }

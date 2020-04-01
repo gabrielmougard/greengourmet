@@ -28,6 +28,7 @@
     "react-scroll": "^1.7.16",
     "react-spinkit": "^3.0.0",
     "react-swipeable-views": "^0.13.9",
+    "react-webcam": "^5.0.1",
     "react-websocket": "^2.1.0",
     "redux": "^4.0.5",
     "redux-logger": "^3.0.6",

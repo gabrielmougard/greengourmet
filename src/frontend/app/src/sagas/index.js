@@ -1,22 +1,7 @@
 //here we define our saga(s)
-import { call, put, takeLatest, all } from 'redux-saga/effects';
-import axios from 'axios';
-
-function* fetchRap(action) {
-
-}
-
-function* fetchOutput(action) {
-    
-}
-
-function* actionWatcher() {
-    yield takeLatest('GET_RAP', fetchRap);
-    yield takeLatest('DOWNLOAD_OUTPUT', fetchOutput);
-}
+import { spawn } from 'redux-saga/effects';
+import consoleNavSaga from './consoleNavSaga'
 
 export default function* rootSaga() {
-    yield all([
-        actionWatcher(),
-    ]);
+    yield spawn(consoleNavSaga) //saga for handling component update during the navigation in the console
 }

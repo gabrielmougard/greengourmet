@@ -8,6 +8,11 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 
+import { connect } from 'react-redux'
+
+//actions
+import { sendTabPosition } from '../../actions';
+
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -45,13 +50,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ConsoleTabs() {
+const ConsoleTabs = ({sendTabPosition}) => {
   const classes = useStyles();
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
+  const mapPos2Title = {0:"dashboard", 1:"scanner", 2:"inventory", 3:"recipes", 4:"leaderboard", 5:"statistics"}
+
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+    sendTabPosition(mapPos2Title[newValue]);
   };
 
   const handleChangeIndex = (index) => {
@@ -83,24 +91,38 @@ export default function ConsoleTabs() {
         onChangeIndex={handleChangeIndex}
       >
         <TabPanel value={value} index={0} dir={theme.direction}>
-          Tableau de bord
+          "La cuisine anglaise, c'est simple: quand c'est froid c'est de la bière, quand c'est chaud c'est de la soupe." - Coluche
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-          Scanner
+          "Un baiser ne dure pas autant qu'un bon plat." - George Meredith
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
-          Inventaire
+        "Pour bien cuisiner il faut de bons ingrédients, un palais, du coeur et des amis." - Pierre Perret
         </TabPanel>
         <TabPanel value={value} index={3} dir={theme.direction}>
-          Recettes
+        "Bonne cuisine et bon vin, c'est le paradis sur terre." - Henri IV
         </TabPanel>
         <TabPanel value={value} index={4} dir={theme.direction}>
-          Leaderbord
+        "La cuisine, c'est quand les choses ont le goût de ce qu'elles sont." - Curmonsky
         </TabPanel>
         <TabPanel value={value} index={5} dir={theme.direction}>
-          Statistiques
+        "La bonne cuisine, c'est le souvenir." - Georges Simenon
         </TabPanel>
       </SwipeableViews>
     </div>
   );
 }
+
+const mapStateToProps = (state) => {
+  return {
+      
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    sendTabPosition: (position) => {dispatch(sendTabPosition(position))},
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ConsoleTabs)
