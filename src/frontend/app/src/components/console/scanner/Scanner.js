@@ -16,7 +16,7 @@ import { connect } from 'react-redux'
 import './Scanner.css'
 
 //actions
-import { sendBarcodeContent } from '../../../actions'
+import { sendBarcodeContent, addBarcodeContent } from '../../../actions'
 
 const backdropStyles = makeStyles((theme) => ({
     backdrop: {
@@ -151,12 +151,14 @@ const Scanner = props => {
 const mapStateToProps = (state) => {
     return {
         barcodeContent: state.barcodeContent,
+        barcodeAdded: state.barcodeAdded,
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
         sendBarcodeContent: (userId, barcode) => {dispatch(sendBarcodeContent(userId, barcode))},
+        addBarcodeContent: (userId, barcodeContent, quantity, expirationDate) => {dispatch(addBarcodeContent(userId, barcodeContent, quantity, expirationDate))},
     }
 }
 

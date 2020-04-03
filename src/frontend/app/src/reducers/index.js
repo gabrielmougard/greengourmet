@@ -13,6 +13,12 @@ const reducer = (state = {}, action) => {
             } else {
                 return state;
             }
+        case 'ADD_BARCODE_ENDED':
+            if (action.payload.status) {
+                return { ...state, barcodeAdded: action.payload.barcodeAdded}
+            } else {
+                return state;
+            }
         default:
             return state;
     }

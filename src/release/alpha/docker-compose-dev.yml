@@ -31,4 +31,28 @@ services:
             - "3306:3306"
         volumes: # seeds
             - ../db-seeds:/docker-entrypoint-initdb.d
+    
+    mongoserver:
+        image: 'mongo'
+        container_name: 'mongoserver'
+        environment: 
+            - MONGO_INITDB_DATABASE=greengourmet
+            - MONGO_INITDB_ROOT_USERNAME=root
+            - MONGO_INITDB_ROOT_PASSWORD=iuzkghkuzegdo
+        volumes:
+            - ./mongo-volume:/data/db
+        ports:
+            - '27017-27019:27017-27019'
+
+    cacheserver:
+        image: 'bitnami/redis:5.0'
+        environment:
+            # ALLOW_EMPTY_PASSWORD is recommended only for development.
+            - ALLOW_EMPTY_PASSWORD=yes
+            - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL
+        ports:
+            - '6379:6379'
+        volumes:
+            - 'redis_data:/bitnami/redis/data'
+        command: /opt/bitnami/scripts/run.sh --maxmemory 200mb --maxmemory-policy allkeys-lru
 

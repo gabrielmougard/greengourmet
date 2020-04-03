@@ -27,3 +27,10 @@ export const fetchBarcodeContentEnded = (status, barcodeContent=null) => ({
         barcodeContent: barcodeContent,
     }
 })
+
+export const addBarcodeContentEnded = (status) => ({
+    type: 'ADD_BARCODE_ENDED',
+    payload: {
+        barcodeAdded: status,
+    }
+})
