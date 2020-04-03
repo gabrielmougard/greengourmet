@@ -53,6 +53,6 @@ services:
         ports:
             - '6379:6379'
         volumes:
-            - 'redis_data:/bitnami/redis/data'
+            - './redis-volume:/bitnami/redis/data'
         command: /opt/bitnami/scripts/run.sh --maxmemory 200mb --maxmemory-policy allkeys-lru
 
