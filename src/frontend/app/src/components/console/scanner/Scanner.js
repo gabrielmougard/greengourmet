@@ -9,9 +9,14 @@ import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { makeStyles } from '@material-ui/core/styles';
 
+//redux
+import { connect } from 'react-redux'
+
 //CSS
 import './Scanner.css'
 
+//actions
+import { sendBarcodeContent } from '../../../actions'
 
 const backdropStyles = makeStyles((theme) => ({
     backdrop: {
@@ -93,7 +98,7 @@ const Scanner = props => {
             console.log("A reliable decoded value is : "+decoded);
             setBackDropState(true);
             //call the saga here for getting the content of the decoded barcode
-            //TODO :
+            props.sendBarcodeContent(props.currentUser.id, decoded);
             //
         }
 
@@ -121,6 +126,12 @@ const Scanner = props => {
       setBackDropState(false);
   }
 
+  //if we have a response from /search
+  if (props.barcodeContent) {
+      setBackDropState(false); //untoggle the backdrop
+      setDrawerState(true); //toggle the bottom Drawer to print the result a let the user complete it
+  }
+
   return (
     // If you do not specify a target,
     // QuaggaJS would look for an element that matches
@@ -129,7 +140,7 @@ const Scanner = props => {
     <div id="interactive" className="viewport"></div>
     <Drawer anchor={"bottom"} open={drawerState} onClose={toggleDrawer(false)}>
     </Drawer>
-    <Backdrop className={classBackdrop.backdrop} open={backDropState} onClick={handleCloseBackdrop}>
+    <Backdrop className={classBackdrop.backdrop} open={backDropState}>
         <CircularProgress color="inherit" />
     </Backdrop>
     </>
@@ -137,4 +148,16 @@ const Scanner = props => {
   );
 };
 
-export default Scanner;
+const mapStateToProps = (state) => {
+    return {
+        barcodeContent: state.barcodeContent,
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        sendBarcodeContent: (userId, barcode) => {dispatch(sendBarcodeContent(userId, barcode))},
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Scanner);

@@ -11,3 +11,19 @@ export const fetchTabPositionEnded = (position) => ({
         position: position,
     }
 })
+
+export const sendBarcodeContent = (userId, barcode) => ({
+    type : 'SEND_BARCODE',
+    payload: {
+        userId: userId,
+        barcode: barcode,
+    }
+})
+
+export const fetchBarcodeContentEnded = (status, barcodeContent=null) => ({
+    type: 'SEND_BARCODE_ENDED',
+    payload: {
+        status: status,
+        barcodeContent: barcodeContent,
+    }
+})

@@ -7,6 +7,12 @@ const reducer = (state = {}, action) => {
             } else {
                 return state;
             }
+        case 'SEND_BARCODE_ENDED':
+            if (action.payload.status && action.payload.barcodeContent) {
+                return { ...state, barcodeContent: action.payload.barcodeContent}
+            } else {
+                return state;
+            }
         default:
             return state;
     }
