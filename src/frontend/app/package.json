@@ -17,6 +17,7 @@
     "quagga": "^0.12.1",
     "react": "^16.13.0",
     "react-content-loader": "^5.0.2",
+    "react-css-blur": "^1.1.1",
     "react-dom": "^16.13.0",
     "react-i18next": "^11.3.3",
     "react-icons": "^3.9.0",
