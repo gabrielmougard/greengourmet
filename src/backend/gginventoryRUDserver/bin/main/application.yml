@@ -1,0 +1,39 @@
+spring:
+    datasource:
+        url: jdbc:mysql://dbtest:3306/greengourmet?serverTimezone=UTC&useLegacyDatetimeCode=false
+        username: root
+        password: ougfakugzdaf
+
+    jpa:
+        show-sql: true
+        hibernate:
+            ddl-auto: update
+            naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+        properties:
+            hibernate:
+                dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+    security:
+      oauth2:
+        client:
+          registration:
+            google:
+              clientId: 25452287489-sfesb7mua0plspc2gd6uq25hjtajemr7.apps.googleusercontent.com
+              clientSecret: URHipuXfd0zr14FwFmJlB58h
+              redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
+              scope:
+                - email
+                - profile
+  
+app:
+  auth:
+    tokenSecret: 926D96C90030DD58429D2751AC1BDBBC
+    tokenExpirationMsec: 864000000
+  oauth2:
+    # After successfully authenticating with the OAuth2 Provider,
+    # we'll be generating an auth token for the user and sending the token to the
+    # redirectUri mentioned by the client in the /oauth2/authorize request.
+    # We're not using cookies because they won't work well in mobile clients.
+    authorizedRedirectUris:
+      - http://localhost:3000/oauth2/redirect
+      - myandroidapp://oauth2/redirect
+      - myiosapp://oauth2/redirect

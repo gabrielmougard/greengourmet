@@ -29,7 +29,7 @@ class Console extends Component {
     }
 
     render() {
-        console.log(this.props)
+        console.log("helololo : "+JSON.stringify(this.props));
         const name = this.props.currentUser.name
         const email = this.props.currentUser.email
 

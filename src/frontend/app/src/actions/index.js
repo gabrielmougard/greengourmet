@@ -34,3 +34,13 @@ export const addBarcodeContentEnded = (status) => ({
         barcodeAdded: status,
     }
 })
+
+export const addBarcodeContent = (userId, barcodeContent, quantity, expirationDate) => ({
+    type: 'ADD_BARCODE',
+    payload: {
+        userId: userId,
+        barcodeContent: barcodeContent,
+        quantity: quantity,
+        expirationDate: expirationDate,
+    }
+})
