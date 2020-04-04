@@ -1,1 +1,0 @@
-# Redis volume for storing data and logs

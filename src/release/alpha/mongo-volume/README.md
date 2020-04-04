@@ -1,1 +1,0 @@
-# MongoDB volume for storing data and logs
