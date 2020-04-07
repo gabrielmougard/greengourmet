@@ -22,6 +22,17 @@ services:
         ports: 
             - "8080:8080"
         container_name: authservicedev
+
+    articleservicedev:
+        build:
+            context: ../../backend/ggarticleserver
+            dockerfile: Dockerfile
+        depends_on: 
+            - mongoserver
+            - cacheserver
+        ports:
+            - "8082:8082"
+        container_name: articleservicedev
         
     scannerservicedev:
         build:
@@ -43,9 +54,9 @@ services:
         volumes: # seeds
             - ../db-seeds:/docker-entrypoint-initdb.d
     
-    mongoserver:
+    mongocluster:
         image: 'mongo'
-        container_name: 'mongoserver'
+        container_name: 'mongocluster'
         environment: 
             - MONGO_INITDB_DATABASE=greengourmet
             - MONGO_INITDB_ROOT_USERNAME=root
@@ -55,11 +66,12 @@ services:
         ports:
             - "27017:27017"
 
-    cacheserver:
+    rediscluster:
         image: 'bitnami/redis:5.0'
+        container_name: 'rediscluster'
         environment:
             # ALLOW_EMPTY_PASSWORD is recommended only for development.
-            - ALLOW_EMPTY_PASSWORD=yes
+            - REDIS_PASSWORD=uhoaizdhukazdadz
             - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL
         ports:
             - '6379:6379'

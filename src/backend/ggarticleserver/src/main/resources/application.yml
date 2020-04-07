@@ -1,3 +1,6 @@
+server:
+  port: 8082
+
 security:
   basic:
     enabled: false
@@ -8,11 +11,14 @@ management:
 
 spring:
   data:
-   mongodb:
-    host: localhost
-    port: 27017
-    database: greengourmet
+    mongodb:
+      host: mongocluster
+      port: 27017
+      database: greengourmet
+      user: root
+      password: iuzkghkuzegdo
     
-   redis:
-    host: localhost
-    port: 6379
+    redis:
+      host: rediscluster
+      port: 6379
+      password : uhoaizdhukazdadz
