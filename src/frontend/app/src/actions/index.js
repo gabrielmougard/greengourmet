@@ -28,6 +28,16 @@ export const fetchBarcodeContentEnded = (status, barcodeContent=null) => ({
     }
 })
 
+export const addBarcodeContent = (userId, barcodeContent, quantity, expirationDate) => ({
+    type: 'ADD_BARCODE',
+    payload: {
+        userId: userId,
+        barcodeContent: barcodeContent,
+        quantity: quantity,
+        expirationDate: expirationDate,
+    }
+})
+
 export const addBarcodeContentEnded = (status) => ({
     type: 'ADD_BARCODE_ENDED',
     payload: {
