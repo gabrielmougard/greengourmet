@@ -1,0 +1,28 @@
+version: "3.2"
+services:
+    mongoserver:
+        image: 'mongo'
+        container_name: 'mongoserver'
+        environment: 
+            - MONGO_INITDB_DATABASE=greengourmet
+        volumes:
+            - ./mongo-volume/data:/data/db
+        ports:
+            - "27017:27017"
+
+    mongo-seed:
+        build: ./mongo-volume/mongo-seeds
+        links: 
+            - mongoserver
+
+    cachetest:
+        image: 'bitnami/redis:5.0'
+        environment:
+            # ALLOW_EMPTY_PASSWORD is recommended only for development.
+            - ALLOW_EMPTY_PASSWORD=yes
+            - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL
+        ports:
+            - '6379:6379'
+        volumes:
+            - './redis-volume/data:/bitnami/redis/data'
+        command: /opt/bitnami/scripts/redis/run.sh --maxmemory 200mb --maxmemory-policy allkeys-lru

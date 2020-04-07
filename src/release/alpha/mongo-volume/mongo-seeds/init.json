@@ -1,0 +1,50 @@
+[
+    {
+        "userId": "2",
+        "name": "Lait bio",
+        "quantity" : "1.0",
+        "quantityUnit": "litre(s)",
+        "expiringDate": "6/05/2020",
+        "barcode": "126382908222"
+    },
+    {
+        "userId": "3",
+        "name": "Beurre",
+        "quantity" : "200.0",
+        "quantityUnit": "grammes",
+        "expiringDate": "16/08/2020",
+        "barcode": "126382967756422"
+    },
+    {
+        "userId": "3",
+        "name": "Confiture",
+        "quantity" : "300.0",
+        "quantityUnit": "grammes",
+        "expiringDate": "26/05/2020",
+        "barcode": "126382222908222"
+    },
+    {
+        "userId": "4",
+        "name": "Salade",
+        "quantity" : "100.0",
+        "quantityUnit": "gramme(s)",
+        "expiringDate": "6/03/2021",
+        "barcode": "12600008222"
+    },
+    {
+        "userId": "4",
+        "name": "Chocolat",
+        "quantity" : "0.8",
+        "quantityUnit": "livre(s)",
+        "expiringDate": "16/05/2020",
+        "barcode": "126399982908222"
+    },
+    {
+        "userId": "2",
+        "name": "Pomme de terre",
+        "quantity" : "4.0",
+        "quantityUnit": "kilogramme(s)",
+        "expiringDate": "6/05/2022",
+        "barcode": "126382908222999"
+    }
+]

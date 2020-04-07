@@ -40,9 +40,9 @@ services:
             - MONGO_INITDB_ROOT_USERNAME=root
             - MONGO_INITDB_ROOT_PASSWORD=iuzkghkuzegdo
         volumes:
-            - ./mongo-volume:/data/db
+            - ./mongo-volume/data:/data/db
         ports:
-            - '27017-27019:27017-27019'
+            - "27017:27017"
 
     cacheserver:
         image: 'bitnami/redis:5.0'
@@ -53,6 +53,6 @@ services:
         ports:
             - '6379:6379'
         volumes:
-            - './redis-volume:/bitnami/redis/data'
+            - './redis-volume/data:/bitnami/redis/data'
         command: /opt/bitnami/scripts/redis/run.sh --maxmemory 200mb --maxmemory-policy allkeys-lru
 

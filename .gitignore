@@ -1,1 +1,9 @@
 node_modules
+
+#docker volumes for mongo and redis
+mongo-volume/data
+redis-volume/data
+
+#java binary
+ggauthserver/bin
+ggarticleserver/bin

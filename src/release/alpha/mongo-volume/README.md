@@ -1,0 +1,1 @@
+# MongoDB docker volume for saving logs and data
