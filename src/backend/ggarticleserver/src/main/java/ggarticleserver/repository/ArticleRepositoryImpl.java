@@ -93,7 +93,7 @@ public class ArticleRepositoryImpl implements ArticleRepositoryCustom {
 	}
 	
 	@Override
-	public Article insert(Article article) {
+	public Article insertArticle(Article article) {
 		//create redisUUID and save in the redis cache
 		String redisUUID = UUID.randomUUID().toString();
 		article.setRedisUUID(redisUUID);

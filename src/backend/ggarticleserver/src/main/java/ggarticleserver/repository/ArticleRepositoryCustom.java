@@ -6,7 +6,7 @@ import ggarticleserver.model.Article;
 
 public interface ArticleRepositoryCustom {
 	
-	public Article insert(Article article);
+	public Article insertArticle(Article article);
 	
 	public void deleteById(String id);
 	

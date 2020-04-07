@@ -33,7 +33,7 @@ public final class ArticleController {
 	@ResponseStatus(HttpStatus.CREATED)
 	Article create(@RequestBody @Valid Article articleEntry) {
 		logger.info(articleEntry.toString());
-		return articleRepository.insert(articleEntry);
+		return articleRepository.insertArticle(articleEntry);
 	}
 	
 	@RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
