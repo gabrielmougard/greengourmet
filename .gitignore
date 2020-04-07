@@ -7,6 +7,7 @@ node_modules
 #java binary
 **/ggauthserver/bin
 **/ggarticleserver/bin
+**/ggscanner/bin
 
 #mac os
 .DS_Store
