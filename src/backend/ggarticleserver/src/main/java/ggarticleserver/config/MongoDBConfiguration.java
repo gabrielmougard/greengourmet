@@ -7,6 +7,9 @@ import org.springframework.context.annotation.Profile;
 
 import java.util.Arrays;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.mongodb.Mongo;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientOptions;
@@ -15,11 +18,14 @@ import com.mongodb.ServerAddress;
 
 import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
 import org.springframework.data.mongodb.core.mapping.MongoMappingContext;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 @SuppressWarnings("deprecation")
-@Profile(value = { "production", "dev" })
 @Configuration
+@EnableMongoRepositories(basePackages = "ggarticleserver.repository")
 public class MongoDBConfiguration extends AbstractMongoConfiguration {
+
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@Value("${spring.data.mongodb.host}")
 	private String mongoHost;
@@ -44,10 +50,10 @@ public class MongoDBConfiguration extends AbstractMongoConfiguration {
 	@Bean
 	public Mongo mongo() throws Exception {
 		MongoCredential credential = MongoCredential.createCredential(this.user,this.mongoDB,this.password.toCharArray());
-		MongoClientOptions options = MongoClientOptions.builder().sslEnabled(true).build();
+		//MongoClientOptions options = MongoClientOptions.builder().sslEnabled(true).build();
+		logger.info("les credentials : "+this.user+ " && "+this.mongoDB+" && "+this.password.toCharArray());
 		return new MongoClient(new ServerAddress(this.mongoHost, Integer.parseInt(this.mongoPort)),
-								Arrays.asList(credential),
-								options);
+								Arrays.asList(credential));
 		//return new MongoClient(mongoHost + ":" + mongoPort);
 	}
 
@@ -58,7 +64,11 @@ public class MongoDBConfiguration extends AbstractMongoConfiguration {
 
 	@Override
 	public MongoClient mongoClient() {
-		// TODO Auto-generated method stub
-		return null;
+		MongoCredential credential = MongoCredential.createCredential(this.user,this.mongoDB,this.password.toCharArray());
+		//MongoClientOptions options = MongoClientOptions.builder().sslEnabled(true).build();
+		logger.info("les credentials : "+this.user+ " && "+this.mongoDB+" && "+this.password.toCharArray());
+		return new MongoClient(new ServerAddress(this.mongoHost, Integer.parseInt(this.mongoPort)),
+								Arrays.asList(credential));
+		//return new MongoClient(mongoHost + ":" + mongoPort);
 	}
 }
