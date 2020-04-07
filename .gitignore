@@ -7,3 +7,9 @@ redis-volume/data
 #java binary
 ggauthserver/bin
 ggarticleserver/bin
+
+#mac os
+.DS_Store
+
+#VScode
+.VScode

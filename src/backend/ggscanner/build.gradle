@@ -1,0 +1,46 @@
+plugins {
+	id 'org.springframework.boot' version '2.2.0.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+	id 'java'
+}
+
+group = 'com.greengourmet.scanner'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '13'
+
+repositories {
+	mavenCentral()
+}
+
+bootJar {
+    mainClassName = 'ggscanner.Application'
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-cache'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-data-rest'
+	implementation 'org.springframework.boot:spring-boot-starter-hateoas'
+	implementation 'net.sourceforge.htmlunit:htmlunit:2.38.0'
+	//implementation 'org.springframework.boot:spring-boot-starter-security'
+
+	//implementation 'org.springframework.security:spring-security-oauth2-core:5.2.0.RELEASE'
+	//implementation 'org.springframework.security:spring-security-oauth2-client:5.2.0.RELEASE'
+
+	//implementation 'org.springframework.security:spring-security-test'
+	implementation 'io.jsonwebtoken:jjwt:0.7.0'
+	implementation 'mysql:mysql-connector-java:8.0.19'
+
+	implementation 'com.fasterxml.jackson.core:jackson-core:2.9.6'
+    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.9.6'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.9.6'
+
+	runtimeOnly 'com.h2database:h2'
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+}
+
+test {
+	useJUnitPlatform()
+}

@@ -22,6 +22,17 @@ services:
         ports: 
             - "8080:8080"
         container_name: authservicedev
+        
+    scannerservicedev:
+        build:
+            context: ../../backend/ggscanner
+            dockerfile: Dockerfile
+        depends_on: 
+            - dbtest
+            - mongoserver
+        ports: 
+            - "8081:8081"
+        container_name: scannerservicedev
     
     dbtest:
         image: mysql

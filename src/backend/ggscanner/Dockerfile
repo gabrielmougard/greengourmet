@@ -1,17 +1,17 @@
 FROM openjdk:13 AS TEMP_BUILD_IMAGE
 ENV APP_HOME=/usr/app/
 WORKDIR $APP_HOME
-COPY build.gradle settings.gradle gradlew.sh $APP_HOME
+COPY build.gradle settings.gradle gradlew $APP_HOME
 COPY gradle $APP_HOME/gradle
-RUN ./gradlew.sh build || return 0 
+RUN ./gradlew build || return 0 
 COPY . .
-RUN ./gradlew.sh build
+RUN ./gradlew build
 
 FROM openjdk:13
-ENV ARTIFACT_NAME=greengourmet-articleserver-0.0.1-SNAPSHOT.jar
+ENV ARTIFACT_NAME=greengourmet-scanner-0.0.1-SNAPSHOT.jar
 ENV APP_HOME=/usr/app/
 WORKDIR $APP_HOME
 COPY --from=TEMP_BUILD_IMAGE $APP_HOME/build/libs/$ARTIFACT_NAME .
-EXPOSE 8080
+EXPOSE 8081
 ENV EXEC_PATH /usr/app/$ARTIFACT_NAME
-CMD ["java","-jar","greengourmet-articleserver-0.0.1-SNAPSHOT.jar"]
+CMD ["java","-jar","greengourmet-scanner-0.0.1-SNAPSHOT.jar"]
