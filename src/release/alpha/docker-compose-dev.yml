@@ -28,8 +28,8 @@ services:
             context: ../../backend/ggarticleserver
             dockerfile: Dockerfile
         depends_on: 
-            - mongoserver
-            - cacheserver
+            - mongocluster
+            - rediscluster
         ports:
             - "8082:8082"
         container_name: articleservicedev
@@ -40,7 +40,7 @@ services:
             dockerfile: Dockerfile
         depends_on: 
             - dbtest
-            - mongoserver
+            - mongocluster
         ports: 
             - "8081:8081"
         container_name: scannerservicedev
