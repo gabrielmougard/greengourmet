@@ -3,7 +3,13 @@ spring:
         url: jdbc:mysql://dbtest:3306/greengourmet?serverTimezone=UTC&useLegacyDatetimeCode=false
         username: root
         password: ougfakugzdaf
-
+    data:
+        mongodb:
+        host: mongocluster
+        port: 27017
+        database: greengourmet
+        user: root
+        password: iuzkghkuzegdo
     jpa:
         show-sql: true
         hibernate:
