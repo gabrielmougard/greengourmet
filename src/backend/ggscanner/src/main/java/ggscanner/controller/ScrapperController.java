@@ -109,7 +109,7 @@ public class ScrapperController {
                 item.setBrand(itemElements[itemElements.length-2]);
             }else{
                 setBrand(item, page);
-            } 
+            }
         }
     }
 }

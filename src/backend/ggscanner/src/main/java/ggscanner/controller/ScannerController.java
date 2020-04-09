@@ -28,7 +28,7 @@ public class ScannerController {
             Item item = repository.findByBarcode(request.getBarcode()); 
         } catch (Exception e) {
             item = null;
-        } 
+        }
         
         Response response = new Response(item);
 
