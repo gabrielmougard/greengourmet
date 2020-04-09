@@ -20,7 +20,7 @@ public class ScrapperController {
     public Item scrapperItem(Request request,Response response){
         
         Item item = new Item(request.getBarcode());
-        try{
+        try{ 
             HtmlPage page = getPage(path.scrapperUrl + request.getBarcode());
             setGlobalInfo(item, page);
             setManufacturingCountry(item, page);

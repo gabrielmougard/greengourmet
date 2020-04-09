@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 
 public class WebScrapperPath {
 
-    @Value("${scrapper.url}")    
+    @Value("${scrapper.url}")     
     public String scrapperUrl = "https://fr.openfoodfacts.org/produit/";
     public String title = "//title";
     public String manufacturingCountry = "//a[contains(@href, '/lieu-de-fabrication')]";

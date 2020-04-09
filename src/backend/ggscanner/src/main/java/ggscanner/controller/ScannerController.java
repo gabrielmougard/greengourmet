@@ -10,7 +10,7 @@ import org.springframework.boot.SpringApplication;
 
 import ggscanner.repository.ItemRepository;
 import ggscanner.model.*;
-
+ 
 @SpringBootApplication
 @RestController
 public class ScannerController {
