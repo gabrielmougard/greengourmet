@@ -96,7 +96,7 @@ public class ScrapperController {
             }
         }
     }
-    private void setGlobalInfo(Item item, HtmlPage page){
+    private void setGlobalInfo(Item item, HtmlPage page) throws Exception {
         String[] itemElements;
         HtmlTitle title = page.getFirstByXPath(path.title);
         if(title != null){
@@ -109,7 +109,7 @@ public class ScrapperController {
                 item.setBrand(itemElements[itemElements.length-2]);
             }else{
                 setBrand(item, page);
-            }
+            } 
         }
     }
 }

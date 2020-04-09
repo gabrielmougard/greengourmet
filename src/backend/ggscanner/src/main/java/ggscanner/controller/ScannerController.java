@@ -24,7 +24,12 @@ public class ScannerController {
     }
     @RequestMapping(value = "/scanner", method = RequestMethod.POST)
     public @ResponseBody Response getItemPost(@RequestBody Request request) {
-        Item item = repository.findByBarcode(request.getBarcode());
+        try{
+            Item item = repository.findByBarcode(request.getBarcode()); 
+        } catch (Exception e) {
+            item = null;
+        } 
+        
         Response response = new Response(item);
 
         if(item==null){
