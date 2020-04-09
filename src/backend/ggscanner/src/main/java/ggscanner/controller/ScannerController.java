@@ -26,14 +26,15 @@ public class ScannerController {
     }
     @RequestMapping(value = "/scanner", method = RequestMethod.POST)
     public @ResponseBody String getItemPost(@RequestBody Request request) {
-        
-        Item item = null; //repository.findByBarcode(request.getBarcode());
+        Item item = repository.findByBarcode(request.getBarcode());
         Response response = new Response(item);
 
         if(item==null){
             item = scrapper.scrapperItem(request, response);
             response.setItem(item);
-            //repository.save(item);
+            if(item != null){
+                repository.save(item);
+            }
         }
         return responseToString(response);
     }
@@ -43,7 +44,8 @@ public class ScannerController {
         try{
             return objectMapper.writeValueAsString(response);
         }catch(Exception e){
-            return "{\"status\":500}";
+            return "{\"status\":500, \"item\":null}";
         }
     }
+
 }

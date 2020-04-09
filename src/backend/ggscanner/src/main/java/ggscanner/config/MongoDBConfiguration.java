@@ -20,7 +20,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 
 @SuppressWarnings("deprecation")
 @Configuration
-@EnableMongoRepositories(basePackages = "ggscanner.repository")
+@EnableMongoRepositories(basePackages = "ggscanner.controller")
 public class MongoDBConfiguration extends AbstractMongoConfiguration {
 
 	@Value("${spring.data.mongodb.host}")

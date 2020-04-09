@@ -26,12 +26,13 @@ bootJar {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework:spring-context:5.2.5.RELEASE'
 	implementation 'net.sourceforge.htmlunit:htmlunit:2.38.0'
 	implementation 'io.jsonwebtoken:jjwt:0.7.0'
 	implementation 'com.fasterxml.jackson.core:jackson-core:2.9.6'
     implementation 'com.fasterxml.jackson.core:jackson-annotations:2.9.6'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.9.6'
-
+	implementation 'javax.annotation:javax.annotation-api'
 	runtimeOnly 'com.h2database:h2'
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'

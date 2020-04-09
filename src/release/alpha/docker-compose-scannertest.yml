@@ -14,9 +14,8 @@ services:
         image: 'mongo'
         container_name: 'mongocluster'
         environment: 
-            - MONGO_INITDB_DATABASE=greengourmet
+            - MONGO_INITDB_DATABASE=admin
         volumes:
             - ./mongo-volume/data:/data/db
         ports:
             - "27017:27017"
-

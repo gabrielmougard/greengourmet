@@ -7,49 +7,99 @@ import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.*;
 
 public class ScrapperController {
+
+    public WebScrapperPath path = new WebScrapperPath();
+
     public Item scrapperItem(Request request,Response response){
-        Item item = new Item();
-        WebClient client = new WebClient();
-
-        String[] itemElements;
         
-        client.getOptions().setCssEnabled(false);
-        client.getOptions().setJavaScriptEnabled(false);
-
-        item.setBarcode(request.getBarcode());
-
+        Item item = new Item(request.getBarcode());
         try{
-            HtmlPage page = client.getPage("https://fr.openfoodfacts.org/produit/"+request.getBarcode());
-            HtmlTitle title = page.getFirstByXPath("//title");
-            HtmlDivision ingredients = (HtmlDivision) page.getByXPath("//div[@property='food:ingredientListAsText']").get(0);
-            List<HtmlElement> traceAllergens = (List) page.getByXPath("//a[contains(@href, '/trace')]");
-            List<HtmlElement> allergens = (List) page.getByXPath("//a[contains(@href, '/allergene')]");
-            List<HtmlElement> additifs = (List) page.getByXPath("//a[contains(@href, '/additif')]");
-            HtmlElement manufacturingCountry = page.getFirstByXPath("//a[contains(@href, '/lieu-de-fabrication')]");
-            HtmlElement nutritionalMark = page.getFirstByXPath("//img[contains(@src, 'https://static.openfoodfacts.org/images/misc/nutriscore')]");
-            HtmlElement kJ = page.getFirstByXPath("//td[@property='food:energyKjPer100g']");
-            //property="food:energyKjPer100g"
-            for(HtmlElement allergen : allergens){
-                item.getAllergens().add(allergen.asText());
-            }
-            for(HtmlElement traceAllergen : traceAllergens){
-                item.getTraceAllergens().add(traceAllergen.asText());
-            }
-            for(HtmlElement additif : additifs){
-                item.getAdditifs().add(additif.asText());
-            }
-            itemElements = title.asText().split(" - ");
-            item.setName(itemElements[0]);
-            item.setBrand(itemElements[itemElements.length-2]);
-            item.setQuantity(itemElements[itemElements.length-1]);
-            item.setManufacturingCountry(manufacturingCountry.asText());
-            item.setIngredients(ingredients.asText());
-            item.setNutritionalMark(nutritionalMark.getAttribute("src"));
-            item.setKJ(kJ.asText());
+            HtmlPage page = getPage(path.scrapperUrl + request.getBarcode());
+            setGlobalInfo(item, page);
+            setManufacturingCountry(item, page);
+            setNutritionalMark(item, page);
+            setIngredients(item, page);
+            setTraceAllergens(item, page);
+            setAllergens(item, page);
+            setAdditifs(item, page);
+            setKJ(item, page);
             response.setStatus(page.getWebResponse().getStatusCode());
         }catch(Exception e){
             response.setStatus(500);
+            item = null;
         }
         return item;
+    }
+    public HtmlPage getPage(String url) throws Exception{
+        WebClient client = new WebClient();
+
+        client.getOptions().setCssEnabled(false);
+        client.getOptions().setJavaScriptEnabled(false);
+
+        HtmlPage page = client.getPage(url);
+        return page;
+    }
+    public void setTraceAllergens(Item item, HtmlPage page){
+        List<HtmlElement> traceAllergens = (List) page.getByXPath(path.traceAllergens);
+        for(HtmlElement traceAllergen : traceAllergens){
+            item.getTraceAllergens().add(traceAllergen.asText());
+        }
+    }
+    public void setAllergens(Item item, HtmlPage page){
+        List<HtmlElement> allergens = (List) page.getByXPath(path.allergens);
+        for(HtmlElement allergen : allergens){
+            item.getAllergens().add(allergen.asText());
+        }
+    }
+    public void setAdditifs(Item item, HtmlPage page){
+        List<HtmlElement> additifs = (List) page.getByXPath(path.additifs);
+        for(HtmlElement additif : additifs){
+            item.getAdditifs().add(additif.asText());
+        }
+    }
+    public void setManufacturingCountry(Item item, HtmlPage page){
+        HtmlElement manufacturingCountry = page.getFirstByXPath(path.manufacturingCountry);
+        if(manufacturingCountry != null){ 
+            item.setManufacturingCountry(manufacturingCountry.asText());
+        }
+    }
+    public void setNutritionalMark(Item item, HtmlPage page){
+        HtmlElement nutritionalMark = page.getFirstByXPath(path.nutritionalMark);
+        if(nutritionalMark != null){
+            item.setNutritionalMark(nutritionalMark.getAttribute("src"));
+        }
+    }
+    public void setKJ(Item item, HtmlPage page){
+        HtmlElement kJ = page.getFirstByXPath(path.kJ);
+        if(kJ != null){
+            item.setKJ(kJ.asText());
+        }
+    }
+    public void setIngredients(Item item, HtmlPage page){
+        HtmlDivision ingredients = (HtmlDivision) page.getByXPath(path.ingredients).get(0);
+        if(ingredients != null){
+            item.setIngredients(ingredients.asText());
+        }
+    }
+    public void setGlobalInfo(Item item, HtmlPage page){
+        String[] itemElements;
+        HtmlTitle title = page.getFirstByXPath(path.title);
+        if(title != null){
+            itemElements = title.asText().split(" - ");
+            item.setName(itemElements[0]);
+            if(itemElements.length>1){
+                item.setQuantity(itemElements[itemElements.length-1]);
+            }
+            if(itemElements.length>2){
+                item.setBrand(itemElements[itemElements.length-2]);
+            }else{
+                List<HtmlElement> brands = (List) page.getByXPath(path.brand);
+                for(HtmlElement brand : brands){
+                    if(brand.asText().equals(item.getName())==false){
+                        item.setBrand(brand.asText());
+                    }
+                }
+            }
+        }
     }
 }

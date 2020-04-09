@@ -17,6 +17,12 @@ public class Item {
     private String nutritionalMark;
 	private String kJ;
 	
+	public Item(){
+
+	}
+	public Item(String barcode){
+		this.barcode = barcode;
+	}
     public String getBarcode() {
 		return barcode;
 	}
