@@ -1,14 +1,21 @@
 package ggscanner.controller;
 
 import ggscanner.model.*;
+
 import java.util.List;
 import java.util.ArrayList;
+
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.*;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
 public class ScrapperController {
 
-    public WebScrapperPath path = new WebScrapperPath();
+    private WebScrapperPath path = new WebScrapperPath();
 
     public Item scrapperItem(Request request,Response response){
         
@@ -30,7 +37,7 @@ public class ScrapperController {
         }
         return item;
     }
-    public HtmlPage getPage(String url) throws Exception{
+    private HtmlPage getPage(String url) throws Exception{
         WebClient client = new WebClient();
 
         client.getOptions().setCssEnabled(false);
@@ -39,49 +46,57 @@ public class ScrapperController {
         HtmlPage page = client.getPage(url);
         return page;
     }
-    public void setTraceAllergens(Item item, HtmlPage page){
+    private void setTraceAllergens(Item item, HtmlPage page){
         List<HtmlElement> traceAllergens = (List) page.getByXPath(path.traceAllergens);
         for(HtmlElement traceAllergen : traceAllergens){
             item.getTraceAllergens().add(traceAllergen.asText());
         }
     }
-    public void setAllergens(Item item, HtmlPage page){
+    private void setAllergens(Item item, HtmlPage page){
         List<HtmlElement> allergens = (List) page.getByXPath(path.allergens);
         for(HtmlElement allergen : allergens){
             item.getAllergens().add(allergen.asText());
         }
     }
-    public void setAdditifs(Item item, HtmlPage page){
+    private void setAdditifs(Item item, HtmlPage page){
         List<HtmlElement> additifs = (List) page.getByXPath(path.additifs);
         for(HtmlElement additif : additifs){
             item.getAdditifs().add(additif.asText());
         }
     }
-    public void setManufacturingCountry(Item item, HtmlPage page){
+    private void setManufacturingCountry(Item item, HtmlPage page){
         HtmlElement manufacturingCountry = page.getFirstByXPath(path.manufacturingCountry);
         if(manufacturingCountry != null){ 
             item.setManufacturingCountry(manufacturingCountry.asText());
         }
     }
-    public void setNutritionalMark(Item item, HtmlPage page){
+    private void setNutritionalMark(Item item, HtmlPage page){
         HtmlElement nutritionalMark = page.getFirstByXPath(path.nutritionalMark);
         if(nutritionalMark != null){
             item.setNutritionalMark(nutritionalMark.getAttribute("src"));
         }
     }
-    public void setKJ(Item item, HtmlPage page){
+    private void setKJ(Item item, HtmlPage page){
         HtmlElement kJ = page.getFirstByXPath(path.kJ);
         if(kJ != null){
             item.setKJ(kJ.asText());
         }
     }
-    public void setIngredients(Item item, HtmlPage page){
+    private void setIngredients(Item item, HtmlPage page){
         HtmlDivision ingredients = (HtmlDivision) page.getByXPath(path.ingredients).get(0);
         if(ingredients != null){
             item.setIngredients(ingredients.asText());
         }
     }
-    public void setGlobalInfo(Item item, HtmlPage page){
+    private void setBrand(Item item, HtmlPage page){
+        List<HtmlElement> brands = (List) page.getByXPath(path.brand);
+        for(HtmlElement brand : brands){
+            if(brand.asText().equals(item.getName())==false){
+                item.setBrand(brand.asText());
+            }
+        }
+    }
+    private void setGlobalInfo(Item item, HtmlPage page){
         String[] itemElements;
         HtmlTitle title = page.getFirstByXPath(path.title);
         if(title != null){
@@ -93,12 +108,7 @@ public class ScrapperController {
             if(itemElements.length>2){
                 item.setBrand(itemElements[itemElements.length-2]);
             }else{
-                List<HtmlElement> brands = (List) page.getByXPath(path.brand);
-                for(HtmlElement brand : brands){
-                    if(brand.asText().equals(item.getName())==false){
-                        item.setBrand(brand.asText());
-                    }
-                }
+                setBrand(item, page);
             }
         }
     }
