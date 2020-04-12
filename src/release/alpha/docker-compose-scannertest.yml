@@ -1,0 +1,21 @@
+version: "3.2"
+services:
+    scannerservicedev:
+        build:
+            context: ../../backend/ggscanner
+            dockerfile: Dockerfile
+        depends_on: 
+            - mongocluster
+        ports: 
+            - "8081:8081"
+        container_name: scannerservicedev
+
+    mongocluster:
+        image: 'mongo'
+        container_name: 'mongocluster'
+        environment: 
+            - MONGO_INITDB_DATABASE=admin
+        volumes:
+            - ./mongo-volume/data:/data/db
+        ports:
+            - "27017:27017"

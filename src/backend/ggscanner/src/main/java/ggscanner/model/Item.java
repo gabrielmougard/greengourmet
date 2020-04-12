@@ -1,44 +1,32 @@
 package ggscanner.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.data.mongodb.core.mapping.Document;
+import java.util.ArrayList;
 
-import javax.persistence.*;
-//import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
-
-/*@Entity
-@Table(name = "item", uniqueConstraints = {
-})*/
+@Document(collection = "Item")
 public class Item {
-    private int status;
-    private Long userId;
-    private Long barcode;
-    @Column(nullable = false)
-    private String name;
+    private String barcode;
+	private String name;
+	private String brand;
     private String quantity;
-    private String brand;
     private String manufacturingCountry;
-    private String ingredients;
+	private String ingredients;
+	private ArrayList<String> allergens = new ArrayList<String>(); 
+	private ArrayList<String> traceAllergens = new ArrayList<String>();
+	private ArrayList<String> additifs = new ArrayList<String>();
     private String nutritionalMark;
-    private String kcal;
-    private String allergen;
-    
-    public int getStatus() {
-		return status;
+	private String kJ;
+	
+	public Item(){
+
 	}
-	public void setStatus(int status) {
-        this.status = status;
-    }
-    public Long getUserId() {
-		return userId;
+	public Item(String barcode){
+		this.barcode = barcode;
 	}
-	public void setUserId(Long userId) {
-		this.userId = userId;
-	}
-    public Long getBarcode() {
+    public String getBarcode() {
 		return barcode;
 	}
-	public void setBarcode(Long barcode) {
+	public void setBarcode(String barcode) {
 		this.barcode = barcode;
 	}
 	public String getName() {
@@ -47,17 +35,17 @@ public class Item {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getQuantity() {
-		return quantity;
-	}
-	public void setQuantity(String quantity) {
-		this.quantity = quantity;
-	}
 	public String getBrand() {
 		return brand;
 	}
 	public void setBrand(String brand) {
 		this.brand = brand;
+	}
+	public String getQuantity() {
+		return quantity;
+	}
+	public void setQuantity(String quantity) {
+		this.quantity = quantity;
 	}
 	public String getManufacturingCountry() {
 		return manufacturingCountry;
@@ -71,22 +59,34 @@ public class Item {
 	public void setIngredients(String ingredients) {
 		this.ingredients = ingredients;
 	}
-	public String getKcal() {
-		return kcal;
+	public ArrayList<String> getAllergens(){
+        return this.allergens;
+    }
+    public void setAllergens(ArrayList<String> allergens){
+        this.allergens = allergens;
 	}
-	public void setKcal(String kcal) {
-		this.kcal = kcal;
+	public ArrayList<String> getTraceAllergens(){
+		return traceAllergens;
+	}
+	public void setTraceAllergens(ArrayList<String> traceAllergens){
+		this.traceAllergens = traceAllergens;
+	}
+	public ArrayList<String> getAdditifs(){
+        return this.additifs;
+    }
+    public void setAdditifs(ArrayList<String> additifs){
+        this.additifs = additifs;
 	}
 	public String getNutritionalMark() {
 		return nutritionalMark;
 	}
 	public void setNutritionalMark(String nutritionalMark) {
 		this.nutritionalMark = nutritionalMark;
-    }
-    public String getAllergen(){
-        return this.allergen;
-    }
-    public void setAllergen(String allergen){
-        this.allergen = allergen;
-    }
+	}
+	public void setKJ(String kJ) {
+		this.kJ = kJ;
+	}
+	public String getKJ() {
+		return kJ;
+	}
 }
