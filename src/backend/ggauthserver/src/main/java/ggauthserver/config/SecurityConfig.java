@@ -74,6 +74,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
+    @Bean
+    public BCryptPasswordEncoder pincodeEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+
 
     @Bean(BeanIds.AUTHENTICATION_MANAGER)
     @Override

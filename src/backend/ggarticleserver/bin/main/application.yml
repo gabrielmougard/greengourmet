@@ -14,9 +14,10 @@ spring:
     mongodb:
       host: mongocluster
       port: 27017
-      database: greengourmet
+      database: admin
       user: root
       password: iuzkghkuzegdo
+      authentication-database: admin
     
     redis:
       host: rediscluster

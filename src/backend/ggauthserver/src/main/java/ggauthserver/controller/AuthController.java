@@ -9,6 +9,7 @@ import ggauthserver.payload.LoginRequest;
 import ggauthserver.payload.SignUpRequest;
 import ggauthserver.repository.UserRepository;
 import ggauthserver.security.TokenProvider;
+import ggauthserver.service.ConfirmationService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -38,6 +39,9 @@ public class AuthController {
 
     @Autowired
     private TokenProvider tokenProvider;
+
+    @Autowired
+	private ConfirmationService confirmationService;
 
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
@@ -69,9 +73,8 @@ public class AuthController {
         user.setEmail(signUpRequest.getEmail());
         user.setPassword(signUpRequest.getPassword());
         user.setProvider(AuthProvider.local);
-
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-
+        user = confirmationService.initiateConfirmation(user);
         User result = userRepository.save(user);
 
         URI location = ServletUriComponentsBuilder

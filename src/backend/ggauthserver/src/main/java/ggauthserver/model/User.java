@@ -27,6 +27,9 @@ public class User {
     @Column(nullable = false)
     private Boolean emailVerified = false;
 
+    @Column(nullable = false)
+    private String pincodeEmail;
+
     @JsonIgnore
     private String password;
 
@@ -74,6 +77,14 @@ public class User {
 
     public void setEmailVerified(Boolean emailVerified) {
         this.emailVerified = emailVerified;
+    }
+
+    public String getPincodeEmail() {
+        return pincodeEmail;
+    }
+
+    public void setPincodeEmail(String pincodeEmail) {
+        this.pincodeEmail = pincodeEmail;
     }
 
     public String getPassword() {
