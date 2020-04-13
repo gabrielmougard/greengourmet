@@ -44,3 +44,37 @@ export const addBarcodeContentEnded = (status) => ({
         barcodeAdded: status,
     }
 })
+
+export const sendPincode = (values, userEmail) => ({
+    type: 'SEND_PINCODE',
+    payload: {
+        pincodeValue: values,
+        userEmail: userEmail,
+    }
+})
+
+export const fetchPincodeEnded = (success) => ({
+    type: 'SEND_PINCODE_ENDED',
+    payload: {
+        success: success,
+    }
+})
+
+
+export const regeneratePincode = (userEmail) => ({
+    type: 'REGENERATE_PINCODE',
+    payload: {
+        userEmail: userEmail,
+    }
+})
+
+export const regeneratePincodeEnded = (success) => ({
+    type: 'REGENERATE_PINCODE_ENDED',
+    payload: {
+        success: success,
+    }
+})
+
+export const unlockPincodeScreen = () => ({
+    type: 'UNLOCK_PINCODE_SCREEN',
+})

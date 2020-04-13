@@ -8,3 +8,5 @@ export const GOOGLE_AUTH_URL = AUTH_API_BASE_URL + '/oauth2/authorize/google?red
 
 export const SCANNER_API_BASE_URL = 'http://localhost:8081';
 export const INVENTORY_RUD_API_BASE_URL = 'http://localhost:8082';
+
+export const MAIL_API_BASE_URL = 'http://localhost:8083';

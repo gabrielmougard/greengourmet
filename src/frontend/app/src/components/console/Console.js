@@ -36,7 +36,7 @@ class Console extends Component {
 
         let pinCode
         if (!this.props.currentUser.emailVerified) {
-            pinCode = <PinCodeEmail {...this.props}/>
+            pinCode = <PinCodeEmail userEmail={email} {...this.props}/>
         }
 
         let consoleContent;
@@ -66,7 +66,7 @@ class Console extends Component {
 
         return (
             <>
-                {pinCode}
+                {(!this.props.pincodeUnlocked) ? (pinCode) : (<></>)}
                 <ConsoleHeader {...this.props}/>
                 <ConsoleTabs {...this.props}/>
                 {consoleContent}
@@ -77,6 +77,7 @@ class Console extends Component {
 const mapStateToProps = (state) => {
     return {
         tabPosition: state.tabPosition,
+        pincodeUnlocked: state.pincodeUnlocked,
     }
 }
 
