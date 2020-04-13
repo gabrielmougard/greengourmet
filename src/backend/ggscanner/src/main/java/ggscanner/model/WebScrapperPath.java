@@ -18,9 +18,4 @@ public class WebScrapperPath {
     public String nutritionalMark = "//img[contains(@src, 'https://static.openfoodfacts.org/images/misc/nutriscore')]";
     public String kJ = "//td[@property='food:energyKjPer100g']";
 
-    @Value("${spring.data.mongodb.host}")
-    private String k;
-    public String get(){
-        return k;
-    }
-}
+} 
