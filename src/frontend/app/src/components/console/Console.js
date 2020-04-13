@@ -12,6 +12,7 @@ import Inventory from './inventory/Inventory';
 import Recipes from './recipes/Recipes';
 import Leaderboard from './leaderboard/Leaderboard';
 import Statistics from './statistics/Statistics';
+import PinCodeEmail from './pincode/PinCodeEmail';
 
 class Console extends Component {
     constructor(props) {
@@ -32,6 +33,11 @@ class Console extends Component {
         console.log(this.props)
         const name = this.props.currentUser.name
         const email = this.props.currentUser.email
+
+        let pinCode
+        if (!this.props.currentUser.emailVerified) {
+            pinCode = <PinCodeEmail {...this.props}/>
+        }
 
         let consoleContent;
         switch(this.state.currentTab) {
@@ -60,6 +66,7 @@ class Console extends Component {
 
         return (
             <>
+                {pinCode}
                 <ConsoleHeader {...this.props}/>
                 <ConsoleTabs {...this.props}/>
                 {consoleContent}

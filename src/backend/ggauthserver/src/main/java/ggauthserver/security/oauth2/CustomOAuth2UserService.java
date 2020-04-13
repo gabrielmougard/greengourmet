@@ -7,6 +7,7 @@ import ggauthserver.repository.UserRepository;
 import ggauthserver.security.UserPrincipal;
 import ggauthserver.security.oauth2.user.OAuth2UserInfo;
 import ggauthserver.security.oauth2.user.OAuth2UserInfoFactory;
+import ggauthserver.service.ConfirmationService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
@@ -25,6 +26,9 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private ConfirmationService confirmationService;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest oAuth2UserRequest) throws OAuth2AuthenticationException {
@@ -71,6 +75,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         user.setName(oAuth2UserInfo.getName());
         user.setEmail(oAuth2UserInfo.getEmail());
         user.setImageUrl(oAuth2UserInfo.getImageUrl());
+        user = confirmationService.initiateConfirmation(user);
         return userRepository.save(user);
     }
 
