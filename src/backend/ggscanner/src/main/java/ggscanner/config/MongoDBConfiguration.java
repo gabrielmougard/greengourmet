@@ -1,3 +1,5 @@
+package ggscanner.config;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,8 +22,10 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 
 @SuppressWarnings("deprecation")
 @Configuration
-@EnableMongoRepositories(basePackages = "ggscanner.controller")
+@EnableMongoRepositories(basePackages = "ggscanner.repository")
 public class MongoDBConfiguration extends AbstractMongoConfiguration {
+
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@Value("${spring.data.mongodb.host}")
 	private String mongoHost;
@@ -46,10 +50,10 @@ public class MongoDBConfiguration extends AbstractMongoConfiguration {
 	@Bean
 	public Mongo mongo() throws Exception {
 		MongoCredential credential = MongoCredential.createCredential(this.user,this.mongoDB,this.password.toCharArray());
-		MongoClientOptions options = MongoClientOptions.builder().sslEnabled(true).build();
+		//MongoClientOptions options = MongoClientOptions.builder().sslEnabled(true).build();
+		logger.info("les credentials : "+this.user+ " && "+this.mongoDB+" && "+this.password.toCharArray());
 		return new MongoClient(new ServerAddress(this.mongoHost, Integer.parseInt(this.mongoPort)),
-								Arrays.asList(credential),
-								options);
+								Arrays.asList(credential));
 		//return new MongoClient(mongoHost + ":" + mongoPort);
 	}
 
@@ -60,7 +64,11 @@ public class MongoDBConfiguration extends AbstractMongoConfiguration {
 
 	@Override
 	public MongoClient mongoClient() {
-		// TODO Auto-generated method stub
-		return null;
+		MongoCredential credential = MongoCredential.createCredential(this.user,this.mongoDB,this.password.toCharArray());
+		//MongoClientOptions options = MongoClientOptions.builder().sslEnabled(true).build();
+		logger.info("les credentials : "+this.user+ " && "+this.mongoDB+" && "+this.password.toCharArray());
+		return new MongoClient(new ServerAddress(this.mongoHost, Integer.parseInt(this.mongoPort)),
+								Arrays.asList(credential));
+		//return new MongoClient(mongoHost + ":" + mongoPort);
 	}
 }

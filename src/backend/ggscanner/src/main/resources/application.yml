@@ -1,0 +1,20 @@
+server:
+  port: 8081
+
+security:
+  basic:
+    enabled: false
+    
+management:
+  security:
+    enabled: false
+
+spring:
+  data:
+    mongodb:
+      host: mongocluster
+      port: 27017
+      database: admin
+      user: root
+      password: iuzkghkuzegdo
+      authentication-database: admin
