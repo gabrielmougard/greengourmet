@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import ggauthserver.model.User;
+import ggauthserver.repository.UserRepository;
 import net.minidev.json.JSONObject;
 
 import java.util.Random;
@@ -29,6 +30,9 @@ public class ConfirmationService {
     @Autowired
     private BCryptPasswordEncoder pincodeEncoder;
 
+    @Autowired
+    private UserRepository userRepository;
+
     public User initiateConfirmation(User user) {
 
         //generate pincode
@@ -36,6 +40,14 @@ public class ConfirmationService {
         user.setPincodeEmail(pincodeEncoder.encode(pincode));
         callConfirmationEmailAPI(user, pincode);
         return user;
+    }
+
+    public void updatePincode(User user) {
+        //generate new pincode
+        String pincode = String.format("%06d", new Random().nextInt(999999));
+        //update in DB
+        userRepository.setPincodeEmailById(pincode, user.getId());
+        callConfirmationEmailAPI(user, pincode);
     }
 
     private void callConfirmationEmailAPI(User user, String pincode) {

@@ -6,6 +6,8 @@ import ggauthserver.model.User;
 import ggauthserver.payload.ApiResponse;
 import ggauthserver.payload.AuthResponse;
 import ggauthserver.payload.LoginRequest;
+import ggauthserver.payload.NewPincodeRequest;
+import ggauthserver.payload.PincodeRequest;
 import ggauthserver.payload.SignUpRequest;
 import ggauthserver.repository.UserRepository;
 import ggauthserver.security.TokenProvider;
@@ -17,12 +19,15 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.Optional;
+import java.util.Random;
 
 @RestController
 @RequestMapping("/auth")
@@ -36,6 +41,9 @@ public class AuthController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private BCryptPasswordEncoder pincodeEncoder;
 
     @Autowired
     private TokenProvider tokenProvider;
@@ -84,6 +92,34 @@ public class AuthController {
         return ResponseEntity.created(location)
             .body(new ApiResponse(true, "User registered successfully"));
 
+    }
+
+    @GetMapping("/checkpincode")
+    public ResponseEntity<?> checkPincode(@Valid @RequestBody PincodeRequest pincodeRequest) {
+        Optional<User> userOptional = userRepository.findByEmail(pincodeRequest.getEmail());
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            if (pincodeEncoder.encode(pincodeRequest.getPincode()).equals(user.getPincodeEmail())) {
+                userRepository.setEmailVerifiedById(true, user.getId());
+                return ResponseEntity.ok().body(new ApiResponse(true, "Pincode match !"));
+            } else {
+                return ResponseEntity.ok().body(new ApiResponse(false, "Pincode does not match !"));
+            }
+        } else {
+            return ResponseEntity.ok().body(new ApiResponse(false, "User could not be found !"));
+        }
+    }
+
+    @PostMapping("/newpincode")
+    public ResponseEntity<?> newPincode(@Valid @RequestBody NewPincodeRequest newPincodeRequest) {
+        Optional<User> userOptional = userRepository.findByEmail(newPincodeRequest.getEmail());
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();   
+            confirmationService.updatePincode(user);
+            return ResponseEntity.ok().body(new ApiResponse(true, "pincode updated !"));
+        } else {
+            return ResponseEntity.ok().body(new ApiResponse(false, "User could not be found !"));
+        }
     }
 
 }

@@ -22,8 +22,10 @@ Endpoints :
 * **/auth/login** : local login system
 * **/auth/signup** : local signup system
 * **/user/me** : get basic user information once logged in
-* [TODO] **/auth/checkpincode** : if the account hasn't been unlocked, process the pincode for unlocking.
-* [TODO] **/auth/newpincode** : if the user decide to generate a new pincode.
+* **/auth/checkpincode** : if the account hasn't been unlocked, process the pincode for unlocking. 
+    * param = {"pincode" : PINCODE, "email": EMAIL}
+* **/auth/newpincode** : if the user decide to generate a new pincode.
+    * param = {"email": EMAIL}
 
 ### **ggscanner** (http://localhost:8081 or http://scannerservicedev:8081 inside docker network)
 
@@ -48,3 +50,19 @@ Description :
 Description :
 
 * It acts as a "cache server" for a faster retrieving (**x50 speed**) of mongoDB data like articles and eventually recipes. It implements a custom **LRU** policy.
+
+## Next steps
+
+* **Development** : We have numerous features to implement which are not in the MVP. Here is a non-exhaustive list of it :
+    
+    * Implement the **Leaderboard**
+    * Implement the **statistics** 
+    * Adapt MongoDB to support **ElasticSearch/Apache Solr** as a search engine for indexing recipes.
+    * If recipe not present in in-house storage (mongoDB), then save it. The purpose is to have a growing recipe database and rely less and less on third-party APIs.
+
+* **DevOps/Cloud related** : This platform is meant to be cloud native. We chose **GCP (Google Cloud Platform)** to host our platform leveraging the **GKE (Google Kubernetes Engine)** to orchestrate it. Thus we will need to create k8s manifests for our microservices (Spring boot and react) but also for our different persistence solutions (design MongoDB and Redis and YugabyteDB (for distributed SQL database) clusters)
+
+    * push docker images on Docker Hub.
+    * Optimize images build for production.
+    * Define Kubernetes Secrets Resources for storing all our credentials and adapt k8s pods to get the credentials via environment variables.
+    * Deploy Jaeger/Zipkin solution for distributed tracing and Prometheus + Grafana for visualizing distributed metrics.
