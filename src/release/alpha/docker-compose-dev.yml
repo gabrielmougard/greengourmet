@@ -34,16 +34,16 @@ services:
             - "8082:8082"
         container_name: articleservicedev
         
-    #scannerservicedev:
-    #    build:
-    #        context: ../../backend/ggscanner
-    #        dockerfile: Dockerfile
-    #    depends_on: 
-    #        - dbtest
-    #        - mongocluster
-    #    ports: 
-    #        - "8081:8081"
-    #    container_name: scannerservicedev
+    scannerservicedev:
+        build:
+            context: ../../backend/ggscanner
+            dockerfile: Dockerfile
+        depends_on: 
+            - dbtest
+            - mongocluster
+        ports: 
+            - "8081:8081"
+        container_name: scannerservicedev
 
     mailservicedev:
         build:

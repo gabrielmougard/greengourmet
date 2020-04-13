@@ -51,6 +51,33 @@ Description :
 
 * It acts as a "cache server" for a faster retrieving (**x50 speed**) of mongoDB data like articles and eventually recipes. It implements a custom **LRU** policy.
 
+## MongoDB collections documentation :
+
+We have decided to store the articles and the recipes in mongoDB. Here is the description of the collections and the format of the object :
+
+* `collections.Article`: we store the articles with the following format :
+
+    * Article article = {
+        articleId : **ObjectId**, 
+        userId : **String**,
+        name : **String**,
+        quantity : **float**,
+        quantityUnit : **String**,
+        expiringDate : **String**,
+        barcode : **String**,
+        redisUUID : **String**
+    }
+    
+    * `articleId` is the index of the object in mongo.
+    *  `userId` is the id of the user who own the article.
+    * `name` is the description of the article.
+    * `quantity` is the amount (float) of the article.
+    * `quantityUnit` is the unit of the amount (grams, liters, etc.)
+    * `expiringDate` is the expiringDate of the article (format is `DD/MM/YYYY`)
+    * `barcode` is the barcode of the article (usually, for food, its a sequence of 12 digits)
+    * `redisUUID` is the unique identifier composed of hexedecimal characters of the article when stored in the cache (e.g : `fa0630ca-825e-4d54-91d7-4f43171f2cb5`)
+    
+
 ## Next steps
 
 * **Development** : We have numerous features to implement which are not in the MVP. Here is a non-exhaustive list of it :

@@ -19,6 +19,12 @@ const reducer = (state = {}, action) => {
             } else {
                 return state;
             }
+        case 'SEND_PINCODE_ENDED':
+            return { ...state, pincodeEnded: action.payload.success}
+        case 'REGENERATE_PINCODE_ENDED':
+            return { ...state,regeneratePincodeEnded: action.payload.success}
+        case 'UNLOCK_PINCODE_SCREEN':
+            return { ...state, pincodeUnlocked: true}
         default:
             return state;
     }

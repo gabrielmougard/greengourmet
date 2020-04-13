@@ -24,6 +24,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.Optional;
@@ -32,6 +35,7 @@ import java.util.Random;
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -94,12 +98,13 @@ public class AuthController {
 
     }
 
-    @GetMapping("/checkpincode")
+    @PostMapping("/checkpincode")
     public ResponseEntity<?> checkPincode(@Valid @RequestBody PincodeRequest pincodeRequest) {
         Optional<User> userOptional = userRepository.findByEmail(pincodeRequest.getEmail());
         if (userOptional.isPresent()) {
             User user = userOptional.get();
-            if (pincodeEncoder.encode(pincodeRequest.getPincode()).equals(user.getPincodeEmail())) {
+            if (pincodeEncoder.matches(pincodeRequest.getPincode(), user.getPincodeEmail())) {
+                logger.info("pincodeHash match in DB !");
                 userRepository.setEmailVerifiedById(true, user.getId());
                 return ResponseEntity.ok().body(new ApiResponse(true, "Pincode match !"));
             } else {
