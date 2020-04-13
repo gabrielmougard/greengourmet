@@ -17,5 +17,5 @@ public class WebScrapperPath {
     public String additifs = "//a[contains(@href, '/additif')]"; 
     public String nutritionalMark = "//img[contains(@src, 'https://static.openfoodfacts.org/images/misc/nutriscore')]";
     public String kJ = "//td[@property='food:energyKjPer100g']";
-
+    
 } 

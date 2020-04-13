@@ -29,6 +29,15 @@ Endpoints :
 
 ### **ggscanner** (http://localhost:8081 or http://scannerservicedev:8081 inside docker network)
 
+Description:
+
+* Scanner server makes possible to get all useful information on a product according to its barcode.
+
+Endpoint :
+
+* **/scanner** : get product informations
+    * param = {"userId" : USERID, "barcode": BARCODE}
+
 ### **ggarticleserver** (http://localhost:8082 or http://articleservicedev:8082 inside docker network)
 
 ### **ggmailserver** (http://localhost:8083 or http://mailserverdev:8083 inside docker network)
