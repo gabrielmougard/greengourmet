@@ -13,6 +13,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 public class ScrapperController {
 
     private WebScrapperPath path = new WebScrapperPath();
@@ -30,6 +32,7 @@ public class ScrapperController {
             setAllergens(item, page);
             setAdditifs(item, page);
             setKJ(item, page);
+            item.setKJ(path.get());
             response.setStatus(page.getWebResponse().getStatusCode());
         }catch(Exception e){
             response.setStatus(500);
