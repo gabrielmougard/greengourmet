@@ -32,10 +32,8 @@ function* fetchRegeneratePincode(action) {
     try {
         var response = yield call([axios, axios.post], AUTH_API_BASE_URL+'/auth/newpincode', data)
         if (response.data.success) {
-            console.log("SUCCESS MAGLE")
             yield put(regeneratePincodeEnded(true));
         } else {
-            console.log("Le message newpincode : "+response.data.message)
             yield put(regeneratePincodeEnded(false));
         }
     } catch(e) {
