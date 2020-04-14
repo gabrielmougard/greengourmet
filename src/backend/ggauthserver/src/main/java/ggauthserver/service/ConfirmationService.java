@@ -36,7 +36,7 @@ public class ConfirmationService {
     public User initiateConfirmation(User user) {
 
         //generate pincode
-        String pincode = String.format("%06d", new Random().nextInt(999999));
+        String pincode = String.format("%06d", new Random().nextInt((999999-100000)+1)+100000); //random 6 digits pincode
         user.setPincodeEmail(pincodeEncoder.encode(pincode));
         callConfirmationEmailAPI(user, pincode);
         return user;
@@ -44,9 +44,9 @@ public class ConfirmationService {
 
     public void updatePincode(User user) {
         //generate new pincode
-        String pincode = String.format("%06d", new Random().nextInt(999999));
+        String pincode = String.format("%06d", new Random().nextInt((999999-100000)+1)+100000); //random 6 digits pincode 
         //update in DB
-        userRepository.setPincodeEmailById(pincode, user.getId());
+        userRepository.setPincodeEmailById(pincodeEncoder.encode(pincode), user.getId());
         callConfirmationEmailAPI(user, pincode);
     }
 

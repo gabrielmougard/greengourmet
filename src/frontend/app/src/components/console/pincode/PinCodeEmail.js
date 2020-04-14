@@ -5,7 +5,7 @@ import {PinCode} from 'baseui/pin-code';
 import {SIZE} from 'baseui/input';
 import {Display3} from 'baseui/typography';
 import {Button} from 'baseui/button';
-
+import Alert from 'react-s-alert';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 //redux
@@ -98,6 +98,7 @@ function PinCodeEmail({userEmail, sendPincode, pincodeEnded, regeneratePincode, 
             </Button>
     } else {
         if (regeneratePincodeEnded) {
+            setLoading(false);
             regenerateButton = 
                 <Button onClick={handleRegenerate}>
                     Générer un autre code
