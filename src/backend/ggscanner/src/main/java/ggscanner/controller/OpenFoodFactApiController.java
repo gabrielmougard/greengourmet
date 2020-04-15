@@ -14,6 +14,8 @@ public class OpenFoodFactApiController {
     private ObjectMapper mapper = new ObjectMapper();
     private WebClient client = new WebClient();
 
+    private String url;
+
     public Item getItemByBarcode(String barcode){
         Item item = new Item();
         try{
@@ -41,7 +43,7 @@ public class OpenFoodFactApiController {
         
     }
     private Map<String, Object> getJson(String barcode) throws Exception {
-        Page page = client.getPage("https://world.openfoodfacts.org/api/v0/product/3560070614172.json");
+        Page page = client.getPage("https://world.openfoodfacts.org/api/v0/product/"+barcode+".json");
         WebResponse webResponse = page.getWebResponse();
         String json = webResponse.getContentAsString();
         if (webResponse.getContentType().equals("application/json")) {
