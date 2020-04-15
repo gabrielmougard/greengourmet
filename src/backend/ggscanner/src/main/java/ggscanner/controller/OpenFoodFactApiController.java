@@ -54,12 +54,13 @@ public class OpenFoodFactApiController {
     public String energyKJKey;
     @Value("${openFoodFact.energyUnit}")
     public String energyUnit;
+
     
+
     public Item getItemByBarcode(String barcode, Response response){
-        Item item = new Item(barcode);
+        Item item = new Item();
         try{
-            HtmlPage page = getPage(url+barcode+informationFormat);
-            Map<String, Object> map = getJson(page);
+            Map<String, Object> map = getJson(barcode);
             setGlobalInfo(item, map);
             setItemNutritionalMark(item, map);
             setItemKJ(item, map);
@@ -70,7 +71,8 @@ public class OpenFoodFactApiController {
         }
         return item;
     }
-    private Map<String, Object> getJson(Page page) throws Exception {
+    private Map<String, Object> getJson(String barcode) throws Exception {
+        Page page = client.getPage(url+barcode+informationFormat);
         WebResponse webResponse = page.getWebResponse();
         String json = webResponse.getContentAsString();
         if (webResponse.getContentType().equals("application/json")) {
@@ -79,15 +81,6 @@ public class OpenFoodFactApiController {
         }else{
             return null;
         }
-    }
-    private HtmlPage getPage(String url) throws Exception{
-        WebClient client = new WebClient();
-
-        client.getOptions().setCssEnabled(false);
-        client.getOptions().setJavaScriptEnabled(false);
-
-        HtmlPage page = client.getPage(url);
-        return page;
     }
     private void setItemNutritionalMark(Item item, Map<String, Object> map){
         map = (Map<String, Object>) map.get(productKey);
@@ -107,7 +100,7 @@ public class OpenFoodFactApiController {
         item.setKJ(kJ);
     }
     private void setGlobalInfo(Item item, Map<String, Object> map){
-        //item.setBarcode((String) map.get(barcodeKey));
+        item.setBarcode((String) map.get(barcodeKey));
         map = (Map<String, Object>) map.get(productKey);
         item.setName((String) map.get(nameKey));
         item.setIngredients((String) map.get(ingredientsKey));
