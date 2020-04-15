@@ -18,3 +18,35 @@ spring:
       user: root
       password: iuzkghkuzegdo
       authentication-database: admin
+
+openFoodFact:
+  url: https://world.openfoodfacts.org/api/v0/product/
+  informationFormat: .json
+  barcodeKey: code
+  productKey: product
+  nameKey: product_name
+  ingredientsKey: ingredients_text_fr
+  brandKey: brands
+  quantityKey: quantity
+  manufacturingCountryKey: manufacturing_places
+  allergensKey: allergens_tags
+  traceAllergensKey: traces_tags
+  additifsKey: additives_tags
+  nutritionalMarkKey: nutrition_grade_fr
+  nutritionalMarkUrl: https://static.openfoodfacts.org/images/misc/nutriscore-
+  nutritionalMarkFormat: .svg
+  nutrimentsKey: nutriments
+  energyKJKey: energy-kj_100g
+  energyUnit: kJ
+
+scrapper:
+  url: https://fr.openfoodfacts.org/produit/
+  title: //title
+  manufacturingCountry: //a[contains(@href, '/lieu-de-fabrication')]
+  brand: //a[contains(@href, '/marque')]
+  ingredients: //div[@property='food:ingredientListAsText']
+  traceAllergens: //a[contains(@href, '/trace')]
+  allergens: //a[contains(@href, '/allergene')]
+  additifs: //a[contains(@href, '/additif')]
+  nutritionalMark: //img[contains(@src, 'https://static.openfoodfacts.org/images/misc/nutriscore')]
+  kJ: //td[@property='food:energyKjPer100g']

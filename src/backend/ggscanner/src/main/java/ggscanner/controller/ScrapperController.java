@@ -8,16 +8,18 @@ import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
 
+@Configuration
 public class ScrapperController {
+    @Autowired
+    private WebScrapperPath path;// = new WebScrapperPath();
 
-    private WebScrapperPath path = new WebScrapperPath();
-
-    public Item scrapperItem(Request request,Response response){
+    public Item scrapperItem(String barcode,Response response){
         
         Item item = new Item(request.getBarcode());
         try{ 
-            HtmlPage page = getPage(path.scrapperUrl + request.getBarcode());
+            HtmlPage page = getPage(path.scrapperUrl + barcode);
             setGlobalInfo(item, page);
             setManufacturingCountry(item, page);
             setNutritionalMark(item, page);

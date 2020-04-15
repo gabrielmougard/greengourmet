@@ -6,44 +6,71 @@ import com.gargoylesoftware.htmlunit.*;
 import com.gargoylesoftware.htmlunit.html.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
+
 import java.util.Map;
 import java.util.ArrayList;
 
+@Configuration
 public class OpenFoodFactApiController {
 
     private ObjectMapper mapper = new ObjectMapper();
     private WebClient client = new WebClient();
-
-    private String url;
-
-    public Item getItemByBarcode(String barcode){
+ 
+    @Value("${openFoodFact.url}")
+    public String url;
+    @Value("${openFoodFact.informationFormat}")
+    public String informationFormat;
+    @Value("${openFoodFact.barcodeKey}")
+    public String barcodeKey;
+    @Value("${openFoodFact.productKey}")
+    public String productKey;
+    @Value("${openFoodFact.nameKey}")
+    public String nameKey;
+    @Value("${openFoodFact.ingredientsKey}")
+    public String ingredientsKey;
+    @Value("${openFoodFact.brandKey}")
+    public String brandKey;
+    @Value("${openFoodFact.quantityKey}")
+    public String quantityKey;
+    @Value("${openFoodFact.manufacturingCountryKey}")
+    public String manufacturingCountryKey;
+    @Value("${openFoodFact.allergensKey}")
+    public String allergensKey;
+    @Value("${openFoodFact.traceAllergensKey}")
+    public String traceAllergensKey;
+    @Value("${openFoodFact.additifsKey}")
+    public String additifsKey;
+    @Value("${openFoodFact.nutritionalMarkKey}")
+    public String nutritionalMarkKey;
+    @Value("${openFoodFact.nutritionalMarkUrl}")
+    public String nutritionalMarkUrl;
+    @Value("${openFoodFact.nutritionalMarkFormat}")
+    public String nutritionalMarkFormat;
+    @Value("${openFoodFact.nutrimentsKey}")
+    public String nutrimentsKey;
+    @Value("${openFoodFact.energyKJKey}")
+    public String energyKJKey;
+    @Value("${openFoodFact.energyUnit}")
+    public String energyUnit;
+    
+    public Item getItemByBarcode(String barcode, Response response){
         Item item = new Item();
         try{
-            Map<String, Object> map = getJson(barcode);
-            item.setBarcode((String) map.get("code"));
-            map = (Map<String, Object>) map.get("product");
-            item.setName((String) map.get("product_name"));
-            item.setIngredients((String) map.get("ingredients_text_fr"));
-            item.setBrand((String) map.get("brands"));
-            item.setQuantity((String) map.get("quantity"));
-            item.setManufacturingCountry((String) map.get("manufacturing_places"));
-            item.setAllergens((ArrayList<String>) map.get("allergens_tags"));
-            item.setTraceAllergens((ArrayList<String>) map.get("traces_tags"));
-            item.setAdditifs((ArrayList<String>) map.get("additives_tags"));//"nutrition_grade_fr"
-            String nutriScore = (String) map.get("nutrition_grade_fr");
-            nutriScore = "https://static.openfoodfacts.org/images/misc/nutriscore-"+nutriScore+".svg";
-            item.setNutritionalMark(nutriScore);
-            map = (Map<String, Object>) map.get("nutriments");
-            item.setKJ(Integer.toString((int) map.get("energy-kj_100g")) +" kJ");//
-            return item;
+            HtmlPage page = getPage(url+barcode+informationFormat);
+            Map<String, Object> map = getJson(page);
+            setGlobalInfo(item, map);
+            setItemNutritionalMark(item, map);
+            setItemKJ(item, map);
+            response.setStatus(200);
         }catch (Exception e) {
-            return null;
+            response.setStatus(500);
+            item = null;
         }
-        
-        
+        return item;
     }
-    private Map<String, Object> getJson(String barcode) throws Exception {
-        Page page = client.getPage("https://world.openfoodfacts.org/api/v0/product/"+barcode+".json");
+    private Map<String, Object> getJson(Page page) throws Exception {
         WebResponse webResponse = page.getWebResponse();
         String json = webResponse.getContentAsString();
         if (webResponse.getContentType().equals("application/json")) {
@@ -53,6 +80,43 @@ public class OpenFoodFactApiController {
             return null;
         }
     }
-    
+    private HtmlPage getPage(String url) throws Exception{
+        WebClient client = new WebClient();
+
+        client.getOptions().setCssEnabled(false);
+        client.getOptions().setJavaScriptEnabled(false);
+
+        HtmlPage page = client.getPage(url);
+        return page;
+    }
+    private void setItemNutritionalMark(Item item, Map<String, Object> map){
+        map = (Map<String, Object>) map.get(productKey);
+        String nutriScore = (String) map.get(nutritionalMarkKey);
+        if(nutriScore != null){
+            nutriScore = nutritionalMarkUrl+nutriScore+nutritionalMarkFormat;
+        }
+        item.setNutritionalMark(nutriScore);
+    }
+    private void setItemKJ(Item item, Map<String, Object> map){
+        map = (Map<String, Object>) map.get(productKey);
+        map = (Map<String, Object>) map.get(nutrimentsKey);
+        String kJ = Integer.toString((int) map.get(energyKJKey));
+        if(kJ != null){
+            kJ = kJ + " " +energyUnit;
+        }
+        item.setKJ(kJ);
+    }
+    private void setGlobalInfo(Item item, Map<String, Object> map){
+        item.setBarcode((String) map.get(barcodeKey));
+        map = (Map<String, Object>) map.get(productKey);
+        item.setName((String) map.get(nameKey));
+        item.setIngredients((String) map.get(ingredientsKey));
+        item.setBrand((String) map.get(brandKey));
+        item.setQuantity((String) map.get(quantityKey));
+        item.setManufacturingCountry((String) map.get(manufacturingCountryKey));
+        item.setAllergens((ArrayList<String>) map.get(allergensKey));
+        item.setTraceAllergens((ArrayList<String>) map.get(traceAllergensKey));
+        item.setAdditifs((ArrayList<String>) map.get(additifsKey));
+    }
 
 }

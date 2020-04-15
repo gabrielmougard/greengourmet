@@ -16,8 +16,10 @@ import ggscanner.model.*;
 public class ScannerController {
     @Autowired
     private ItemRepository repository;
-    private ScrapperController scrapper = new ScrapperController();
-    private OpenFoodFactApiController openFoodFactApi = new OpenFoodFactApiController();
+    @Autowired
+    private ScrapperController scrapper;// = new ScrapperController();
+    @Autowired
+    private OpenFoodFactApiController openFoodFactApi;// = new OpenFoodFactApiController();
 
     @RequestMapping(value = "/scanner", method = RequestMethod.GET)
     public @ResponseBody Response getItemGet(@RequestBody Request request) {
@@ -25,29 +27,38 @@ public class ScannerController {
     }
     @RequestMapping(value = "/scanner", method = RequestMethod.POST)
     public @ResponseBody Response getItemPost(@RequestBody Request request) {
-        Item item = null;
-        try{
-            item = repository.findByBarcode(request.getBarcode()); 
-        } catch (Exception e) {
-        }
+        Item item = getItemFromBDD(request.getBarcode());
         
-        Response response = new Response(item);
+        Response response = new Response();
 
         if(item==null){
-            //item = openFoodFactApi.getItemByBarcode(request.getBarcode());
-            if(item==null){
-                item = scrapper.scrapperItem(request, response);
-            }
-            response.setItem(item);
-            if(item != null){
-                try{
-                    repository.save(item);
-                } catch (Exception e) {
-                }
-            }
-            
+            item = getItemFromAPI(request.getBarcode(), response);
+            saveItemInBDD(item);
         }
+        response.setItem(item);
         return response;
+    }
+    private Item getItemFromBDD(String barcode){
+        try{
+            return repository.findByBarcode(barcode); 
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    private void saveItemInBDD(Item item){
+        if(item != null){
+            try{
+                repository.save(item);
+            } catch (Exception e) {
+            }
+        }
+    }
+    private Item getItemFromAPI(String barcode, Response response){
+        item = openFoodFactApi.getItemByBarcode(request.getBarcode(), response);
+        if(item==null){
+            item = scrapper.scrapperItem(request.getBarcode(), response);
+        }
+        return item;
     }
 
 }
