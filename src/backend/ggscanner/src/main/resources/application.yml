@@ -42,6 +42,7 @@ openFoodFact:
 scrapper:
   url: https://fr.openfoodfacts.org/produit/
   title: //title
+  titleSplit: $ - $
   manufacturingCountry: //a[contains(@href, '/lieu-de-fabrication')]
   brand: //a[contains(@href, '/marque')]
   ingredients: //div[@property='food:ingredientListAsText']

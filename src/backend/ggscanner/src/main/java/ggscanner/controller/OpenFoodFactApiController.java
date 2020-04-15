@@ -56,7 +56,7 @@ public class OpenFoodFactApiController {
     public String energyUnit;
     
     public Item getItemByBarcode(String barcode, Response response){
-        Item item = new Item();
+        Item item = new Item(barcode);
         try{
             HtmlPage page = getPage(url+barcode+informationFormat);
             Map<String, Object> map = getJson(page);
@@ -107,7 +107,7 @@ public class OpenFoodFactApiController {
         item.setKJ(kJ);
     }
     private void setGlobalInfo(Item item, Map<String, Object> map){
-        item.setBarcode((String) map.get(barcodeKey));
+        //item.setBarcode((String) map.get(barcodeKey));
         map = (Map<String, Object>) map.get(productKey);
         item.setName((String) map.get(nameKey));
         item.setIngredients((String) map.get(ingredientsKey));

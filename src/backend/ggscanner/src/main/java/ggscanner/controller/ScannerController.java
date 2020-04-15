@@ -54,9 +54,10 @@ public class ScannerController {
         }
     }
     private Item getItemFromAPI(String barcode, Response response){
-        item = openFoodFactApi.getItemByBarcode(request.getBarcode(), response);
+        Item item = null;
+        item = openFoodFactApi.getItemByBarcode(barcode, response);
         if(item==null){
-            item = scrapper.scrapperItem(request.getBarcode(), response);
+            item = scrapper.scrapperItem(barcode, response);
         }
         return item;
     }

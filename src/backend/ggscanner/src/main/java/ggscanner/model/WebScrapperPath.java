@@ -10,6 +10,8 @@ public class WebScrapperPath {
     public String scrapperUrl;// = "https://fr.openfoodfacts.org/produit/";
     @Value("${scrapper.title}")
     public String title; // = "//title";
+    @Value("${scrapper.titleSplit}")
+    public String titleSplit;
     @Value("${scrapper.manufacturingCountry}")
     public String manufacturingCountry; // = "//a[contains(@href, '/lieu-de-fabrication')]";
     @Value("${scrapper.brand}")

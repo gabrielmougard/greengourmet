@@ -17,7 +17,7 @@ public class ScrapperController {
 
     public Item scrapperItem(String barcode,Response response){
         
-        Item item = new Item(request.getBarcode());
+        Item item = new Item(barcode);
         try{ 
             HtmlPage page = getPage(path.scrapperUrl + barcode);
             setGlobalInfo(item, page);
@@ -96,9 +96,10 @@ public class ScrapperController {
     }
     private void setGlobalInfo(Item item, HtmlPage page) throws Exception {
         String[] itemElements;
+        String titleSplit = path.titleSplit.substring(1, path.titleSplit.length()-2);
         HtmlTitle title = page.getFirstByXPath(path.title);
         if(title != null){
-            itemElements = title.asText().split(" - ");
+            itemElements = title.asText().split(titleSplit);
             item.setName(itemElements[0]);
             if(itemElements.length>1){
                 item.setQuantity(itemElements[itemElements.length-1]);
