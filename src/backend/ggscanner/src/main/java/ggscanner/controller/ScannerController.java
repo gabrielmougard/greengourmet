@@ -17,6 +17,7 @@ public class ScannerController {
     @Autowired
     private ItemRepository repository;
     private ScrapperController scrapper = new ScrapperController();
+    private OpenFoodFactApiController openFoodFactApi = new OpenFoodFactApiController();
 
     @RequestMapping(value = "/scanner", method = RequestMethod.GET)
     public @ResponseBody Response getItemGet(@RequestBody Request request) {
@@ -33,7 +34,10 @@ public class ScannerController {
         Response response = new Response(item);
 
         if(item==null){
-            item = scrapper.scrapperItem(request, response);
+            //item = openFoodFactApi.getItemByBarcode(request.getBarcode());
+            if(item==null){
+                item = scrapper.scrapperItem(request, response);
+            }
             response.setItem(item);
             if(item != null){
                 try{
@@ -41,6 +45,7 @@ public class ScannerController {
                 } catch (Exception e) {
                 }
             }
+            
         }
         return response;
     }
