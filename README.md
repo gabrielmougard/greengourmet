@@ -43,6 +43,17 @@ Endpoint :
 
 ### **ggmailserver** (http://localhost:8083 or http://mailserverdev:8083 inside docker network)
 
+Description : 
+
+* Send email to users to different purposes
+
+Endpoints :
+
+* **/mail/sendconfirmation** : used for sending confirmation pincode.
+    * input param = {to: STRING, pincode: INT, subject: STRING}
+* [TODO] **mail/sendperemptionalert** : used for sending peremption alert to a user.
+    * input param = {to: STRING, articles: [{ARTICLE_OBJECT#0}, ..., {ARTICLE_OBJECT#N}]}
+
 ### **mysql** (http://dbtest:3306 only available inside docker network)
 
 Description :
