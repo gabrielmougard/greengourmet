@@ -1,4 +1,4 @@
-package ggscanner.controller;
+package ggrecipessearch.controller;
 
 import com.google.api.translate.Language; 
 import com.google.api.translate.Translate;

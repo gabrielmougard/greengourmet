@@ -1,0 +1,23 @@
+version: "3.2"
+services:
+    mongocluster:
+        image: 'mongo'
+        container_name: 'mongocluster'
+        environment: 
+            - MONGO_INITDB_DATABASE=admin
+            - MONGO_INITDB_ROOT_USERNAME=root
+            - MONGO_INITDB_ROOT_PASSWORD=iuzkghkuzegdo
+        volumes:
+            - ./mongo-volume/data:/data/db
+        ports:
+            - "27017:27017"
+    recipessearchservicedev:
+        build:
+            context: ../../backend/ggrecipessearch
+            dockerfile: Dockerfile
+        depends_on: 
+            - mongocluster
+        ports: 
+            - "8081:8081"
+        container_name: recipessearchservicedev
+        
