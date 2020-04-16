@@ -18,6 +18,6 @@ services:
         depends_on: 
             - mongocluster
         ports: 
-            - "8081:8081"
+            - "8084:8084"
         container_name: recipesservicedev
         
