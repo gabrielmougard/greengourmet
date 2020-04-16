@@ -1,4 +1,4 @@
-package ggrecipessearch.controller;
+package ggrecipes.controller;
 
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.stereotype.Controller;
@@ -8,8 +8,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 
-import ggrecipessearch.model.*;
-import ggrecipessearch.repository.ItemRepository;
+import ggrecipes.model.*;
+import ggrecipes.repository.ItemRepository;
  
 @SpringBootApplication
 @RestController

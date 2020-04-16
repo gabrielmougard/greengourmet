@@ -1,9 +1,9 @@
-package ggrecipessearch.repository;
+package ggrecipes.repository;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.repository.query.Param;
-import ggrecipessearch.model.Item;
+import ggrecipes.model.Item;
 
 @Repository
 //@RepositoryRestResource(collectionResourceRel = "item", path = "item")

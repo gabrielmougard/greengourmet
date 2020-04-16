@@ -4,7 +4,7 @@ plugins {
 	id 'java'
 }
 
-group = 'com.greengourmet.recipessearch'
+group = 'com.greengourmet.recipes'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '13'
 
@@ -12,7 +12,7 @@ repositories {
 	mavenCentral()
 }
 bootJar {
-    mainClassName = 'ggrecipessearch.Application'
+    mainClassName = 'ggrecipes.Application'
 }
 
 dependencies {

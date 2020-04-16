@@ -1,6 +1,6 @@
-package ggrecipessearch.controller;
+package ggrecipes.controller;
 
-import ggrecipessearch.model.*;
+import ggrecipes.model.*;
 
 import com.gargoylesoftware.htmlunit.*;
 import com.gargoylesoftware.htmlunit.html.*;

@@ -1,4 +1,4 @@
-package ggrecipessearch.model;
+package ggrecipes.model;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.ArrayList;

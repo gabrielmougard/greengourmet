@@ -11,13 +11,13 @@ services:
             - ./mongo-volume/data:/data/db
         ports:
             - "27017:27017"
-    recipessearchservicedev:
+    recipesservicedev:
         build:
-            context: ../../backend/ggrecipessearch
+            context: ../../backend/ggrecipes
             dockerfile: Dockerfile
         depends_on: 
             - mongocluster
         ports: 
             - "8081:8081"
-        container_name: recipessearchservicedev
+        container_name: recipesservicedev
         

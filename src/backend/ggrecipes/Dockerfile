@@ -8,10 +8,10 @@ COPY . .
 RUN ./gradlew.sh build
 
 FROM openjdk:13
-ENV ARTIFACT_NAME=greengourmet-recipessearch-0.0.1-SNAPSHOT.jar
+ENV ARTIFACT_NAME=greengourmet-recipes-0.0.1-SNAPSHOT.jar
 ENV APP_HOME=/usr/app/
 WORKDIR $APP_HOME
 COPY --from=TEMP_BUILD_IMAGE $APP_HOME/build/libs/$ARTIFACT_NAME .
 EXPOSE 8081
 ENV EXEC_PATH /usr/app/$ARTIFACT_NAME
-CMD ["java","-jar","greengourmet-recipessearch-0.0.1-SNAPSHOT.jar"]
+CMD ["java","-jar","greengourmet-recipes-0.0.1-SNAPSHOT.jar"]

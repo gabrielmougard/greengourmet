@@ -1,4 +1,4 @@
-package ggrecipessearch.config;
+package ggrecipes.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -22,7 +22,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 
 @SuppressWarnings("deprecation")
 @Configuration
-@EnableMongoRepositories(basePackages = "ggrecipessearch.repository")
+@EnableMongoRepositories(basePackages = "ggrecipes.repository")
 public class MongoDBConfiguration extends AbstractMongoConfiguration {
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());

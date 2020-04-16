@@ -1,4 +1,4 @@
-package ggrecipessearch.model;
+package ggrecipes.model;
 
 public class Response {
 

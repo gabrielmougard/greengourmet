@@ -1,4 +1,4 @@
-package ggrecipessearch.model;
+package ggrecipes.model;
 
 //import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonCreator;

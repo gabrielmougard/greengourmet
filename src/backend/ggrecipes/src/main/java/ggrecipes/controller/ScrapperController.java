@@ -1,6 +1,6 @@
-package ggrecipessearch.controller;
+package ggrecipes.controller;
 
-import ggrecipessearch.model.*;
+import ggrecipes.model.*;
 
 import java.util.List;
 
