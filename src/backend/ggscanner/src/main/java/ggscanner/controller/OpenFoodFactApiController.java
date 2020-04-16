@@ -58,23 +58,23 @@ public class OpenFoodFactApiController {
     
 
     public Item getItemByBarcode(String barcode, Response response){
-        Item item = new Item();
+        Item item = new Item(barcode);
         try{
-            Map<String, Object> map = getJson(barcode);
+            Map<String, Object> map = getJson(barcode, response);
             setGlobalInfo(item, map);
             setItemNutritionalMark(item, map);
             setItemKJ(item, map);
-            response.setStatus(200);
         }catch (Exception e) {
             response.setStatus(500);
             item = null;
         }
         return item;
     }
-    private Map<String, Object> getJson(String barcode) throws Exception {
+    private Map<String, Object> getJson(String barcode, Response response) throws Exception {
         Page page = client.getPage(url+barcode+informationFormat);
         WebResponse webResponse = page.getWebResponse();
         String json = webResponse.getContentAsString();
+        response.setStatus(page.getWebResponse().getStatusCode());
         if (webResponse.getContentType().equals("application/json")) {
             Map<String, Object> map = (Map<String, Object>) mapper.readValue(json, Map.class);
             return map;
@@ -83,24 +83,32 @@ public class OpenFoodFactApiController {
         }
     }
     private void setItemNutritionalMark(Item item, Map<String, Object> map){
-        map = (Map<String, Object>) map.get(productKey);
-        String nutriScore = (String) map.get(nutritionalMarkKey);
-        if(nutriScore != null){
-            nutriScore = nutritionalMarkUrl+nutriScore+nutritionalMarkFormat;
+        try{
+            map = (Map<String, Object>) map.get(productKey);
+            String nutriScore = (String) map.get(nutritionalMarkKey);
+            if(nutriScore != null){
+                nutriScore = nutritionalMarkUrl+nutriScore+nutritionalMarkFormat;
+            }
+            item.setNutritionalMark(nutriScore);
+        }catch (Exception e) {
         }
-        item.setNutritionalMark(nutriScore);
+        
     }
     private void setItemKJ(Item item, Map<String, Object> map){
-        map = (Map<String, Object>) map.get(productKey);
-        map = (Map<String, Object>) map.get(nutrimentsKey);
-        String kJ = Integer.toString((int) map.get(energyKJKey));
-        if(kJ != null){
-            kJ = kJ + " " +energyUnit;
+        try{
+            map = (Map<String, Object>) map.get(productKey);
+            map = (Map<String, Object>) map.get(nutrimentsKey);
+            String kJ = Integer.toString((int) map.get(energyKJKey));
+            if(kJ != null){
+                kJ = kJ + " " +energyUnit;
+            }
+            item.setKJ(kJ);
+        }catch (Exception e) {
+
         }
-        item.setKJ(kJ);
     }
     private void setGlobalInfo(Item item, Map<String, Object> map){
-        item.setBarcode((String) map.get(barcodeKey));
+        //item.setBarcode((String) map.get(barcodeKey));
         map = (Map<String, Object>) map.get(productKey);
         item.setName((String) map.get(nameKey));
         item.setIngredients((String) map.get(ingredientsKey));

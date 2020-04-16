@@ -35,7 +35,7 @@ public class ScrapperController {
         }
         return item;
     }
-    private HtmlPage getPage(String url) throws Exception{
+    private HtmlPage getPage(String url) throws Exception {
         WebClient client = new WebClient();
 
         client.getOptions().setCssEnabled(false);
