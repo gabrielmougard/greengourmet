@@ -62,6 +62,7 @@ public class OpenFoodFactApiController {
         try{
             Map<String, Object> map = getJson(barcode, response);
             setGlobalInfo(item, map);
+            setQuantity(item, map);
             setItemNutritionalMark(item, map);
             setItemKJ(item, map);
         }catch (Exception e) {
@@ -107,13 +108,21 @@ public class OpenFoodFactApiController {
 
         }
     }
+    private void setQuantity(Item item, Map<String, Object> map){
+        map = (Map<String, Object>) map.get(productKey);
+        String[] quantity = ((String) map.get(quantityKey)).split(" ");
+        if(quantity.length>0){
+            item.getQuantity().add(Float.parseFloat(quantity[0]));
+        }if(quantity.length>1){
+            item.getQuantity().add(quantity[1]);
+        }
+    }
     private void setGlobalInfo(Item item, Map<String, Object> map){
         //item.setBarcode((String) map.get(barcodeKey));
         map = (Map<String, Object>) map.get(productKey);
         item.setName((String) map.get(nameKey));
         item.setIngredients((String) map.get(ingredientsKey));
         item.setBrand((String) map.get(brandKey));
-        item.setQuantity((String) map.get(quantityKey));
         item.setManufacturingCountry((String) map.get(manufacturingCountryKey));
         item.setAllergens((ArrayList<String>) map.get(allergensKey));
         item.setTraceAllergens((ArrayList<String>) map.get(traceAllergensKey));

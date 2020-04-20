@@ -101,13 +101,26 @@ public class ScrapperController {
         if(title != null){
             itemElements = title.asText().split(titleSplit);
             item.setName(itemElements[0]);
-            if(itemElements.length>1){
-                item.setQuantity(itemElements[itemElements.length-1]);
-            }
+            setQuantity(item, itemElements);
             if(itemElements.length>2){
                 item.setBrand(itemElements[itemElements.length-2]);
             }else{
                 setBrand(item, page);
+            }
+        }
+    }
+    private void setQuantity(Item item, String[] itemElements){
+        String[] quantity;
+        if(itemElements.length>1){
+            quantity = itemElements[itemElements.length-1].split(" ");
+            for(String q : quantity){
+                try{
+                    item.getQuantity().add(Float.parseFloat(q));
+                }catch(Exception e){
+                    if(q.equals("")==false){
+                        item.getQuantity().add(q);
+                    }
+                }
             }
         }
     }

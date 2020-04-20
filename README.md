@@ -37,7 +37,7 @@ Endpoint :
 
 * **/scanner** : get product informations
     * Input param = {"userId" : USERID, "barcode": BARCODE}
-    * Output param = {"status":STATUS,"item":{"barcode": BARCODE,"name": PRODUCT_NAME,"brand": BRAND,"quantity":      QUANTITY,"manufacturingCountry": MANUFACTURINGCOUNTRY,"ingredients": DESCRIPTION_OF_INGREDIENTS,"allergens":[LIST_OF_ALLERGENS], "traceAllergens":[LIST_OF_TRACEALLERGENS],"additifs":[LIST_ADDITIFS], "nutritionalMark":URL_TO_PICTURE_OF_NUTRITIONALMARK,"kj":ENERGY_FOR_100g}}
+    * Output param = {"status":STATUS,"item":{"barcode": BARCODE,"name": PRODUCT_NAME,"brand": BRAND,"quantity": [QUANTITY_FLOAT_THEN_UNITE],"manufacturingCountry": MANUFACTURINGCOUNTRY,"ingredients": DESCRIPTION_OF_INGREDIENTS,"allergens":[LIST_OF_ALLERGENS], "traceAllergens":[LIST_OF_TRACEALLERGENS],"additifs":[LIST_ADDITIFS], "nutritionalMark":URL_TO_PICTURE_OF_NUTRITIONALMARK,"kj":ENERGY_FOR_100g}}
 
 ### **ggarticleserver** (http://localhost:8082 or http://articleservicedev:8082 inside docker network)
 
@@ -104,7 +104,7 @@ We have decided to store the articles and the recipes in mongoDB. Here is the de
         barcode : **String**, 
         name : **String**,
         brand : **String**,
-        quantity : **String**,
+        quantity : **List<Object>**,
         manufacturingCountry : **String**,
         ingredients : **String**,
         allergens : **List<String>**,
@@ -117,7 +117,7 @@ We have decided to store the articles and the recipes in mongoDB. Here is the de
     * `barcode` is the barcode of the article (usually, for food, its a sequence of 12 digits).
     * `name` is the description of the article.
     * `brand` is the brand of the article.
-    * `quantity` is the amount (float) of the article.
+    * `quantity` is the amount (float) of the article in first and then the unit.
     * `manufacturingCountry` this is where the product was built.
     * `ingredients` this is the description of the ingredients contained in the product.
     * `allergens` list of allergens contained in the products.

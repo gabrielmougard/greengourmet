@@ -20,7 +20,7 @@ public class ScannerController {
     private ScrapperController scrapper;// = new ScrapperController();
     @Autowired
     private OpenFoodFactApiController openFoodFactApi;// = new OpenFoodFactApiController();
-
+    
     @RequestMapping(value = "/scanner", method = RequestMethod.GET)
     public @ResponseBody Response getItemGet(@RequestBody Request request) {
         return getItemPost(request);
@@ -32,7 +32,7 @@ public class ScannerController {
         Response response = new Response();
 
         if(item==null){
-            item = getItemFromAPI(request.getBarcode(), response);
+            item = getItem(request.getBarcode(), response);
             saveItemInBDD(item);
         }
         response.setItem(item);
@@ -53,7 +53,7 @@ public class ScannerController {
             }
         }
     }
-    private Item getItemFromAPI(String barcode, Response response){
+    private Item getItem(String barcode, Response response){
         Item item = null;
         item = openFoodFactApi.getItemByBarcode(barcode, response);
         if(item==null){

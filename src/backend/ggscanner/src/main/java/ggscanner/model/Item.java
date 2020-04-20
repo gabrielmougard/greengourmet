@@ -8,7 +8,7 @@ public class Item {
     private String barcode;
 	private String name;
 	private String brand;
-    private String quantity;
+	private ArrayList<Object> quantity = new ArrayList<Object>();
     private String manufacturingCountry;
 	private String ingredients;
 	private ArrayList<String> allergens = new ArrayList<String>(); 
@@ -41,10 +41,10 @@ public class Item {
 	public void setBrand(String brand) {
 		this.brand = brand;
 	}
-	public String getQuantity() {
+	public ArrayList<Object> getQuantity() {
 		return quantity;
 	}
-	public void setQuantity(String quantity) {
+	public void setQuantity(ArrayList<Object> quantity) {
 		this.quantity = quantity;
 	}
 	public String getManufacturingCountry() {

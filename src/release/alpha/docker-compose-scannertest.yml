@@ -11,6 +11,12 @@ services:
             - ./mongo-volume/data:/data/db
         ports:
             - "27017:27017"
+
+    mongo-seeds:
+        build: ./mongo-volume/mongo-seeds
+        links: 
+            - mongocluster
+
     scannerservicedev:
         build:
             context: ../../backend/ggscanner
