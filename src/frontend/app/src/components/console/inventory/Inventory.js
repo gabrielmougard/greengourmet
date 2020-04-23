@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Article from './articleCard';
 
 class Inventory extends Component {
     constructor(props) {
@@ -8,7 +9,7 @@ class Inventory extends Component {
     render() {
         return (
             <>
-                <p>This is the Inventory !</p>
+                <Article name={"purée de patate"} quantity={100.0} quantityUnit={"g"} peremptionDate={"2020/05/01"}/>
             </>
         )
     }
