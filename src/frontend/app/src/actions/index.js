@@ -12,6 +12,7 @@ export const fetchTabPositionEnded = (position) => ({
     }
 })
 
+// SCANNER //
 export const sendBarcodeContent = (userId, barcode) => ({
     type : 'SEND_BARCODE',
     payload: {
@@ -20,7 +21,7 @@ export const sendBarcodeContent = (userId, barcode) => ({
     }
 })
 
-export const fetchBarcodeContentEnded = (status, barcodeContent=null) => ({
+export const sendBarcodeContentEnded = (status, barcodeContent=null) => ({
     type: 'SEND_BARCODE_ENDED',
     payload: {
         status: status,
@@ -28,22 +29,17 @@ export const fetchBarcodeContentEnded = (status, barcodeContent=null) => ({
     }
 })
 
-export const addBarcodeContent = (userId, barcodeContent, quantity, expirationDate) => ({
-    type: 'ADD_BARCODE',
-    payload: {
-        userId: userId,
-        barcodeContent: barcodeContent,
-        quantity: quantity,
-        expirationDate: expirationDate,
-    }
+export const validateCart = (payload) => ({
+    type: 'VALIDATE_CART',
+    payload,
 })
 
-export const addBarcodeContentEnded = (status) => ({
-    type: 'ADD_BARCODE_ENDED',
-    payload: {
-        barcodeAdded: status,
-    }
+export const validateCartEnded = (payload) => ({
+    type: 'VALIDARE_CART_ENDED',
+    payload,
 })
+
+////////////
 
 export const sendPincode = (values, userEmail) => ({
     type: 'SEND_PINCODE',
@@ -59,7 +55,6 @@ export const fetchPincodeEnded = (success) => ({
         success: success,
     }
 })
-
 
 export const regeneratePincode = (userEmail) => ({
     type: 'REGENERATE_PINCODE',

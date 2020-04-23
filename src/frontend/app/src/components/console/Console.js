@@ -45,7 +45,7 @@ class Console extends Component {
                 consoleContent = <Dashboard {...this.props}/>
                 break;
             case 'scanner':
-                consoleContent = <Scanner {...this.props} />
+                consoleContent = <Scanner userId={this.props.currentUser.id}/>
                 break;
             case 'inventory':
                 consoleContent = <Inventory {...this.props} />
@@ -66,7 +66,7 @@ class Console extends Component {
 
         return (
             <>
-                {(!this.props.pincodeUnlocked) ? (pinCode) : (<></>)}
+                
                 <ConsoleHeader {...this.props}/>
                 <ConsoleTabs {...this.props}/>
                 {consoleContent}

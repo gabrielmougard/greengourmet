@@ -10,6 +10,9 @@ import ItemLoader from './ItemLoader';
 import Webcam from "react-webcam";
 import './Dashboard.css'
 
+import Inventory from '../inventory/Inventory'
+
+
 //redux
 import { connect } from 'react-redux'
 
@@ -99,18 +102,25 @@ class Dashboard extends Component {
                             </Typography>
                             <br></br>
                             <br></br>
-                            <div className="itemloader-container">
-                                <ItemLoader />
-                            </div>
-                            <div className="itemloader-container">
-                                <ItemLoader />
-                            </div>
-                            <div className="itemloader-container">
-                                <ItemLoader />
-                            </div>
-                            <div className="itemloader-container">
-                                <ItemLoader />
-                            </div>
+                            {(true) ? 
+                                (<Inventory />) :
+                                (
+                                    <>
+                                        <div className="itemloader-container">
+                                            <ItemLoader />
+                                        </div>
+                                        <div className="itemloader-container">
+                                            <ItemLoader />
+                                        </div>
+                                        <div className="itemloader-container">
+                                            <ItemLoader />
+                                        </div>
+                                        <div className="itemloader-container">
+                                            <ItemLoader />
+                                        </div>
+                                    </>
+                                )
+                            }
                         </CardContent>
                     </Card>
                 </div>  

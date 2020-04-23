@@ -18,29 +18,37 @@ titre = responsiveFontSizes(titre);
 const useStyles = makeStyles(theme => ({
   paperCritical: {
     padding: theme.spacing(1),
-    maxWidth: 280,
+    maxWidth: 400,
     minHeight: 40,
     background: "#E02020",
     color: "white"
   },
   paperMedium: {
     padding: theme.spacing(1),
-    maxWidth: 280,
+    maxWidth: 400,
     minHeight: 40,
     background: "#F7B500",
     color: "white"
   },
   paperOk: {
     padding: theme.spacing(1),
-    maxWidth: 280,
+    maxWidth: 400,
     minHeight: 40,
     background: "#00A896",
     color: "white"
   },
+  paperPerempted: {
+    padding: theme.spacing(1),
+    maxWidth: 400,
+    minHeight: 40,
+    background: "#000000",
+    color: "white"
+  },
   title: {
     marginTop: 3,
-    maxWidth: 170,
-    maxfontSize: 22
+    maxWidth: 300,
+    maxfontSize: 22,
+    color: "white"
   },
   container: {
     display: "flex",
@@ -54,7 +62,7 @@ function Article({name, quantity, quantityUnit, peremptionDate}) {
     function formatDate(peremptionDate) {
         const peremptionDateFormatted = new Date(peremptionDate);
         const now = new Date(); //"now"
-        const diff = Math.abs(now-peremptionDateFormatted); // in milliseconds
+        const diff = peremptionDateFormatted-now; // in milliseconds
         const daysRemaining = Math.ceil(diff/(1000*3600*24))
         return daysRemaining
     } 
@@ -63,10 +71,25 @@ function Article({name, quantity, quantityUnit, peremptionDate}) {
     let paperClass
     if (formattedDate > 14) { //above 2 weeks, we will be in the "OK" threshold
         paperClass = classes.paperOk
-    } else if (formattedDate < 14 && formattedDate > 7) {
+    } else if (formattedDate < 14 && formattedDate >= 7) {
         paperClass = classes.paperMedium
+    } else if (formattedDate < 7 && formattedDate > 0) {
+        paperClass = classes.paperCritical 
     } else {
-        paperClass = classes.paperCritical
+        paperClass = classes.paperPerempted
+    }
+    
+    let peremption
+    if (formattedDate > 0) {
+        peremption = 
+            <Typography variant="body2">
+                Périme dans:<b> {formattedDate}j </b>
+            </Typography>
+    } else {
+        peremption =
+            <Typography variant="body2">
+                Périmé depuis:<b> {Math.abs(formattedDate)}j </b>
+            </Typography>
     }
 
     return (
@@ -98,9 +121,7 @@ function Article({name, quantity, quantityUnit, peremptionDate}) {
                         </Grid>
 
                         <Grid item>
-                            <Typography variant="body2">
-                            Périme dans:<b> {formattedDate}j </b>
-                            </Typography>
+                            {peremption}
                         </Grid>
                         </div>
                     </Grid>

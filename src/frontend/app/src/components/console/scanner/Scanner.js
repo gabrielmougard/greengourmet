@@ -1,118 +1,143 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useLayoutEffect } from "react";
 import config from "../../../libs/scanner/configHome.json";
 import { detectionThreshold } from "../../../libs/scanner/threshold";
 import Quagga from "quagga";
 
+import { green, red } from '@material-ui/core/colors';
 import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
+import OutlinedInput from '@material-ui/core/OutlinedInput';
 import Drawer from '@material-ui/core/Drawer';
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { makeStyles } from '@material-ui/core/styles';
-
+import { makeStyles, withStyles } from '@material-ui/core/styles';
+import styled from 'styled-components'
+import {Display4} from 'baseui/typography';
+import { BrowserBarcodeReader } from '@zxing/library'
+import Article from '../inventory/articleCard'
 //redux
 import { connect } from 'react-redux'
 
 //CSS
 import './Scanner.css'
 
+//assets
+import barcodeAnimation from '../../../assets/images/barcodeAnimation.gif'
+
 //actions
-import { sendBarcodeContent, addBarcodeContent } from '../../../actions'
+import { sendBarcodeContent, validateCart } from '../../../actions'
 
 const backdropStyles = makeStyles((theme) => ({
     backdrop: {
       zIndex: theme.zIndex.drawer + 1,
       color: '#fff',
     },
-  }));
+}));
 
+const CartPreviewWrapper = styled.div`
+  position: absolute;
+  text-align: center;
+  z-index: 3;
+  float: right;
+  margin-left: 70vw;
+  padding: 20px 20px 20px 20px;
+  width: 500px;
+  height: 600px;
+  overflow: auto;
+  background-color: #ffffff;
+  -webkit-box-shadow: 0px 6px 10px 1px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0px 6px 10px 1px rgba(0,0,0,0.75);
+  box-shadow: 0px 6px 10px 1px rgba(0,0,0,0.75);
+  -o-box-shadow: 10px 10px  5px rgba(0,0,0,0.6);
+  border-radius:15px;
+`
 
-const Scanner = props => {
+const CartPreviewArticleListWrapper = styled.div`
+  width: 100%;  
+  height: 80%;
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  grid-gap: 10px;
+  overflow: auto;
+  text-align: center;
+`
+
+const CartButtonWrapper = styled.div`
+  margin-top: 20px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 10px;
+`
+
+const DrawerWrapper = styled.div`
+  width: 100%;
+  padding: 20px 20px 20px 20px;
+`
+
+const ScannerUserInputWrapper = styled.div`
+  display: grid;
+  grid-template-columns: 600px 200px auto;
+  grid-gap: 20px;
+`
+
+const ScannerValidationWrapper = styled.div`
+  padding-top: 50px;
+  display: block;
+  width: 100%;
+`
+
+const ScannerCancelButtonWrapper = styled.div`
+  padding-right: 80px;
+  float: right;
+`
+
+const ScannerValidateButtonWrapper = styled.div`
+  padding-right: 60px;
+  float: right;
+`
+
+const ValidateButton = withStyles((theme) => ({
+  root: {
+    color: theme.palette.getContrastText(green[800]),
+    backgroundColor: green[800],
+    '&:hover': {
+      backgroundColor: green[900],
+    },
+  },
+}))(Button);
+
+const CancelButton = withStyles((theme) => ({
+  root: {
+    color: theme.palette.getContrastText(red[500]),
+    backgroundColor: red[500],
+    '&:hover': {
+      backgroundColor: red[700],
+    },
+  },
+}))(Button);
+
+function Scanner({userId, sendBarcodeContent, barcodeResult, validateCart, cartValidated}) {
+    const [toggleZXing, setToggleZXing] = React.useState(true)
+    const [barcode, setBarcode] = React.useState("")
     const [drawerState, setDrawerState] = React.useState(false);
-    const [backDropState, setBackDropState] = React.useState(false);
-
-  useEffect(() => {
-    Quagga.init(config, err => {
-      if (err) {
-        console.log(err, "error msg");
-      }
-      Quagga.start();
-      return () => {
-        Quagga.stop()
-      }
-    });
-
-    //detecting boxes on stream
-    Quagga.onProcessed(result => {
-      var drawingCtx = Quagga.canvas.ctx.overlay,
-        drawingCanvas = Quagga.canvas.dom.overlay;
-
-      if (result) {
-        if (result.boxes) {
-          drawingCtx.clearRect(
-            0,
-            0,
-            Number(drawingCanvas.getAttribute("width")),
-            Number(drawingCanvas.getAttribute("height"))
-          );
-          result.boxes
-            .filter(function(box) {
-              return box !== result.box;
-            })
-            .forEach(function(box) {
-              Quagga.ImageDebug.drawPath(box, { x: 0, y: 1 }, drawingCtx, {
-                color: "green",
-                lineWidth: 2
-              });
-            });
-        }
-
-        if (result.box) {
-          Quagga.ImageDebug.drawPath(result.box, { x: 0, y: 1 }, drawingCtx, {
-            color: "#00F",
-            lineWidth: 2
-          });
-        }
-
-        if (result.codeResult && result.codeResult.code) {
-          Quagga.ImageDebug.drawPath(
-            result.line,
-            { x: "x", y: "y" },
-            drawingCtx,
-            { color: "red", lineWidth: 3 }
-          );
-        }
-      }
-    });
-
-    Quagga.onDetected(detected);
-  }, []);
+    const [backDropState, setBackDropState] = React.useState(false)
+    const [cartContent, setCartContent] = React.useState([])
 
   const detected = result => {
-    if(localStorage.getItem("scanner-results")) {
-        let existing = localStorage.getItem("scanner-results");
-        existing = existing.split(',');
-        existing.push(result.codeResult.code);
-
-        var decoded = detectionThreshold(existing)
-        if (decoded) {
-            console.log("A reliable decoded value is : "+decoded);
-            setBackDropState(true);
-            //call the saga here for getting the content of the decoded barcode
-            props.sendBarcodeContent(props.currentUser.id, decoded);
-            //
-        }
-
-        localStorage.setItem('scanner-results', existing.toString());
-    } else {
-        let barcodes = [];
-        barcodes[0] = result.codeResult.code
-        localStorage.setItem("scanner-results", barcodes.toString());
-    }
+    setToggleZXing(false)
+    setBarcode(result)
+    setBackDropState(true);
+    setDrawerState(true)
+    console.log("A reliable decoded value is : "+result);
+            
+    //call the saga here for getting the content of the decoded barcode
+    sendBarcodeContent(userId, barcode);
+    //
   };
 
-  //detect if the scanner view is supported (if we have at least one webcam)
-
-  //
   const toggleDrawer = (open) => (event) => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
         return;
@@ -122,14 +147,92 @@ const Scanner = props => {
 
   const classBackdrop = backdropStyles();
 
-  const handleCloseBackdrop = () => {
-      setBackDropState(false);
+ 
+  let selectedDeviceId;
+  const codeReader = new BrowserBarcodeReader();
+  console.log('ZXing code reader initialized')
+  if (toggleZXing) {
+    codeReader.getVideoInputDevices().then((videoInputDevices) => {
+      
+      selectedDeviceId = videoInputDevices[0].deviceId
+      console.log(selectedDeviceId)
+        
+      codeReader.decodeOnceFromVideoDevice(selectedDeviceId, 'interactive-scanner')
+        .then(result => detected(result.text))
+        .catch(err => console.error(err));
+    })
+    .catch(err => console.error(err));
+  }
+  
+  let backdrop
+  if (backDropState) {
+    backdrop = 
+    <Backdrop className={classBackdrop.backdrop} open={backDropState}>
+      <CircularProgress color="inherit" />
+    </Backdrop>
   }
 
-  //if we have a response from /search
-  if (props.barcodeContent) {
-      setBackDropState(false); //untoggle the backdrop
-      setDrawerState(true); //toggle the bottom Drawer to print the result a let the user complete it
+  let drawerContent
+  useLayoutEffect(() => {
+    console.log("le barcodeResult : "+JSON.stringify(barcodeResult))
+    if (Object.keys(barcodeResult).length != 0) {
+      setBackDropState(false);
+      setDrawerState(true)
+      //setup the drawerContent here
+      drawerContent = 
+        <DrawerWrapper>
+          <ScannerUserInputWrapper>
+            <div>
+              <FormControl fullWidth variant="outlined">
+                <TextField
+                  id="outlined-helperText"
+                  label="Contenu"
+                  defaultValue="barcode content"
+                  helperText="code : 647586858585"
+                  variant="outlined"
+                />
+              </FormControl>
+            </div>
+            <div>
+              <TextField
+                id="outlined-helperText"
+                label="Quantité"
+                variant="outlined"
+              />
+            </div>
+            <div>
+              <TextField
+                id="outlined-helperText"
+                label="Unité"
+                variant="outlined"
+              />
+            </div>
+          </ScannerUserInputWrapper>
+          <ScannerValidationWrapper>
+            <ScannerValidateButtonWrapper>
+              <ValidateButton>Valider</ValidateButton>
+            </ScannerValidateButtonWrapper>
+            <ScannerCancelButtonWrapper>
+              <CancelButton>Annuler</CancelButton>
+            </ScannerCancelButtonWrapper>
+          </ScannerValidationWrapper>
+        </DrawerWrapper>
+    }
+  })
+
+  if (cartContent.length == 0) {
+    cartContent.push( 
+      <div>
+        vous n'avez pas d'articles.<br></br> Faites chauffer le scanner !
+        <img src={barcodeAnimation} />
+      </div>
+    )
+  } else {
+      cartContent.push(
+        <div>
+          <Article name={"purée de patate de la marque tatat"} quantity={100.0} quantityUnit={"g"} peremptionDate={"2020/04/21"}/>
+        </div>
+      )
   }
 
   return (
@@ -137,12 +240,25 @@ const Scanner = props => {
     // QuaggaJS would look for an element that matches
     // the CSS selector #interactive.viewport
     <>
-    <div id="interactive" className="viewport"></div>
+    <CartPreviewWrapper>
+      <Display4>Votre panier</Display4>
+      <CartPreviewArticleListWrapper>
+        {cartContent}
+      </CartPreviewArticleListWrapper>
+      <CartButtonWrapper>
+        <div>
+          <Button variant="outlined" color="primary" disabled>Valider</Button>
+        </div>
+        <div>
+          <Button variant="outlined" color="primary" disabled>Réinitialiser</Button>
+        </div>
+      </CartButtonWrapper>
+    </CartPreviewWrapper>
+    <video id="interactive-scanner"></video>
     <Drawer anchor={"bottom"} open={drawerState} onClose={toggleDrawer(false)}>
+      {drawerContent}
     </Drawer>
-    <Backdrop className={classBackdrop.backdrop} open={backDropState}>
-        <CircularProgress color="inherit" />
-    </Backdrop>
+    {backdrop}
     </>
     
   );
@@ -150,15 +266,13 @@ const Scanner = props => {
 
 const mapStateToProps = (state) => {
     return {
-        barcodeContent: state.barcodeContent,
-        barcodeAdded: state.barcodeAdded,
+        barcodeResult: state.barcodeResult,
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
         sendBarcodeContent: (userId, barcode) => {dispatch(sendBarcodeContent(userId, barcode))},
-        addBarcodeContent: (userId, barcodeContent, quantity, expirationDate) => {dispatch(addBarcodeContent(userId, barcodeContent, quantity, expirationDate))},
     }
 }
 
