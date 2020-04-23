@@ -116,12 +116,12 @@ class App extends Component {
 
             <Route path="/signup" component={SignupComponent}/>
 
-            <PrivateRoute 
+            <Route 
               path="/console/me" 
               authenticated={this.state.authenticated} 
               currentUser={this.state.currentUser} 
               component={Console}>
-            </PrivateRoute>
+            </Route>
 
             <Route path="/oauth2/redirect" component={OAuth2RedirectHandler}></Route> 
             
