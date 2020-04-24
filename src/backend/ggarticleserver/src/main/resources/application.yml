@@ -1,14 +1,14 @@
 server:
   port: 8082
-
+  
 security:
   basic:
     enabled: false
-    
+      
 management:
   security:
     enabled: false
-
+  
 spring:
   data:
     mongodb:
@@ -18,7 +18,7 @@ spring:
       user: root
       password: iuzkghkuzegdo
       authentication-database: admin
-    
+      
     redis:
       host: rediscluster
       port: 6379

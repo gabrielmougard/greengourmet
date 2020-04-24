@@ -11,8 +11,10 @@ import org.springframework.boot.SpringApplication;
 import ggscanner.repository.ItemRepository;
 import ggscanner.model.*;
  
-@SpringBootApplication
+import javax.validation.Valid;
+
 @RestController
+@RequestMapping("/scanner")
 public class ScannerController {
     @Autowired
     private ItemRepository repository;
@@ -22,8 +24,9 @@ public class ScannerController {
     public @ResponseBody Response getItemGet(@RequestBody Request request) {
         return getItemPost(request);
     }
-    @RequestMapping(value = "/scanner", method = RequestMethod.POST)
-    public @ResponseBody Response getItemPost(@RequestBody Request request) {
+
+    @PostMapping("/barcode")
+    public @ResponseBody Response getItemPost(@Valid @RequestBody Request request) {
         Item item = null;
         try{
             item = repository.findByBarcode(request.getBarcode()); 

@@ -6,7 +6,7 @@ import { sendBarcodeContentEnded, validateCartEnded } from '../../actions';
 import { SCANNER_API_BASE_URL } from '../../CONSTANTS';
 
 function* fetchBarcodeContent(action) {
-    console.log("la sagab scanner !!!")
+    console.log("la saga scanner !!!")
     const { userId, barcode } = action.payload;
     const data = {
         userId: userId,
@@ -14,7 +14,7 @@ function* fetchBarcodeContent(action) {
     }
 
     try {
-        var response = yield call([axios, axios.post], SCANNER_API_BASE_URL+'/search', data)
+        var response = yield call([axios, axios.post], SCANNER_API_BASE_URL+'/scanner/barcode', data)
         if (response.status == 200 && response.barcodeContent) {
             yield put(sendBarcodeContentEnded(true, response.barcodeContent));
         } else {

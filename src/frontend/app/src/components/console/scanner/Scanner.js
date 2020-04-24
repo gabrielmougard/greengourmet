@@ -134,7 +134,7 @@ function Scanner({userId, sendBarcodeContent, barcodeResult, validateCart, cartV
     console.log("A reliable decoded value is : "+result);
             
     //call the saga here for getting the content of the decoded barcode
-    sendBarcodeContent(userId, barcode);
+    sendBarcodeContent(userId, result);
     //
   };
 
@@ -174,8 +174,8 @@ function Scanner({userId, sendBarcodeContent, barcodeResult, validateCart, cartV
 
   let drawerContent
   useLayoutEffect(() => {
-    console.log("le barcodeResult : "+JSON.stringify(barcodeResult))
-    if (Object.keys(barcodeResult).length != 0) {
+    
+    if (barcodeResult) {
       setBackDropState(false);
       setDrawerState(true)
       //setup the drawerContent here

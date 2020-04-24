@@ -1,0 +1,109 @@
+version: '3.3'
+services:
+  frontendservicedev:
+    build:
+      context: ../../frontend/app
+      dockerfile: Dockerfile
+    depends_on: 
+      - dbtest
+    ports:
+      - "3000:3000"
+    volumes:
+      - ../../frontend/app/src:/app/src
+      - ../../frontend/app/public:/app/public
+    container_name: frontendservicedev
+
+  ggauth-hotreload:
+    build:
+      context: ../../backend/ggauthserver
+      dockerfile: Dockerfile-dev
+    depends_on:
+      - dbtest   
+    volumes:
+      - ../../backend/ggauthserver:/app
+    working_dir: /app
+    command: sh run-dev.sh
+    ports:
+      - 8080:8080
+    container_name: authservicedev
+
+  ggscanner-hotreload:
+    build:
+      context: ../../backend/ggscanner
+      dockerfile: Dockerfile-dev
+    depends_on: 
+      - dbtest
+      - mongocluster  
+    volumes:
+      - ../../backend/ggscanner:/app
+    working_dir: /app
+    command: sh run-dev.sh
+    ports:
+      - 8081:8081
+    container_name: scannerservicedev
+
+  ggarticle-hotreload:
+    build:
+      context: ../../backend/ggarticleserver
+      dockerfile: Dockerfile-dev  
+    depends_on: 
+      - mongocluster
+      - rediscluster
+    volumes:
+      - ../../backend/ggarticleserver:/app
+    working_dir: /app
+    command: sh run-dev.sh
+    ports:
+      - 8082:8082
+    container_name: articleservicedev
+
+    #ggmailserver-hotreload:
+    #    build:
+    #        context: ../../backend/ggmailserver
+    #        dockerfile: Dockerfile-dev  
+    #    volumes:
+    #      - ../../backend/ggmailserver:/app
+    #    working_dir: /app
+    #    command: sh run-dev.sh
+    #    ports:
+    #        - 8083:8083
+    #    container_name: mailserverdev
+
+  dbtest:
+    image: mysql
+    environment: 
+      MYSQL_ROOT_PASSWORD: ougfakugzdaf
+    ports: 
+      - "3306:3306"
+    volumes: # seeds
+      - ../db-seeds:/docker-entrypoint-initdb.d
+        
+  mongocluster:
+    image: 'mongo'
+    container_name: 'mongocluster'
+    environment: 
+      - MONGO_INITDB_DATABASE=admin
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=iuzkghkuzegdo
+    volumes:
+      - ./mongo-volume/data:/data/db
+    ports:
+      - "27017:27017"
+    
+  mongo-seeds:
+    build: ./mongo-volume/mongo-seeds
+    links: 
+      - mongocluster
+    
+  rediscluster:
+    image: 'bitnami/redis:5.0'
+    container_name: 'rediscluster'
+    environment:
+      # ALLOW_EMPTY_PASSWORD is recommended only for development.
+      - REDIS_PASSWORD=uhoaizdhukazdadz
+      - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL
+    ports:
+      - '6379:6379'
+    volumes:
+      - './redis-volume/data:/bitnami/redis/data'
+    command: /opt/bitnami/scripts/redis/run.sh --maxmemory 200mb --maxmemory-policy allkeys-lru

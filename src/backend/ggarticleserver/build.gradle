@@ -6,7 +6,7 @@ plugins {
 
 group = 'com.greengourmet.articleserver'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '13'
+sourceCompatibility = '11'
 
 repositories {
 	mavenCentral()
@@ -21,6 +21,9 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.data:spring-data-redis:2.2.2.RELEASE'
 	implementation 'redis.clients:jedis:3.1.0'
+
+	compile 'org.springframework.boot:spring-boot-devtools'
+	
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}

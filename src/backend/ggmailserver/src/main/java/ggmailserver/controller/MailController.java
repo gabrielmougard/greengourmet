@@ -28,5 +28,6 @@ public class MailController {
 	void sendConfirmationMail(@RequestBody @Valid ConfirmationMail userMail) {
 		logger.info(userMail.toString());
 		mailRepository.sendConfirmationMail(userMail);
+		System.out.println("hello");
 	}
 }
