@@ -4,15 +4,15 @@ plugins {
 	id 'java'
 }
 
-group = 'com.greengourmet.scanner'
+group = 'com.greengourmet.recipes'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
+sourceCompatibility = '13'
 
 repositories {
 	mavenCentral()
 }
 bootJar {
-    mainClassName = 'ggscanner.Application'
+    mainClassName = 'ggrecipes.Application'
 }
 
 dependencies {
@@ -25,13 +25,7 @@ dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-annotations:2.9.6'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.9.6'
 	implementation 'javax.annotation:javax.annotation-api'
-<<<<<<< HEAD
-	implementation 'com.google.code.gson:gson:2.8.5'
-	compile 'org.springframework.boot:spring-boot-devtools'
-
-=======
 	implementation files('libs/google-api-translate-java-0.97.jar')
->>>>>>> 96eeccc2eac68ee0ad3782bdd6d35b8b109cdaab
 	runtimeOnly 'com.h2database:h2'
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'

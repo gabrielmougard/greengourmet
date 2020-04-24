@@ -11,19 +11,13 @@ services:
             - ./mongo-volume/data:/data/db
         ports:
             - "27017:27017"
-
-    mongo-seeds:
-        build: ./mongo-volume/mongo-seeds
-        links: 
-            - mongocluster
-
-    scannerservicedev:
+    recipesservicedev:
         build:
-            context: ../../backend/ggscanner
+            context: ../../backend/ggrecipes
             dockerfile: Dockerfile
         depends_on: 
             - mongocluster
         ports: 
-            - "8081:8081"
-        container_name: scannerservicedev
+            - "8084:8084"
+        container_name: recipesservicedev
         

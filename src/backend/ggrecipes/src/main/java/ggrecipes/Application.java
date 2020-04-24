@@ -1,4 +1,4 @@
-package ggscanner;
+package ggrecipes;
 
 import java.util.Collections;
 

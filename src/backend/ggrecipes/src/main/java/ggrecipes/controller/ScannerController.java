@@ -1,4 +1,4 @@
-package ggscanner.controller;
+package ggrecipes.controller;
 
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.stereotype.Controller;
@@ -8,13 +8,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 
-import ggscanner.repository.ItemRepository;
-import ggscanner.model.*;
+import ggrecipes.model.*;
+import ggrecipes.repository.ItemRepository;
  
-import javax.validation.Valid;
-
+@SpringBootApplication
 @RestController
-@RequestMapping("/scanner")
 public class ScannerController {
     @Autowired
     private ItemRepository repository;
@@ -22,30 +20,19 @@ public class ScannerController {
     private ScrapperController scrapper;// = new ScrapperController();
     @Autowired
     private OpenFoodFactApiController openFoodFactApi;// = new OpenFoodFactApiController();
-    
+
     @RequestMapping(value = "/scanner", method = RequestMethod.GET)
     public @ResponseBody Response getItemGet(@RequestBody Request request) {
         return getItemPost(request);
     }
-<<<<<<< HEAD
-
-    @PostMapping("/barcode")
-    public @ResponseBody Response getItemPost(@Valid @RequestBody Request request) {
-        Item item = null;
-        try{
-            item = repository.findByBarcode(request.getBarcode()); 
-        } catch (Exception e) {
-        }
-=======
     @RequestMapping(value = "/scanner", method = RequestMethod.POST)
     public @ResponseBody Response getItemPost(@RequestBody Request request) {
         Item item = getItemFromBDD(request.getBarcode());
->>>>>>> 96eeccc2eac68ee0ad3782bdd6d35b8b109cdaab
         
         Response response = new Response();
 
         if(item==null){
-            item = getItem(request.getBarcode(), response);
+            item = getItemFromAPI(request.getBarcode(), response);
             saveItemInBDD(item);
         }
         response.setItem(item);
@@ -66,7 +53,7 @@ public class ScannerController {
             }
         }
     }
-    private Item getItem(String barcode, Response response){
+    private Item getItemFromAPI(String barcode, Response response){
         Item item = null;
         item = openFoodFactApi.getItemByBarcode(barcode, response);
         if(item==null){

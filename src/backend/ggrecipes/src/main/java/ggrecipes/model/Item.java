@@ -1,4 +1,4 @@
-package ggscanner.model;
+package ggrecipes.model;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.ArrayList;
@@ -8,7 +8,7 @@ public class Item {
     private String barcode;
 	private String name;
 	private String brand;
-	private ArrayList<Object> quantity = new ArrayList<Object>();
+    private String quantity;
     private String manufacturingCountry;
 	private String ingredients;
 	private ArrayList<String> allergens = new ArrayList<String>(); 
@@ -41,10 +41,10 @@ public class Item {
 	public void setBrand(String brand) {
 		this.brand = brand;
 	}
-	public ArrayList<Object> getQuantity() {
+	public String getQuantity() {
 		return quantity;
 	}
-	public void setQuantity(ArrayList<Object> quantity) {
+	public void setQuantity(String quantity) {
 		this.quantity = quantity;
 	}
 	public String getManufacturingCountry() {
