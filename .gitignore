@@ -8,6 +8,27 @@ node_modules
 **/ggauthserver/bin
 **/ggarticleserver/bin
 **/ggscanner/bin
+**/ggmailserver/bin
+
+**/ggauthserver/.settings
+**/ggarticleserver/.settings
+**/ggscanner/.settings
+**/ggmailserver/.settings
+
+**/ggauthserver/.gradle
+**/ggarticleserver/.gradle
+**/ggscanner/.gradle
+**/ggmailserver/.gradle
+
+**/ggauthserver/build
+**/ggarticleserver/build
+**/ggscanner/build
+**/ggmailserver/build
+
+**/ggauthserver/gradle
+**/ggarticleserver/gradle
+**/ggscanner/gradle
+**/ggmailserver/gradle
 
 #mac os
 .DS_Store

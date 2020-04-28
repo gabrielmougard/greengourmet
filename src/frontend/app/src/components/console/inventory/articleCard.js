@@ -60,9 +60,8 @@ function Article({name, quantity, quantityUnit, peremptionDate}) {
     const classes = useStyles();
 
     function formatDate(peremptionDate) {
-        const peremptionDateFormatted = new Date(peremptionDate);
         const now = new Date(); //"now"
-        const diff = peremptionDateFormatted-now; // in milliseconds
+        const diff = peremptionDate-now; // in milliseconds
         const daysRemaining = Math.ceil(diff/(1000*3600*24))
         return daysRemaining
     } 

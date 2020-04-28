@@ -141,3 +141,8 @@ We have decided to store the articles and the recipes in mongoDB. Here is the de
     * Optimize images build for production.
     * Define Kubernetes Secrets Resources for storing all our credentials and adapt k8s pods to get the credentials via environment variables.
     * Deploy Jaeger/Zipkin solution for distributed tracing and Prometheus + Grafana for visualizing distributed metrics.
+
+## Kubernetes resources
+
+* https://www.callicoder.com/deploy-spring-mysql-react-nginx-kubernetes-persistent-volume-secret/
+* https://github.com/callicoder/spring-security-react-ant-design-polls-app

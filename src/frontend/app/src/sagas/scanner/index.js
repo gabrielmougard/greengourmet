@@ -2,12 +2,13 @@ import { call, put, takeLatest } from 'redux-saga/effects'
 import axios from 'axios';
 
 //actions
-import { sendBarcodeContentEnded, validateCartEnded } from '../../actions';
+import { sendBarcodeContentEndedSuccess, sendBarcodeContentEndedFailure, validateCartEnded } from '../../actions';
 import { SCANNER_API_BASE_URL } from '../../CONSTANTS';
 
 function* fetchBarcodeContent(action) {
-    console.log("la saga scanner !!!")
+    
     const { userId, barcode } = action.payload;
+    console.log("userId : "+userId+" barcode : "+barcode)
     const data = {
         userId: userId,
         barcode: barcode,
@@ -15,14 +16,15 @@ function* fetchBarcodeContent(action) {
 
     try {
         var response = yield call([axios, axios.post], SCANNER_API_BASE_URL+'/scanner/barcode', data)
-        if (response.status == 200 && response.barcodeContent) {
-            yield put(sendBarcodeContentEnded(true, response.barcodeContent));
+        console.log(response)
+        if (response.data.status == 200) {
+            yield put(sendBarcodeContentEndedSuccess(response.data));
         } else {
-            yield put(sendBarcodeContentEnded(false));
+            yield put(sendBarcodeContentEndedFailure(barcode));
         }
     } catch(e) {
         console.log(e);
-        yield put(sendBarcodeContentEnded(false));
+        yield put(sendBarcodeContentEndedFailure(barcode));
     }
 }
 

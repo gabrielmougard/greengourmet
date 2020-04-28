@@ -21,12 +21,24 @@ export const sendBarcodeContent = (userId, barcode) => ({
     }
 })
 
-export const sendBarcodeContentEnded = (status, barcodeContent=null) => ({
-    type: 'SEND_BARCODE_ENDED',
-    payload: {
-        status: status,
-        barcodeContent: barcodeContent,
-    }
+export const sendBarcodeContentEndedSuccess = (payload) => ({
+    type: 'SEND_BARCODE_ENDED_SUCCESS',
+    payload,
+})
+
+export const sendBarcodeContentEndedFailure = (payload) => ({
+    type: 'SEND_BARCODE_ENDED_FAILURE',
+    payload,
+})
+
+export const sendArticleToCart = (payload) => ({
+    type: 'SEND_ARTICLE_TO_CART',
+    payload,
+})
+
+export const cancelArticleToCart = (payload) => ({
+    type: 'CANCEL_ARTICLE_TO_CART',
+    payload,
 })
 
 export const validateCart = (payload) => ({

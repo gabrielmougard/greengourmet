@@ -27,7 +27,6 @@ public class ScannerController {
     public @ResponseBody Response getItemGet(@RequestBody Request request) {
         return getItemPost(request);
     }
-<<<<<<< HEAD
 
     @PostMapping("/barcode")
     public @ResponseBody Response getItemPost(@Valid @RequestBody Request request) {
@@ -36,11 +35,6 @@ public class ScannerController {
             item = repository.findByBarcode(request.getBarcode()); 
         } catch (Exception e) {
         }
-=======
-    @RequestMapping(value = "/scanner", method = RequestMethod.POST)
-    public @ResponseBody Response getItemPost(@RequestBody Request request) {
-        Item item = getItemFromBDD(request.getBarcode());
->>>>>>> 96eeccc2eac68ee0ad3782bdd6d35b8b109cdaab
         
         Response response = new Response();
 
