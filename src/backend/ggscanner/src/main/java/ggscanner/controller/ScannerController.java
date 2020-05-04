@@ -28,14 +28,9 @@ public class ScannerController {
         return getItemPost(request);
     }
 
-    @PostMapping("/barcode")
-    public @ResponseBody Response getItemPost(@Valid @RequestBody Request request) {
-        Item item = null;
-        try{
-            item = repository.findByBarcode(request.getBarcode()); 
-        } catch (Exception e) {
-        }
-        
+    @RequestMapping(value = "/scanner", method = RequestMethod.POST)
+    public @ResponseBody Response getItemPost(@RequestBody Request request) {
+        Item item = getItemFromBDD(request.getBarcode());        
         Response response = new Response();
 
         if(item==null){
@@ -45,6 +40,7 @@ public class ScannerController {
         response.setItem(item);
         return response;
     }
+    
     private Item getItemFromBDD(String barcode){
         try{
             return repository.findByBarcode(barcode); 
