@@ -31,13 +31,13 @@ class Console extends Component {
 
     render() {
         console.log(this.props)
-        /*const name = this.props.currentUser.name
-        const email = this.props.currentUser.email*/
+        const name = this.props.currentUser.name
+        const email = this.props.currentUser.email
 
-        /*let pinCode
+        let pinCode
         if (!this.props.currentUser.emailVerified) {
             pinCode = <PinCodeEmail userEmail={email} {...this.props}/>
-        }*/
+        }
 
         let consoleContent;
         switch(this.state.currentTab) {
