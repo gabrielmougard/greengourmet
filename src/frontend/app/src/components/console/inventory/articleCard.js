@@ -19,28 +19,28 @@ const useStyles = makeStyles(theme => ({
   paperCritical: {
     padding: theme.spacing(1),
     maxWidth: 400,
-    minHeight: 40,
+    minHeight: 100,
     background: "#E02020",
     color: "white"
   },
   paperMedium: {
     padding: theme.spacing(1),
     maxWidth: 400,
-    minHeight: 40,
+    minHeight: 100,
     background: "#F7B500",
     color: "white"
   },
   paperOk: {
     padding: theme.spacing(1),
     maxWidth: 400,
-    minHeight: 40,
+    minHeight: 100,
     background: "#00A896",
     color: "white"
   },
   paperPerempted: {
     padding: theme.spacing(1),
     maxWidth: 400,
-    minHeight: 40,
+    minHeight: 100,
     background: "#000000",
     color: "white"
   },
