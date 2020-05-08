@@ -14,7 +14,7 @@ import ggscanner.model.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/scanner")
+//@RequestMapping("/scanner")
 public class ScannerController {
     @Autowired
     private ItemRepository repository;
