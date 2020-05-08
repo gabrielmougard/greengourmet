@@ -8,9 +8,9 @@ import MenuBookIcon from '@material-ui/icons/MenuBook';
 import MemoryIcon from '@material-ui/icons/Memory';
 import ItemLoader from './ItemLoader';
 import Webcam from "react-webcam";
-import './Dashboard.css'
-
-import Inventory from '../inventory/Inventory'
+import './Dashboard.css';
+import Inventory from '../inventory/Inventory.js';
+//import Article from './articleCard';
 
 
 //redux
@@ -77,19 +77,23 @@ class Dashboard extends Component {
                     <div className="recipes-wrapper">
                         <Card className="scanner-card" variant="outlined">
                                 <CardContent>
-                                    <Typography variant="h5" component="h2">
-                                    Recettes
-                                    </Typography>
-                                    <div className="generate-recipe-button-wrapper">
-                                        <Button variant="outlined" color="primary" startIcon={<MemoryIcon />} onClick={this.handleGenerateRecipeButton}>
-                                                Générer une recette !
-                                        </Button>
-                                    </div>
+                                <Typography variant="h5" component="h2">
+                                    recettes
+                                </Typography>
+                                <div>
+                                <div className="generate-recipe-button-wrapper">    
+                                    <Button variant="outlined" color="primary" startIcon={<MemoryIcon />} onClick={this.handleGenerateRecipeButton}>        
+                                    Générer une recette !   
+                                    </Button>  
+                                    </div>     
+                                    <br></br>       
                                     <div className="recipes-button-wrapper">
-                                        <Button variant="outlined" color="primary" startIcon={<MenuBookIcon />} onClick={this.handleMyRecipesButton}>
-                                                Mes recettes
-                                        </Button>
-                                    </div>
+                                    <Button variant="outlined" color="primary" startIcon={<MenuBookIcon />} onClick={this.handleMyRecipesButton}>       
+                                    mes recettes   
+                                    </Button> 
+                                    </div>     
+                                    <br></br>           
+                                </div>  
                                 </CardContent>
                             </Card>
                     </div>
