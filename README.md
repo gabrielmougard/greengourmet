@@ -37,7 +37,7 @@ Endpoint :
 
 * **/scanner** : get product informations
     * Input param = {"userId" : USERID, "barcode": BARCODE}
-    * Output param = {"status":STATUS,"item":{"barcode": BARCODE,"name": PRODUCT_NAME,"brand": BRAND,"quantity": [QUANTITY_FLOAT_THEN_UNITE],"manufacturingCountry": MANUFACTURINGCOUNTRY,"ingredients": DESCRIPTION_OF_INGREDIENTS,"allergens":[LIST_OF_ALLERGENS], "traceAllergens":[LIST_OF_TRACEALLERGENS],"additifs":[LIST_ADDITIFS], "nutritionalMark":URL_TO_PICTURE_OF_NUTRITIONALMARK,"kj":ENERGY_FOR_100g}}
+    * Output param = {"status":STATUS,"item":{"barcode": BARCODE,"name": PRODUCT_NAME,"brand": BRAND,"quantity": [QUANTITY_FLOAT_THEN_UNITE],"manufacturingCountry": MANUFACTURINGCOUNTRY,"ingredients": "DESCRIPTION_OF_INGREDIENTS","allergens":[LIST_OF_ALLERGENS], "traceAllergens":[LIST_OF_TRACEALLERGENS],"additifs":[LIST_ADDITIFS], "nutritionalMark":"URL_TO_PICTURE_OF_NUTRITIONALMARK","kj":ENERGY_FOR_100g}}
 
 ### **ggarticleserver** (http://localhost:8082 or http://articleservicedev:8082 inside docker network)
 
@@ -53,6 +53,23 @@ Endpoints :
     * input param = {to: STRING, pincode: INT, subject: STRING}
 * [TODO] **mail/sendperemptionalert** : used for sending peremption alert to a user.
     * input param = {to: STRING, articles: [{ARTICLE_OBJECT#0}, ..., {ARTICLE_OBJECT#N}]}
+
+### **ggrecipesserver** (http://localhost:8084 or http://mailserverdev:8084 inside docker network)
+
+Description : 
+
+* Recipes server makes possible to get all recipes related to several ingredients.
+
+Endpoints :
+
+* **/getListRecipes** : get a list of recipes and a small descirption of them.
+    * input param = {"ingredients": [{"ingredients_1", ..., "ingredients_N"}]}
+    * Output param = {"status" : STATUS, "recettes" : [{RECIPES_OBJECT#0}, ..., {RECIPES_OBJECT#N}]}
+* **/getRecipe** : get one recipe and all its related informations.
+    * input param = {RECIPES_OBJECT#0}
+    * input param = {"MarmittonURL" : "MARMITTONURL"}
+    * Output param = {"STATUS" : STATUS, "recettes" : [{RECIPES_OBJECT#0}}
+    * {RECIPES_OBJECT#0} = {"name" : "NAME", "tags" : ["tags_1", ..., "tags_N"], "nb_comments" : ["comments_1", ..., "comments_N"] , "cook_time" : "COOK_TIME", "description" : "DESCRIPTION", "imageURL" : "IMAGEURL", "MarmittonURL" : "MARMITTONURL" , "steps" : ["Step_1", ..., "Steps_N"], "title" : "TITLE", "temps" : "TEMPS", to : FLOAT "personnes" : PERSONNES, "difficulte" : "DIFFICULTE", "count" : "COUNT", "ustensiles" : ["ustensile_1", ..., "ustensile_N"], "ingredients" : Map<String, Float>, "recettes" : Map<String,ArrayList<String>>}
 
 ### **mysql** (http://dbtest:3306 only available inside docker network)
 
