@@ -5,9 +5,8 @@ import styled, { css } from 'styled-components'
 import { scroller } from 'react-scroll'
 
 import StartPageBackground from '../backgrounds/pageStart'
-import phonelogo from '../../assets/svg/iphone-x-after.svg';
 
-import { rem, flex, phone, mobile, isPhone } from '../../assets/js/utils'
+import { rem, flex, mobile, isPhone } from '../../assets/js/utils'
 import { Container, Title, Header, SubHeader, Button } from '../../assets/js/index'
 
 //Scanner
@@ -28,11 +27,6 @@ position: relative;
 
 display: flex;
 flex-direction: column;
-
-${phone(css`
-  display: block;
-  height: auto;
-`)}
 `
 
 const Content = styled(Container)`
@@ -40,10 +34,6 @@ const Content = styled(Container)`
   display: flex;
   flex: 1;
 
-  ${phone(css`
-    padding: ${rem(30)} ${rem(16)};
-    text-align: center;
-  `)}
 `
 
 const IconWrapper = styled.div`
@@ -52,9 +42,6 @@ const IconWrapper = styled.div`
   width: 100%;
   ${flex}
 
-  ${phone(css`
-    display: none;
-  `)}
 `
 
 const TextWrapper = styled.div`
@@ -71,13 +58,6 @@ const TextWrapper = styled.div`
     }
   `)}
 
-  ${phone(css`
-    order: 1;
-
-    h2, h3 {
-      font-size: ${rem(16)};
-    }
-  `)}
 `
 
 const ImageWrapper = styled.div`
@@ -90,13 +70,6 @@ const ImageWrapper = styled.div`
     flex: 7;
   `)}
 
-  ${phone(css`
-    order: 2;
-    padding-right: 0;
-
-    ${flex({ x: "center", y: 'flex-start' })};
-
-  `)}
 `
 
 const StaticImage = styled.div`
@@ -106,23 +79,12 @@ const StaticImage = styled.div`
     cursor: pointer;
   `}
 
-  ${phone(css`
-    transform: none;
-
-    ${({ id }) => id === 'home' && css`
-      transform: translateX(14px);
-    `}
-  `)}
-
   transition: transform .2s ease-in;
 `
 
 export const ConsoleButton = styled(Button)`
   margin-top: ${rem(30)};
 
-  ${phone(css`
-    margin-bottom: ${rem(40)};
-  `)}
 `
 
 const Sub = styled(SubHeader)`
@@ -214,10 +176,7 @@ class Hero extends Component {
       <Wrapper>
         <StartPageBackground />
         <Content>
-            <Image
-                id="home"
-                image={phonelogo}
-            />
+         
             <Text
                 header='Tu as faim ? Pourquoi attendre ? Prends-toi un " GreenGourmet "' 
                 subHeader="Reprends le contrôle de ton frigo !"
