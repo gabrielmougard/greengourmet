@@ -31,9 +31,9 @@ public final class ArticleController {
 	
 	@RequestMapping(method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
-	Article create(@RequestBody @Valid Article articleEntry) {
-		logger.info(articleEntry.toString());
-		return articleRepository.insertArticle(articleEntry);
+	List<Article> create(@RequestBody @Valid List<Article> articleEntries) {
+		logger.info(articleEntries.toString());
+		return articleRepository.insert(articleEntries);
 	}
 	
 	@RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)

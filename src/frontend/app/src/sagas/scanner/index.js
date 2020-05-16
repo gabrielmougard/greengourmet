@@ -29,17 +29,13 @@ function* fetchBarcodeContent(action) {
 }
 
 function* validateCart(action) {
-    //const { userId, barcodeContent, quantity, expirationDate } = action.payload;
-    /*
-    const data = {
-        userId: userId,
-        content: barcodeContent,
-        quantity: quantity,
-        expirationDate: expirationDate,
-    }
+    const { articles } = action.payload;
+    
+    console.log("les articles : ")
+    console.log(articles)
 
     try {
-        var response = yield call([axios, axios.post], SCANNER_API_BASE_URL+'/add', data)
+        var response = yield call([axios, axios.post], INVENTORY_RUD_API_BASE_URL+'/add', articles)
         if (response.status == 200) {
             yield put(addBarcodeContentEnded(true));
         } else {
@@ -49,7 +45,6 @@ function* validateCart(action) {
         console.log(e);
         yield put(addBarcodeContentEnded(false));
     }
-    */
 }
 
 export default function* scannerSaga() {

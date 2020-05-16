@@ -41,6 +41,15 @@ Endpoint :
 
 ### **ggarticleserver** (http://localhost:8082 or http://articleservicedev:8082 inside docker network)
 
+* GET **/article/user/{userId}** : return the array of article possessed by the userId
+* DELETE **/article/delete/{articleId}** : delete an article identified by articleId
+* PUT **/article/update/{articleId}** : update an article 
+    * params : the modified article
+* POST **/article** : create a list of articles
+    * params : the array of new articles (without redisUUID and articleId ; those are generated in the back)
+
+
+
 ### **ggmailserver** (http://localhost:8083 or http://mailserverdev:8083 inside docker network)
 
 Description : 

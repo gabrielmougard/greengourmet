@@ -93,16 +93,17 @@ public class ArticleRepositoryImpl implements ArticleRepositoryCustom {
 	}
 	
 	@Override
-	public Article insertArticle(Article article) {
+	public List<Article> insert(List<Article> articles) {
 		//create redisUUID and save in the redis cache
-		String redisUUID = UUID.randomUUID().toString();
-		article.setRedisUUID(redisUUID);
-		article.setArticleId(redisUUID);
-		hashOperations.put(Properties.REDIS_KEY+":"+article.getUserId(), redisUUID, article);
+		for (Article article : articles) {
+			String redisUUID = UUID.randomUUID().toString();
+			article.setRedisUUID(redisUUID);
+			article.setArticleId(redisUUID);
+			hashOperations.put(Properties.REDIS_KEY+":"+article.getUserId(), redisUUID, article);
+			mongoTemplate.insert(article);
+		}
 		
-		//sadve in mongoDB
-		mongoTemplate.insert(article);
-		return article;
+		return articles;
 	}
 	
 	@Override

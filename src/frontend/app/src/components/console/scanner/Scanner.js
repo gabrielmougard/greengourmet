@@ -142,7 +142,7 @@ function Scanner({userId, sendBarcodeContent, barcodeResult, articleToCart, canc
     // QuaggaJS would look for an element that matches
     // the CSS selector #interactive.viewport
     <>
-    <Cart />
+    <Cart userId={userId}/>
     <video id="interactive-scanner"></video>
     <ScannerDrawer />
     {backdrop}

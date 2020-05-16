@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
@@ -18,10 +19,10 @@ public class RedisConfiguration extends CachingConfigurerSupport{
 	private String hostName;
 	
 	@Value("${spring.data.redis.port}")
-    private int port;
-    
-    @Value("${spring.data.redis.password}")
-    private String password;
+	private int port;
+	
+	@Value("${spring.data.redis.password}")
+	private String password;
 	
 	@SuppressWarnings("deprecation")
 	@Bean

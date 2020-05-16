@@ -11,6 +11,7 @@ import barcodeAnimation from '../../../assets/images/barcodeAnimation.gif'
 
 //components
 import Article from '../inventory/articleCard'
+import { validateCart } from "../../../actions";
 
 const CartPreviewWrapper = styled.div`
   position: absolute;
@@ -69,7 +70,7 @@ const ResetButton = withStyles((theme) => ({
     },
 }))(Button);
 
-function Cart({articleToCart}) {
+function Cart({userId, articleToCart, validateCart}) {
 
     const initialCartContent = 
         <div>
@@ -78,33 +79,56 @@ function Cart({articleToCart}) {
         </div>
     const [initialCartState, setInitialCartState] = React.useState(true)
     const [cartContent, setCartContent] = React.useState(initialCartContent)
+    const [cartContentData, setCartContentData] = React.useState([])
 
     useEffect(() => {
 
         if (articleToCart) {
-            console.log("CHANGE CART !!")
             if (initialCartState) {
                 setCartContent([
                     <Article name={articleToCart.name} quantity={articleToCart.quantity[0]} quantityUnit={articleToCart.quantity[1]} peremptionDate={articleToCart.peremptionDate}/>      
                 ]);
+                
+                setCartContentData([...cartContentData, {
+                    userId : userId,
+                    name: articleToCart.name,
+                    quantity: articleToCart.quantity[0],
+                    quantityUnit: articleToCart.quantity[1],
+                    expiringDate: articleToCart.peremptionDate,
+                    barcode: articleToCart.barcode
+                }])
                 setInitialCartState(false)
             } else {
                 setCartContent([ ...cartContent,
                     <Article name={articleToCart.name} quantity={articleToCart.quantity[0]} quantityUnit={articleToCart.quantity[1]} peremptionDate={articleToCart.peremptionDate}/>
                 ]);
+
+                setCartContentData([...cartContentData, {
+                    userId : userId,
+                    name: articleToCart.name,
+                    quantity: articleToCart.quantity[0],
+                    quantityUnit: articleToCart.quantity[1],
+                    expiringDate: articleToCart.peremptionDate,
+                    barcode: articleToCart.barcode
+                }])
             }
         }
     }, [articleToCart])
+
+    function cancelCart() {
+        setCartContent(initialCartContent)
+        setCartContentData([])
+    }
 
     let cartFinalActions
     if (cartContent != initialCartContent) {
         cartFinalActions =
             <CartButtonWrapper>
                 <div>
-                    <ValidateButton>Valider</ValidateButton>
+                    <ValidateButton onClick={validateCart(cartContentData)}>Valider</ValidateButton>
                 </div>
                 <div>
-                    <ResetButton>Réinitialiser</ResetButton>
+                    <ResetButton onClick={cancelCart()}>Réinitialiser</ResetButton>
                 </div>
             </CartButtonWrapper>
     }
@@ -126,6 +150,9 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => {
+    return {
+        validateCart: (cartContent) => {dispatch(validateCart(cartContent))},
+    }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Cart);
