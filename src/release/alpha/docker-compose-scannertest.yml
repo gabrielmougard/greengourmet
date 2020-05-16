@@ -1,29 +1,43 @@
-version: "3.2"
+version: '3.3'
 services:
-    mongocluster:
-        image: 'mongo'
-        container_name: 'mongocluster'
-        environment: 
-            - MONGO_INITDB_DATABASE=admin
-            - MONGO_INITDB_ROOT_USERNAME=root
-            - MONGO_INITDB_ROOT_PASSWORD=iuzkghkuzegdo
-        volumes:
-            - ./mongo-volume/data:/data/db
-        ports:
-            - "27017:27017"
 
-    mongo-seeds:
-        build: ./mongo-volume/mongo-seeds
-        links: 
-            - mongocluster
+  ggscanner-hotreload:
+    build:
+      context: ../../backend/ggscanner
+      dockerfile: Dockerfile-dev
+    depends_on: 
+      - dbtest
+      - mongocluster  
+    volumes:
+      - ../../backend/ggscanner:/app
+    working_dir: /app
+    command: sh run-dev.sh
+    ports:
+      - 8081:8081
+    container_name: scannerservicedev
 
-    scannerservicedev:
-        build:
-            context: ../../backend/ggscanner
-            dockerfile: Dockerfile
-        depends_on: 
-            - mongocluster
-        ports: 
-            - "8081:8081"
-        container_name: scannerservicedev
+  dbtest:
+    image: mysql
+    environment: 
+      MYSQL_ROOT_PASSWORD: ougfakugzdaf
+    ports: 
+      - "3306:3306"
+    volumes: # seeds
+      - ../db-seeds:/docker-entrypoint-initdb.d
         
+  mongocluster:
+    image: 'mongo'
+    container_name: 'mongocluster'
+    environment: 
+      - MONGO_INITDB_DATABASE=admin
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=iuzkghkuzegdo
+    volumes:
+      - ./mongo-volume/data:/data/db
+    ports:
+      - "27017:27017"
+    
+  mongo-seeds:
+    build: ./mongo-volume/mongo-seeds
+    links: 
+      - mongocluster

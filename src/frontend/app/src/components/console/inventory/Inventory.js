@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Article from './articleCard';
 import styled from 'styled-components'
-import { Typography } from '@material-ui/core';
+        import { Typography } from '@material-ui/core';
 
 const ArticleWrapper = styled.div`
     padding-top: 10px;
@@ -31,7 +31,7 @@ class Inventory extends Component {
                 <ArticleWrapper>
                     <Article name={"purée de patate de la marque tatat"} quantity={100.0} quantityUnit={"g"} peremptionDate={"2020/04/21"}/>
                     <br></br>
-                    <Article name={"purée de patate de la marque tatat"} quantity={100.0} quantityUnit={"g"} peremptionDate={"2020/04/25"}/>
+                    <Article name={"lait d'amende"} quantity={10.0} quantityUnit={"L"} peremptionDate={"2021/04/30"}/>
                     <br></br>
                     <Article name={"purée de patate de la marque tatat"} quantity={100.0} quantityUnit={"g"} peremptionDate={"2020/04/30"}/>
                     <br></br>

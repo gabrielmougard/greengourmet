@@ -19,7 +19,7 @@ import java.util.*;
 
 @RestController
 public class GreetingController {
-	private GenerateRecipes generateRecipes;
+		private GenerateRecipes generateRecipes;
 	private GetRecipes getRecipes;
 
 	@PostMapping("/getListRecipes")
