@@ -1,0 +1,29 @@
+version: "3.2"
+services:
+    mongocluster-article:
+        image: 'mongo'
+        container_name: 'mongocluster-article'
+        environment: 
+            - MONGO_INITDB_DATABASE=greengourmet
+        volumes:
+            - ./mongo-volume/data:/data/db
+        ports:
+            - "27017:27017"
+
+    mongo-seeds:
+        build: ./mongo-volume/mongo-seeds-test
+        links: 
+            - mongocluster-article
+
+    rediscluster-article:
+        image: 'bitnami/redis:5.0'
+        container_name: 'rediscluster-article'
+        environment:
+            # ALLOW_EMPTY_PASSWORD is recommended only for development.
+            - REDIS_PASSWORD=uhoaizdhukazdadz
+            - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL
+        ports:
+            - '6379:6379'
+        volumes:
+            - './redis-volume/data:/bitnami/redis/data'
+        command: /opt/bitnami/scripts/redis/run.sh --maxmemory 200mb --maxmemory-policy allkeys-lru
