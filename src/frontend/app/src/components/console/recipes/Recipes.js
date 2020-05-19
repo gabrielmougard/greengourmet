@@ -28,14 +28,13 @@ class Recipes extends Component {
                     justify="flex-start"
                     >
                         
-            <Grid md={2.5}>
+            <Grid md={4}>
             <Card id='filterList' className="scanner-card" variant="outlined">
                     <CardContent>
                     <Typography variant="h5" component="h2">
                        Filtres  
                     </Typography>
-                    <br></br>
-                    <br></br>
+                    
                     <div className="generate-recipe-button-wrapper">     
                        <RecipesFilter/>       
                     </div>  

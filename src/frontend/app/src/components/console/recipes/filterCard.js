@@ -10,6 +10,8 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import Modal from '@material-ui/core/Modal';
 import Button from '@material-ui/core/Button';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import SendIcon from '@material-ui/icons/Send';
 import './filterCard.css'
 
 
@@ -21,96 +23,93 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const GreenCheckbox = withStyles({
-  root: {
-    color: "#02c39a"
-  }
-})(props => <Checkbox color="default" {...props} />);
-
 const GreenRadio = withStyles({
   root: {
     color: "#02c39a"
+
   }
 })(props => <Radio color="default" {...props} />);
 
-
   function RecipesFilter(){
     const classes = useStyles();
-      const [state, setState] = React.useState({
-        checkedF: false,
-        checkedM: false,
-        checkedD: false,
-        checkedE: false,
-        checkedH: false,
-        checkedP: false,
-        checkedA: false,
-      });
-     /*
-      const handleChange = event => {
-        setState({ ...state, [event.target.name]: event.target.checked });
-      };*/
-      //const [value, setValue] = React.useState('female');
 
-      const handleChange = (event) => {
-        setValue(event.target.value);
+      const [difficulte, setDifficulte] = React.useState('');
+      const [cout, setCout] = React.useState('');
+      const [specificite, setSpecificite] = React.useState('');
+      const [helperText, setHelperText] = React.useState('');
+
+      const handleChangeDif = (event) => {
+        setDifficulte(event.target.value);
+        console.log(event.target.value);
       };
-/*
-const GreenCheckbox = withStyles({
-  root: {
-    color: "#02c39a"
-  }
-})(props => <Checkbox color="default" {...props} />);
-*/ 
+      
+      const handleChangeCout = (event) => {
+        setCout(event.target.value);
+        console.log(event.target.value);
+      };
+
+      const handleChangeSpec = (event) => {
+        setSpecificite(event.target.value);
+        console.log(event.target.value);
+      };
+      const getSubmit = (event) => {
+        console.log("La difficulté est : " + difficulte);
+        console.log("Le cout est : " + cout);
+        console.log("La spécificité est : " + specificite);
+        setHelperText('Votre filtre est : d:'+difficulte+', c: '+cout+' ,s: '+specificite)
+      };
+
 
     return (
       <>
       
-    <div className={classes.root}>
+    <div className={classes.root}  >
     <Grid container 
           direction="column"
           justify="flex-start"
           alignItems="flex-start"
     >
-      <form>
+      <form action={getSubmit} >
       <Grid>
         Difficulté
       </Grid>
       
-      <br></br>
-      <FormControl component="fieldset">
-      <RadioGroup aria-label="difficulte" name="difficulte1" value={value} onChange={handleChange}>
-        <FormControlLabel value="dtresfacile" control={<GreenRadio />} label="Très Facile" />
-        <FormControlLabel value="dfacile" control={<GreenRadio />} label="Facile" />
-        <FormControlLabel value="dmoyen" control={<GreenRadio />} label="Moyen" />
-        <FormControlLabel value="ddifficile" control={<GreenRadio />} label="Difficile" />
+      <FormControl component="fieldset" >
+      <RadioGroup aria-label="difficulte" name="difficulte1" value={difficulte} onChange={handleChangeDif}>
+        <FormControlLabel value="1" control={<GreenRadio />} label="Très Facile" />
+        <FormControlLabel value="2" control={<GreenRadio />} label="Facile" />
+        <FormControlLabel value="3" control={<GreenRadio />} label="Moyen" />
+        <FormControlLabel value="4" control={<GreenRadio />} label="Difficile" />
       </RadioGroup>
-    </FormControl>
+    
+      <br></br>
     <Grid>
         Coût
       </Grid>
-      <FormControl component="fieldset">
-      <RadioGroup aria-label="difficulte" name="difficulte1" value={value} onChange={handleChange}>
-        <FormControlLabel value="faible" control={<GreenRadio />} label="Coût faible" />
-        <FormControlLabel value="moyen" control={<GreenRadio />} label="Coût moyen" />
-        <FormControlLabel value="eleve" control={<GreenRadio />} label="Coût élevé" />
+      <RadioGroup aria-label="cout" name="cout1" value={cout} onChange={handleChangeCout}>
+        <FormControlLabel value="1" control={<GreenRadio />} label="Coût faible" />
+        <FormControlLabel value="2" control={<GreenRadio />} label="Coût moyen" />
+        <FormControlLabel value="3" control={<GreenRadio />} label="Coût élevé" />
       </RadioGroup>
-    </FormControl>
+    
       <br></br>
     <Grid>
         Spécificité
       </Grid>
-      <FormControl component="fieldset">
-      <RadioGroup aria-label="specificite" name="specificite1" value={value} onChange={handleChange}>
-        <FormControlLabel value="vegetarien" control={<GreenRadio />} label="Végétarien" />
-        <FormControlLabel value="sansgluten" control={<GreenRadio />} label="Sans Gluten" />
-        <FormControlLabel value="vegan" control={<GreenRadio />} label="Vegan" />
-        <FormControlLabel value="sanslactose" control={<GreenRadio />} label="Sans Lactose" />
+      
+      <RadioGroup aria-label="specificite" name="specificite1" value={specificite} onChange={handleChangeSpec}>
+        <FormControlLabel value="1" control={<GreenRadio />} label="Végétarien" />
+        <FormControlLabel value="2" control={<GreenRadio />} label="Sans Gluten" />
+        <FormControlLabel value="3" control={<GreenRadio />} label="Vegan" />
+        <FormControlLabel value="4" control={<GreenRadio />} label="Sans Lactose" />
       </RadioGroup>
     </FormControl>
     <br></br>
-    <Button type="submit" variant="outlined" color="primary" className={classes.button}>
-          Check Answer
-        </Button>
+    <FormHelperText>{helperText}</FormHelperText>
+    <br></br>
+    <Button variant="outlined" startIcon={<SendIcon />} color="primary" onClick={getSubmit}>Appliquez les filtres</Button>
+    <br></br>
+
         </form>
      </Grid>
       <br></br>
