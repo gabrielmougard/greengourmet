@@ -35,3 +35,11 @@ node_modules
 
 #VScode
 **/.VScode
+
+package
+
+envs
+
+.exe
+
+.bat
