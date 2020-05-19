@@ -56,17 +56,33 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function Article({name, quantity, quantityUnit, peremptionDate}) {
+function Article({name, quantity, quantityUnit, peremptionDate, peremptionDateFormatted}) {
     const classes = useStyles();
-
+    console.log("date : "+peremptionDateFormatted)
     function formatDate(peremptionDate) {
         const now = new Date(); //"now"
         const diff = peremptionDate-now; // in milliseconds
         const daysRemaining = Math.ceil(diff/(1000*3600*24))
         return daysRemaining
     } 
+
+    function formatDateAlreadyFormatted(peremptionDate) {
+        console.log("I get here")
+        const parts = peremptionDate.split("/") // DD/MM/YYYY
+        const now = new Date()
+        const d = new Date(parts[2], parts[1] - 1, parts[0])
+        const diff = d-now; // in milliseconds
+        const daysRemaining = Math.ceil(diff/(1000*3600*24))
+        return daysRemaining
+    }
     //peremption date format is should be YYYY/MM/DD string for the substract operation
-    const formattedDate = formatDate(peremptionDate)
+    let formattedDate
+    if (peremptionDateFormatted) {
+        formattedDate = formatDateAlreadyFormatted(peremptionDateFormatted)
+    } else {
+        formattedDate = formatDate(peremptionDate)
+    }
+    
     let paperClass
     if (formattedDate > 14) { //above 2 weeks, we will be in the "OK" threshold
         paperClass = classes.paperOk

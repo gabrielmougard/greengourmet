@@ -112,7 +112,6 @@ function Scanner({userId, sendBarcodeContent, barcodeResult, articleToCart, canc
     codeReader.getVideoInputDevices().then((videoInputDevices) => {
         
       selectedDeviceId = videoInputDevices[0].deviceId
-      console.log(selectedDeviceId)
           
       codeReader.decodeOnceFromVideoDevice(selectedDeviceId, 'interactive-scanner')
         .then(result => detected(result.text))

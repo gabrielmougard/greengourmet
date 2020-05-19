@@ -47,7 +47,7 @@ export const validateCart = (payload) => ({
 })
 
 export const validateCartEnded = (payload) => ({
-    type: 'VALIDARE_CART_ENDED',
+    type: 'VALIDATE_CART_ENDED',
     payload,
 })
 
@@ -84,4 +84,16 @@ export const regeneratePincodeEnded = (success) => ({
 
 export const unlockPincodeScreen = () => ({
     type: 'UNLOCK_PINCODE_SCREEN',
+})
+
+// get inventory
+export const getInventory = (payload) => ({
+    type: 'GET_INVENTORY',
+    payload,
+})
+
+export const getInventoryEnded = (success, data=null) => ({
+    type: 'GET_INVENTORY_ENDED',
+    success: success,
+    data: data,
 })

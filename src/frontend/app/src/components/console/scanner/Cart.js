@@ -5,6 +5,7 @@ import { green, red } from '@material-ui/core/colors';
 import { connect } from 'react-redux'
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
+import Alert from 'react-s-alert';
 
 //assets
 import barcodeAnimation from '../../../assets/images/barcodeAnimation.gif'
@@ -70,7 +71,7 @@ const ResetButton = withStyles((theme) => ({
     },
 }))(Button);
 
-function Cart({userId, articleToCart, validateCart}) {
+function Cart({userId, articleToCart, validateCart, cartValidated}) {
 
     const initialCartContent = 
         <div>
@@ -83,18 +84,20 @@ function Cart({userId, articleToCart, validateCart}) {
 
     useEffect(() => {
 
+        console.log(articleToCart)
         if (articleToCart) {
             if (initialCartState) {
                 setCartContent([
                     <Article name={articleToCart.name} quantity={articleToCart.quantity[0]} quantityUnit={articleToCart.quantity[1]} peremptionDate={articleToCart.peremptionDate}/>      
                 ]);
                 
-                setCartContentData([...cartContentData, {
+                setCartContentData([{
                     userId : userId,
                     name: articleToCart.name,
+                    ingredients: articleToCart.ingredients,
                     quantity: articleToCart.quantity[0],
                     quantityUnit: articleToCart.quantity[1],
-                    expiringDate: articleToCart.peremptionDate,
+                    expiringDate: formatDate(articleToCart.peremptionDate),
                     barcode: articleToCart.barcode
                 }])
                 setInitialCartState(false)
@@ -106,29 +109,51 @@ function Cart({userId, articleToCart, validateCart}) {
                 setCartContentData([...cartContentData, {
                     userId : userId,
                     name: articleToCart.name,
+                    ingredients: articleToCart.ingredients,
                     quantity: articleToCart.quantity[0],
                     quantityUnit: articleToCart.quantity[1],
-                    expiringDate: articleToCart.peremptionDate,
+                    expiringDate: formatDate(articleToCart.peremptionDate),
                     barcode: articleToCart.barcode
                 }])
             }
+            console.log(cartContentData)
         }
-    }, [articleToCart])
+
+        if (cartValidated) {
+            setCartContent(initialCartContent)
+            //alert message
+            Alert.success("Votre frigo a bien été mis à jour !");
+        }
+    }, [articleToCart, cartValidated])
 
     function cancelCart() {
         setCartContent(initialCartContent)
         setCartContentData([])
     }
 
+    function formatDate(d) {
+        var date = new Date(d),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+        if (day.length == 1) {
+            day = "0"+day
+        }
+        if (month.length == 1) {
+            month = "0"+month
+        }
+        return day+"/"+month+"/"+year
+    }
+
     let cartFinalActions
-    if (cartContent != initialCartContent) {
+    if (cartContent != initialCartContent && cartValidated != true) {
         cartFinalActions =
             <CartButtonWrapper>
                 <div>
-                    <ValidateButton onClick={validateCart(cartContentData)}>Valider</ValidateButton>
+                    <ValidateButton onClick={() => validateCart({cartContentData})}>Valider</ValidateButton>
                 </div>
                 <div>
-                    <ResetButton onClick={cancelCart()}>Réinitialiser</ResetButton>
+                    <ResetButton onClick={() => cancelCart()}>Réinitialiser</ResetButton>
                 </div>
             </CartButtonWrapper>
     }
@@ -146,6 +171,7 @@ function Cart({userId, articleToCart, validateCart}) {
 const mapStateToProps = (state) => {
     return {
         articleToCart: state.articleToCart,
+        cartValidated: state.cartValidated,
     }
 }
 

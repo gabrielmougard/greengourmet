@@ -46,7 +46,40 @@ Endpoint :
 * PUT **/article/update/{articleId}** : update an article 
     * params : the modified article
 * POST **/article** : create a list of articles
-    * params : the array of new articles (without redisUUID and articleId ; those are generated in the back)
+    * params : the array of new articles (without redisUUID and articleId ; those are generated in the back) exemple : `{ "articles" : [
+	{ 
+		"userId" : 1, 
+		"name" : "jus d'orange Paquito", 
+		"ingredients" : "jus d'orange", 
+		"quantity" : 2.0, 
+		"quantityUnit" : "litres", 
+		"expiringDate" : "27/05/2020", 
+		"barcode" : "75728658585"
+		
+	},
+	{ 
+		"userId" : 1, 
+		"name" : "jus d'orange Paquito", 
+		"ingredients" : "jus d'orange", 
+		"quantity" : 3.0, 
+		"quantityUnit" : "grammes", 
+		"expiringDate" : "27/05/2020", 
+		"barcode" : "757999958585"
+		
+	},
+	{ 
+		"userId" : 1, 
+		"name" : "jus d'orange Paquito", 
+		"ingredients" : "jus d'orange", 
+		"quantity" : 2.0, 
+		"quantityUnit" : "litres", 
+		"expiringDate" : "27/05/2020", 
+		"barcode" : "75728658585"
+		
+	}
+	]
+}`
+
 
 
 

@@ -20,6 +20,10 @@ const reducer = (state = {}, action) => {
             if (action.payload.name) {
                 return { ...state, articleToCart: action.payload}
             }
+        case 'VALIDATE_CART_ENDED':
+            if (action.payload) {
+                return { ...state, cartValidated: action.payload}
+            }
         case 'CANCEL_ARTICLE_TO_CART':
             console.log("cancel cart !!!")
             return { ...state, cancelArticleToCart: action.payload}
@@ -35,6 +39,12 @@ const reducer = (state = {}, action) => {
             return { ...state,regeneratePincodeEnded: action.payload.success}
         case 'UNLOCK_PINCODE_SCREEN':
             return { ...state, pincodeUnlocked: true}
+        case 'GET_INVENTORY_ENDED':
+            if (action.success) {
+                return {...state, inventory: action.data}
+            } else {
+                return state
+            }
         default:
             return state;
     }

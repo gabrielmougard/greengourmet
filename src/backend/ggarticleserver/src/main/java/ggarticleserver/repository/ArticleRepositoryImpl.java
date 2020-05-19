@@ -1,6 +1,8 @@
 package ggarticleserver.repository;
 
 import org.springframework.stereotype.Repository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.FindAndModifyOptions;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -20,7 +22,7 @@ import ggarticleserver.model.Article;
 
 @Repository
 public class ArticleRepositoryImpl implements ArticleRepositoryCustom {
-	
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	private static String collectionName = "Article";
 	
 	//cache operation
@@ -50,6 +52,7 @@ public class ArticleRepositoryImpl implements ArticleRepositoryCustom {
 		String ARTICLE_ID = "articleId";
 		String USER_ID = "userId";
 		String NAME = "name";
+		String INGREDIENTS = "ingredients";
 		String QUANTITY = "quantity";
 		String QUANTITY_UNIT = "quantityUnit";
 		String EXPIRING_DATE = "expiringDate";
@@ -63,6 +66,7 @@ public class ArticleRepositoryImpl implements ArticleRepositoryCustom {
 		Update update = new Update();
 		update.set(Properties.USER_ID, article.getUserId());
 		update.set(Properties.NAME, article.getName());
+		update.set(Properties.INGREDIENTS, article.getIngredients());
 		update.set(Properties.QUANTITY, article.getQuantity());
 		update.set(Properties.QUANTITY_UNIT, article.getQuantityUnit());
 		update.set(Properties.EXPIRING_DATE, article.getExpiringDate());
@@ -83,27 +87,31 @@ public class ArticleRepositoryImpl implements ArticleRepositoryCustom {
 		if (cachedArticles != null) { // if something is stored in the cache cluster
 			List<Article> articles = new ArrayList<Article>();
 			for (Article article : cachedArticles.values()) {
-				System.out.println("Redis data fetched at : "+Properties.REDIS_KEY+":"+userId+":"+article.getArticleId());
+				logger.info("Redis data fetched at : "+Properties.REDIS_KEY+":"+userId+":"+article.getArticleId());
 				articles.add(article);
 			}
 			return articles;
 		} else { //else, fetch data in mongoDB cluster
+			logger.info("Fetching mongoDB");
 			return mongoTemplate.find(new Query(where(Properties.USER_ID).is(userId)), Article.class);	
 		}
 	}
 	
 	@Override
-	public List<Article> insert(List<Article> articles) {
+	public int insert(List<Article> articles) {
 		//create redisUUID and save in the redis cache
+		int count = 0;
 		for (Article article : articles) {
 			String redisUUID = UUID.randomUUID().toString();
 			article.setRedisUUID(redisUUID);
 			article.setArticleId(redisUUID);
+			logger.info("put in Redis");
 			hashOperations.put(Properties.REDIS_KEY+":"+article.getUserId(), redisUUID, article);
 			mongoTemplate.insert(article);
+			count++;
 		}
 		
-		return articles;
+		return count;
 	}
 	
 	@Override

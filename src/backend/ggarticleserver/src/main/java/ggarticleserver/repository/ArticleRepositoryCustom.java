@@ -1,12 +1,13 @@
 package ggarticleserver.repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ggarticleserver.model.Article;
 
 public interface ArticleRepositoryCustom {
 	
-	public List<Article> insert(List<Article> articles);
+	public int insert(List<Article> articles);
 	
 	public void deleteById(String id);
 	

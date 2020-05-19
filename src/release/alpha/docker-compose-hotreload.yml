@@ -1,17 +1,17 @@
 version: '3.3'
 services:
-  frontendservicedev:
-    build:
-      context: ../../frontend/app
-      dockerfile: Dockerfile
-    depends_on: 
-      - dbtest
-    ports:
-      - "3000:3000"
-    volumes:
-      - ../../frontend/app/src:/app/src
-      - ../../frontend/app/public:/app/public
-    container_name: frontendservicedev
+  #frontendservicedev:
+  #  build:
+  #    context: ../../frontend/app
+  #    dockerfile: Dockerfile
+  #  depends_on: 
+  #    - dbtest
+  #  ports:
+  #    - "3000:3000"
+  #  volumes:
+  #    - ../../frontend/app/src:/app/src
+  #    - ../../frontend/app/public:/app/public
+  #  container_name: frontendservicedev
   ggauth-hotreload:
     build:
       context: ../../backend/ggauthserver

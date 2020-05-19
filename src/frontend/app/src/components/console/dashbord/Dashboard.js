@@ -78,7 +78,7 @@ class Dashboard extends Component {
                         <Card className="scanner-card" variant="outlined">
                                 <CardContent>
                                 <Typography variant="h5" component="h2">
-                                    recettes
+                                    Recettes
                                 </Typography>
                                 <div>
                                 <div className="generate-recipe-button-wrapper">    
@@ -106,25 +106,7 @@ class Dashboard extends Component {
                             </Typography>
                             <br></br>
                             <br></br>
-                            {(true) ? 
-                                (<Inventory />) :
-                                (
-                                    <>
-                                        <div className="itemloader-container">
-                                            <ItemLoader />
-                                        </div>
-                                        <div className="itemloader-container">
-                                            <ItemLoader />
-                                        </div>
-                                        <div className="itemloader-container">
-                                            <ItemLoader />
-                                        </div>
-                                        <div className="itemloader-container">
-                                            <ItemLoader />
-                                        </div>
-                                    </>
-                                )
-                            }
+                            <Inventory />
                         </CardContent>
                     </Card>
                 </div>  
@@ -136,6 +118,7 @@ class Dashboard extends Component {
 const mapStateToProps = (state) => {
     return {
         tabPosition: state.tabPosition,
+        cartValidated: state.cartValidated,
     }
 }
 

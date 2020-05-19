@@ -3,7 +3,7 @@ import axios from 'axios';
 
 //actions
 import { sendBarcodeContentEndedSuccess, sendBarcodeContentEndedFailure, validateCartEnded } from '../../actions';
-import { SCANNER_API_BASE_URL } from '../../CONSTANTS';
+import { SCANNER_API_BASE_URL, INVENTORY_CRUD_API_BASE_URL } from '../../CONSTANTS';
 
 function* fetchBarcodeContent(action) {
     
@@ -15,7 +15,7 @@ function* fetchBarcodeContent(action) {
     }
 
     try {
-        var response = yield call([axios, axios.post], SCANNER_API_BASE_URL+'/scanner/barcode', data)
+        var response = yield call([axios, axios.post], SCANNER_API_BASE_URL+'/scanner', data)
         console.log(response)
         if (response.data.status == 200) {
             yield put(sendBarcodeContentEndedSuccess(response.data));
@@ -29,21 +29,23 @@ function* fetchBarcodeContent(action) {
 }
 
 function* validateCart(action) {
-    const { articles } = action.payload;
     
     console.log("les articles : ")
-    console.log(articles)
-
+    
+    const data = {articles: action.payload.cartContentData}
+    console.log(data)
     try {
-        var response = yield call([axios, axios.post], INVENTORY_RUD_API_BASE_URL+'/add', articles)
-        if (response.status == 200) {
-            yield put(addBarcodeContentEnded(true));
+        var response = yield call([axios, axios.post], INVENTORY_CRUD_API_BASE_URL+'/article', data)
+        console.log("response")
+        console.log(response)
+        if (response.data.success) {
+            yield put(validateCartEnded(true));
         } else {
-            yield put(addBarcodeContentEnded(false));
+            yield put(validateCartEnded(false));
         }
     } catch(e) {
         console.log(e);
-        yield put(addBarcodeContentEnded(false));
+        yield put(validateCartEnded(false));
     }
 }
 

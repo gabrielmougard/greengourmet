@@ -14,11 +14,19 @@ import Leaderboard from './leaderboard/Leaderboard';
 import Statistics from './statistics/Statistics';
 import PinCodeEmail from './pincode/PinCodeEmail';
 
+//actions
+import { getInventory } from '../../actions'
+
 class Console extends Component {
     constructor(props) {
         super(props)
         this.state = {
             currentTab: 'dashboard',
+        }
+        if (!this.props.inventory) {
+            //call the saga
+            console.log("call inventory")
+            this.props.getInventory(this.props.currentUser.id)
         }
     }
 
@@ -78,12 +86,13 @@ const mapStateToProps = (state) => {
     return {
         tabPosition: state.tabPosition,
         pincodeUnlocked: state.pincodeUnlocked,
+        inventory: state.inventory,
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-      
+        getInventory: (userId) => {dispatch(getInventory(userId))},
     }
 }
 

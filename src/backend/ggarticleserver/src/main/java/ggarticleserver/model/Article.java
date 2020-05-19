@@ -13,7 +13,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 @Document(collection = "Article")
 @JsonSerialize
 public class Article implements Serializable {
-	
+	private static final long serialVersionUID = 576747585L;
 
 	@Id
 	private String articleId;
@@ -23,6 +23,9 @@ public class Article implements Serializable {
 	
 	@NotNull
 	private String name;
+
+	@NotNull
+	private String ingredients;
 	
 	@NotNull
 	private float quantity;
@@ -61,6 +64,14 @@ public class Article implements Serializable {
 	
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getIngredients() {
+		return this.ingredients;
+	}
+	
+	public void setIngredients(String ingredients) {
+		this.ingredients = ingredients;
 	}
 	
 	public float getQuantity() {
@@ -106,7 +117,7 @@ public class Article implements Serializable {
 	@Override
 	public String toString() {
 		return "ARTICLE_ID : "+this.articleId +"\nUSER_ID : "+this.userId+
-				"\nNAME : "+this.name+"\nQUANTITY : "+this.quantity+
+				"\nNAME : "+this.name+"\nINGREDIENTS : "+this.ingredients+"\nQUANTITY : "+this.quantity+
 				"\nQUANTITY_UNIT : "+this.quantityUnit+"\nEXPIRING_DATE : "+this.expiringDate+
 				"\nBARCODE : "+this.barcode+"\nREDIS_UUID : "+this.redisUUID+"\n";
 	}

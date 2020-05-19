@@ -1,5 +1,6 @@
 package ggarticleserver.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -18,7 +19,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.HttpStatus;
 
 import ggarticleserver.repository.ArticleRepository;
+import ggarticleserver.model.ApiResponse;
 import ggarticleserver.model.Article;
+import ggarticleserver.model.ArticlesWrapper;
 
 @RestController
 @RequestMapping("/article")
@@ -31,9 +34,14 @@ public final class ArticleController {
 	
 	@RequestMapping(method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
-	List<Article> create(@RequestBody @Valid List<Article> articleEntries) {
-		logger.info(articleEntries.toString());
-		return articleRepository.insert(articleEntries);
+	ApiResponse create(@RequestBody @Valid ArticlesWrapper articleEntries) {
+		logger.info(articleEntries.getArticles().toString());
+		int res = articleRepository.insert(articleEntries.getArticles());
+		if (res != 0) {
+			return new ApiResponse(true, "Fridge updated.");
+		} else {
+			return new ApiResponse(false, "Internal error.");
+		}
 	}
 	
 	@RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
