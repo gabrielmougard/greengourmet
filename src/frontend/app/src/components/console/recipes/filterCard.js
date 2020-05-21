@@ -1,22 +1,20 @@
 import React, { Component } from 'react';
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
-import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
-import FormLabel from '@material-ui/core/FormLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Checkbox from "@material-ui/core/Checkbox";
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
-import Modal from '@material-ui/core/Modal';
+import SearchIcon from '@material-ui/icons/Search';
 import Button from '@material-ui/core/Button';
-import './filterCard.css'
 
 
 const useStyles = makeStyles(theme => ({
   root: {
     fontSize: 15,
     fontWeight: "bold",
+    marginLeft: 10,
     color: "#05668D",
   },
 }));
@@ -49,7 +47,7 @@ const GreenRadio = withStyles({
       const handleChange = event => {
         setState({ ...state, [event.target.name]: event.target.checked });
       };*/
-      //const [value, setValue] = React.useState('female');
+      const [value, setValue] = React.useState('female');
 
       const handleChange = (event) => {
         setValue(event.target.value);
@@ -69,14 +67,12 @@ const GreenCheckbox = withStyles({
     <Grid container 
           direction="column"
           justify="flex-start"
-          alignItems="flex-start"
-    >
-      <form>
-      <Grid>
+          alignItems="stretch"
+>
+      <Grid md={5}>
         Difficulté
       </Grid>
-      
-      <br></br>
+      <form>
       <FormControl component="fieldset">
       <RadioGroup aria-label="difficulte" name="difficulte1" value={value} onChange={handleChange}>
         <FormControlLabel value="dtresfacile" control={<GreenRadio />} label="Très Facile" />
@@ -85,7 +81,7 @@ const GreenCheckbox = withStyles({
         <FormControlLabel value="ddifficile" control={<GreenRadio />} label="Difficile" />
       </RadioGroup>
     </FormControl>
-    <Grid>
+    <Grid md={3}>
         Coût
       </Grid>
       <FormControl component="fieldset">
@@ -95,8 +91,7 @@ const GreenCheckbox = withStyles({
         <FormControlLabel value="eleve" control={<GreenRadio />} label="Coût élevé" />
       </RadioGroup>
     </FormControl>
-      <br></br>
-    <Grid>
+    <Grid md ={5}>
         Spécificité
       </Grid>
       <FormControl component="fieldset">
@@ -108,7 +103,7 @@ const GreenCheckbox = withStyles({
       </RadioGroup>
     </FormControl>
     <br></br>
-    <Button type="submit" variant="outlined" color="primary" className={classes.button}>
+    <Button type="submit" variant="outlined" startIcon={<SearchIcon />} color="primary" className={classes.button}>
           Check Answer
         </Button>
         </form>

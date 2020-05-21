@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
 import Article from './articleCard';
 import styled from 'styled-components'
-        import { Typography } from '@material-ui/core';
-
+import { Typography } from '@material-ui/core';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import './Inventory.css'
 const ArticleWrapper = styled.div`
     padding-top: 10px;
-    padding-left: 10vw;
-    width: 40vw;
-    height: 57.5vh;
-    overflow: auto;
+    padding-left: 6.7vw;
+    width: 60vw;
+    height: 51vh;
+    overflow-x: hidden;
 `
 
 const GlobalMetaWrapper = styled.div`
@@ -22,7 +24,9 @@ class Inventory extends Component {
 
     render() {
         return (
-            <div>
+            <div id="inventory-root-content">
+            <Card id='articleList' className="scanner-card" variant="outlined">
+            <CardContent>
                 <GlobalMetaWrapper>
                     <Typography variant="h6">
                         nombre d'articles : 12 | ...
@@ -43,6 +47,8 @@ class Inventory extends Component {
                     <br></br>
                     <Article name={"purée de patate de la marque tatat"} quantity={100.0} quantityUnit={"g"} peremptionDate={"2020/04/21"}/>
                 </ArticleWrapper>
+                </CardContent>
+                </Card>
             </div>
             
         )

@@ -58,7 +58,7 @@ class Header extends Component {
         return (
             <Wrapper transparent={transparent}>
                 <Logo
-                    onClick={() => console.log("le logo !")}
+                    onClick={() => {this.props.history.push('/')}}
                     transparent={transparent}
                 />
                 <Nav>

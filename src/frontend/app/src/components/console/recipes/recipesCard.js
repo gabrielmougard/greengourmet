@@ -8,7 +8,6 @@ import {Typography} from "@material-ui/core";
 import {StyledThumbnail} from 'baseui/card';
 import Modal from "@material-ui/core/Modal";
 import './recipesCard.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import RestaurantOutlinedIcon from '@material-ui/icons/RestaurantOutlined';
 function getModalStyle() {
   const top = 50;

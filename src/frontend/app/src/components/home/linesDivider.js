@@ -9,7 +9,7 @@ const LinesDivider = ({ style }) => (
     position: 'absolute',
     bottom: 0,
     left: -2,
-    width: '102%',
+    width: '100%',
     height: 'auto',
     ...style
   }}>

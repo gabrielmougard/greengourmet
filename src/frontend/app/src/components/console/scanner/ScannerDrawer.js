@@ -8,7 +8,7 @@ import { connect } from 'react-redux'
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
-import DateFnsUtils from '@date-io/date-fns';
+//import DateFnsUtils from '@date-io/date-fns';
 
 //actions
 import { sendArticleToCart, cancelArticleToCart } from '../../../actions/index'
@@ -152,7 +152,7 @@ function ScannerDrawer({barcodeResult, unknownBarcode, sendArticleToCart, cancel
                     />
                     </div>
                     <div>
-                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                       {/* <MuiPickersUtilsProvider utils={DateFnsUtils}>
                         <KeyboardDatePicker
                             disableToolbar
                             variant="outlined"
@@ -165,7 +165,7 @@ function ScannerDrawer({barcodeResult, unknownBarcode, sendArticleToCart, cancel
                             'aria-label': 'change date',
                             }}
                         />
-                        </MuiPickersUtilsProvider>
+                        </MuiPickersUtilsProvider> */}
                     </div>
                     </ScannerUserInputWrapper>
                     <ScannerValidationWrapper>

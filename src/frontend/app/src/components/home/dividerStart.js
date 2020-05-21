@@ -8,7 +8,7 @@ const Divider = ({ style, diagonal }) => (
     position: 'absolute',
     bottom: -1,
     left: 0,
-    width: '102%',
+    width: '100%',
     height: 'auto',
     zIndex: "-1",
     ...style

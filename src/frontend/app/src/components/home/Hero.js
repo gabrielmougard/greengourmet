@@ -47,7 +47,6 @@ const IconWrapper = styled.div`
 const TextWrapper = styled.div`
   flex: 7;
   padding: ${rem(30)} 0;
-
   ${mobile(css`
     h1 {
       font-size: ${rem(52)};
@@ -83,7 +82,8 @@ const StaticImage = styled.div`
 `
 
 export const ConsoleButton = styled(Button)`
-  margin-top: ${rem(30)};
+  margin-top: ${rem(50)};
+  margin-left: ${rem(330)};
 
 `
 
@@ -125,8 +125,8 @@ const Text = ({ subHeader, header, description, button }) => (
       {
         button && button.length &&
         <ConsoleButton
-          mint
-          onClick={() => scrollToForm()}
+        mint
+        onClick={event =>  window.location.href='/console/me'}
         >
           {button}
         </ConsoleButton>
@@ -141,38 +141,11 @@ Text.propTypes = {
   description: PropTypes.string.isRequired
 }
   
-const onResultDetected = result => {
-  console.log("le result : "+result);
-}
-
-const Image = ({ image, id }) => (
-  <ImageWrapper id={id}>
-    <StaticImage id={id}>
-      <div onClick={() => id === 'home' && scrollToForm()}>
-        <div className="scanner-wrapper">
-          {isPhone() ? (
-              <Scanner onDetected={onResultDetected} />
-          ) : (
-            <>
-              <img id="iphone-wrapper" src={image}/>
-              <Scanner onDetected={onResultDetected} />
-            </>
-          )}
-        </div>
-      </div>
-    </StaticImage>
-  </ImageWrapper>
-)
-  
-Image.propTypes = {
-  id: PropTypes.string.isRequired,
-  image: PropTypes.string.isRequired
-}
-
 class Hero extends Component {
 
     render() {
       return (
+        <div id='hero'>
       <Wrapper>
         <StartPageBackground />
         <Content>
@@ -186,6 +159,7 @@ class Hero extends Component {
         </Content>
         <IconWrapper></IconWrapper>
       </Wrapper>
+      </div>
       )
     }
 };

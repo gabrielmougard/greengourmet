@@ -85,3 +85,15 @@ export const regeneratePincodeEnded = (success) => ({
 export const unlockPincodeScreen = () => ({
     type: 'UNLOCK_PINCODE_SCREEN',
 })
+//recipes
+
+export const sendRecipesContent = (name) => ({
+    type: 'FIND_RECIPES_CONTENT',
+    payload:{
+        name: name,
+    }
+})
+export const sendRecipesContentSucces = (payload) => ({
+    type: 'FIND_RECIPES_CONTENT_SUCCES',
+    payload,
+})

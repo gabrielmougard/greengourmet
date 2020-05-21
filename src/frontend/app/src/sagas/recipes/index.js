@@ -4,8 +4,6 @@ import axios from 'axios';
 import { sendRecipesContentSucces } from '../../actions';
 import { RECIPES_API_BASE_URL } from '../../CONSTANTS';
 
-//serverPy
-import 'semantic-ui-css/semantic.min.css'
 function* fetchRecipesContent(action) {
     const name = action.payload;
     const data = {

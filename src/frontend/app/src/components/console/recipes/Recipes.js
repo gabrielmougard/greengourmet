@@ -9,10 +9,12 @@ import Grid from "@material-ui/core/Grid";
 
 import './Recipes.css'
 const RecipiesWrapper = styled.div`
-    padding-top: 10px;
+    padding-top: 5px;
     width: 60vw;
-    height: 70vh;
-    overflow-y: auto;
+    height: 60vh;
+    overflow: auto;
+    overflow-x: hidden;
+    
 `
 
 class Recipes extends Component {
@@ -22,8 +24,8 @@ class Recipes extends Component {
 
     render() {
         return (
-            <div className="dashboard-root-content">
-            <Grid container className="dashboard-root-content"
+            <div className ='dashboard-root-content'>
+            <Grid container id ="recipesContain"
                     direction="row"
                     justify="flex-start"
                     >
@@ -34,8 +36,6 @@ class Recipes extends Component {
                     <Typography variant="h5" component="h2">
                        Filtres  
                     </Typography>
-                    <br></br>
-                    <br></br>
                     <div className="generate-recipe-button-wrapper">     
                        <RecipesFilter/>       
                     </div>  
@@ -43,7 +43,7 @@ class Recipes extends Component {
                 </Card>
         </Grid>
     <Grid md={7} >
-<Card id='recipesList' className="scanner-card" variant="outlined">
+<Card id='recipesList' variant="outlined">
     <CardContent>
     <Typography variant="h5" component="h2">
         Recettes                            
@@ -66,6 +66,7 @@ class Recipes extends Component {
     </CardContent>
 </Card>
     </Grid>
+    <Grid></Grid>
     </Grid>
     </div>
         )

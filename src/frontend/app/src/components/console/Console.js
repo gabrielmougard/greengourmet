@@ -8,7 +8,7 @@ import { connect } from 'react-redux'
 
 import Dashboard from './dashbord/Dashboard';
 import Scanner from './scanner/Scanner';
-import Inventory from './inventory/Inventory';
+import InventoryPage from './inventory/InventoryPage';
 import Recipes from './recipes/Recipes';
 import Leaderboard from './leaderboard/Leaderboard';
 import Statistics from './statistics/Statistics';
@@ -48,7 +48,7 @@ class Console extends Component {
                 consoleContent = <Scanner userId={this.props.currentUser.id}/>
                 break;
             case 'inventory':
-                consoleContent = <Inventory {...this.props} />
+                consoleContent = <InventoryPage {...this.props} />
                 break;
             case 'recipes':
                 consoleContent = <Recipes {...this.props} />
