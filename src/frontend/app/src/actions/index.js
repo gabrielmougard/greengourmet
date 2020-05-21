@@ -97,3 +97,15 @@ export const getInventoryEnded = (success, data=null) => ({
     success: success,
     data: data,
 })
+
+// get recipes
+export const getRecipes = (payload) => ({
+    type: 'GET_RECIPES',
+    payload
+})
+
+export const getRecipesEnded = (success, recipes=null) => ({
+    type: 'GET_RECIPES_ENDED',
+    success: success,
+    recipes: recipes,
+})

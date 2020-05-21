@@ -7,35 +7,38 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
+import javax.validation.Valid;
+
 import ggrecipes.model.*;
 
 import java.util.*;
 
 @RestController
-public class GreetingController {
-		private GenerateRecipes generateRecipes;
+@RequestMapping("/recipes")
+public final class GreetingController {
+	private GenerateRecipes generateRecipes;
 	private GetRecipes getRecipes;
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	@PostMapping("/getListRecipes")
-	public @ResponseBody Response postGetListRecipes(@RequestBody Request request) throws IOException{
-		return getListRecipes(request);
-	}
-
-	@GetMapping("/getListRecipes")
-	public @ResponseBody Response getListRecipes(@RequestBody Request request)  throws IOException {
+	@RequestMapping(value = "/getListRecipes", method = RequestMethod.POST)
+	Response postGetListRecipes(@RequestBody @Valid Request request) throws IOException{
+		logger.info("Here is the payload : "+request.getIngredients().toString());
 		getRecipes = new GetRecipes();
 		Response response = new Response();
-		response.recettes = getRecipes.GetRecipesDescription(request.Ingredients);
+		response.recettes = getRecipes.GetRecipesDescription(request.getIngredients());
 		response.status = getRecipes.status;
-		// response.recettes = generateRecipes.getListRecettes();
 		return response;
 	}
+
+
 	@PostMapping("/getRecipe")
 	public @ResponseBody Response postGetRecipes(@RequestBody Recette recette) throws IOException{
 		return getRecipe(recette);

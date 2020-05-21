@@ -3,13 +3,10 @@ import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
-import FormLabel from '@material-ui/core/FormLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Checkbox from "@material-ui/core/Checkbox";
 import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import Modal from '@material-ui/core/Modal';
-import Button from '@material-ui/core/Button';
+
 import './filterCard.css'
 
 
@@ -49,7 +46,7 @@ const GreenRadio = withStyles({
       const handleChange = event => {
         setState({ ...state, [event.target.name]: event.target.checked });
       };*/
-      //const [value, setValue] = React.useState('female');
+      const [value, setValue] = React.useState('female');
 
       const handleChange = (event) => {
         setValue(event.target.value);
@@ -71,48 +68,46 @@ const GreenCheckbox = withStyles({
           justify="flex-start"
           alignItems="flex-start"
     >
-      <form>
+      
       <Grid>
         Difficulté
       </Grid>
       
-      <br></br>
-      <FormControl component="fieldset">
-      <RadioGroup aria-label="difficulte" name="difficulte1" value={value} onChange={handleChange}>
-        <FormControlLabel value="dtresfacile" control={<GreenRadio />} label="Très Facile" />
-        <FormControlLabel value="dfacile" control={<GreenRadio />} label="Facile" />
-        <FormControlLabel value="dmoyen" control={<GreenRadio />} label="Moyen" />
-        <FormControlLabel value="ddifficile" control={<GreenRadio />} label="Difficile" />
-      </RadioGroup>
-    </FormControl>
-    <Grid>
+      <FormControl>
+        <FormGroup aria-label="difficulte" name="difficulte" value={value} onChange={handleChange}>
+          <FormControlLabel value="dtresfacile" control={<GreenCheckbox />} label="Très Facile" />
+          <FormControlLabel value="dfacile" control={<GreenCheckbox />} label="Facile" />
+          <FormControlLabel value="dmoyen" control={<GreenCheckbox />} label="Moyen" />
+          <FormControlLabel value="ddifficile" control={<GreenCheckbox />} label="Difficile" />
+        </FormGroup>
+      </FormControl>
+    <br></br>
+    <br></br>
+      <Grid>
         Coût
       </Grid>
-      <FormControl component="fieldset">
-      <RadioGroup aria-label="difficulte" name="difficulte1" value={value} onChange={handleChange}>
-        <FormControlLabel value="faible" control={<GreenRadio />} label="Coût faible" />
-        <FormControlLabel value="moyen" control={<GreenRadio />} label="Coût moyen" />
-        <FormControlLabel value="eleve" control={<GreenRadio />} label="Coût élevé" />
-      </RadioGroup>
+      <FormControl>
+      <FormGroup aria-label="difficulte" name="cout" value={value} onChange={handleChange}>
+        <FormControlLabel value="faible" control={<GreenCheckbox />} label="Coût faible" />
+        <FormControlLabel value="moyen" control={<GreenCheckbox />} label="Coût moyen" />
+        <FormControlLabel value="eleve" control={<GreenCheckbox />} label="Coût élevé" />
+      </FormGroup>
     </FormControl>
+      <br></br>
       <br></br>
     <Grid>
         Spécificité
       </Grid>
-      <FormControl component="fieldset">
-      <RadioGroup aria-label="specificite" name="specificite1" value={value} onChange={handleChange}>
-        <FormControlLabel value="vegetarien" control={<GreenRadio />} label="Végétarien" />
-        <FormControlLabel value="sansgluten" control={<GreenRadio />} label="Sans Gluten" />
-        <FormControlLabel value="vegan" control={<GreenRadio />} label="Vegan" />
-        <FormControlLabel value="sanslactose" control={<GreenRadio />} label="Sans Lactose" />
-      </RadioGroup>
+      <FormControl>
+      <FormGroup aria-label="specificite" name="allergies" value={value} onChange={handleChange}>
+        <FormControlLabel value="vegetarien" control={<GreenCheckbox />} label="Végétarien" />
+        <FormControlLabel value="sansgluten" control={<GreenCheckbox />} label="Sans Gluten" />
+        <FormControlLabel value="vegan" control={<GreenCheckbox />} label="Vegan" />
+        <FormControlLabel value="sanslactose" control={<GreenCheckbox />} label="Sans Lactose" />
+      </FormGroup>
     </FormControl>
-    <br></br>
-    <Button type="submit" variant="outlined" color="primary" className={classes.button}>
-          Check Answer
-        </Button>
-        </form>
      </Grid>
+      <br></br>
       <br></br>
     </div>
     

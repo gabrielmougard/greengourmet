@@ -45,6 +45,12 @@ const reducer = (state = {}, action) => {
             } else {
                 return state
             }
+        case 'GET_RECIPES_ENDED':
+            if (action.success) {
+                return {...state, recipes: action.recipes}
+            } else {
+                return {...state, recipes: ["recipes not found"]}
+            }
         default:
             return state;
     }

@@ -56,6 +56,19 @@ services:
       - 8082:8082
     container_name: articleservicedev
 
+  ggrecipes-hotreload:
+    build:
+      context: ../../backend/ggrecipes
+      dockerfile: Dockerfile  
+    depends_on: 
+      - mongocluster
+      - rediscluster
+    volumes:
+      - ../../backend/ggrecipes:/app
+    ports:
+      - 8084:8084
+    container_name: recipesservicedev
+
   ggmailserver-hotreload:
     build:
       context: ../../backend/ggmailserver

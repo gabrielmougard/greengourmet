@@ -25,7 +25,7 @@ const GlobalMetaWrapper = styled.div`
     text-align: center;
 `
 
-const EmpryFridgeWrapper = styled.img(props => ({
+const EmptyFridgeWrapper = styled.img(props => ({
     src: props.src,
     borderRadius: '50px'
   }));
@@ -36,6 +36,7 @@ class Inventory extends Component {
     }
 
     buildInventory() {
+        console.log(this.props.inventory)
         let res = []
         for (const item in this.props.inventory) {
             console.log(item)
@@ -60,7 +61,7 @@ class Inventory extends Component {
 
         if (!this.props.inventory || this.props.inventory.length == 0) {
             title = <Typography variant="h5">  Remplis ton frigo avec le scanner ! </Typography>
-            content = <EmpryFridgeWrapper src={fridgeImage}></EmpryFridgeWrapper>
+            content = <EmptyFridgeWrapper src={fridgeImage}></EmptyFridgeWrapper>
         } else {
             title = <Typography variant="h5">  Vous avez {Object.keys(this.props.inventory).length} articles dans votre frigo</Typography>
             content = this.buildInventory()

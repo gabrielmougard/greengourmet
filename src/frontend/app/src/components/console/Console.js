@@ -39,8 +39,6 @@ class Console extends Component {
 
     render() {
         console.log(this.props)
-        /*const name = this.props.currentUser.name
-        const email = this.props.currentUser.email*/
 
         /*let pinCode
         if (!this.props.currentUser.emailVerified) {

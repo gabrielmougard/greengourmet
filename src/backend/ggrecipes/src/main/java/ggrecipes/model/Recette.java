@@ -13,6 +13,7 @@ public class Recette {
 	public String description;
 	public String imageURL;
 	public String MarmittonURL;
+	public String recommendation;
 
 	public List<String> steps;
     public String title;

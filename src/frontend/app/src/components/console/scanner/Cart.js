@@ -91,10 +91,17 @@ function Cart({userId, articleToCart, validateCart, cartValidated}) {
                     <Article name={articleToCart.name} quantity={articleToCart.quantity[0]} quantityUnit={articleToCart.quantity[1]} peremptionDate={articleToCart.peremptionDate}/>      
                 ]);
                 
+                let ingredients
+                if (!articleToCart.ingredients) {
+                    ingredients = articleToCart.name
+                } else {
+                    ingredients = articleToCart.ingredients
+                }
+
                 setCartContentData([{
                     userId : userId,
                     name: articleToCart.name,
-                    ingredients: articleToCart.ingredients,
+                    ingredients: ingredients,
                     quantity: articleToCart.quantity[0],
                     quantityUnit: articleToCart.quantity[1],
                     expiringDate: formatDate(articleToCart.peremptionDate),
@@ -106,10 +113,17 @@ function Cart({userId, articleToCart, validateCart, cartValidated}) {
                     <Article name={articleToCart.name} quantity={articleToCart.quantity[0]} quantityUnit={articleToCart.quantity[1]} peremptionDate={articleToCart.peremptionDate}/>
                 ]);
 
+                let ingredients
+                if (!articleToCart.ingredients) {
+                    ingredients = articleToCart.name
+                } else {
+                    ingredients = articleToCart.ingredients
+                }
+
                 setCartContentData([...cartContentData, {
                     userId : userId,
                     name: articleToCart.name,
-                    ingredients: articleToCart.ingredients,
+                    ingredients: ingredients,
                     quantity: articleToCart.quantity[0],
                     quantityUnit: articleToCart.quantity[1],
                     expiringDate: formatDate(articleToCart.peremptionDate),

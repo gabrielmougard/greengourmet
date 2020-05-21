@@ -1,30 +1,36 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
 import axios from 'axios';
 //actions
-import { sendRecipesContentSucces } from '../../actions';
+import { getRecipesEnded } from '../../actions';
 import { RECIPES_API_BASE_URL } from '../../CONSTANTS';
 
-//serverPy
-import 'semantic-ui-css/semantic.min.css'
-function* fetchRecipesContent(action) {
-    const name = action.payload;
+function* fetchRecipes(action) {
+    const inventory = action.payload;
+    let ingredientsList = []
+
+    for (const idx in inventory) {
+        if (inventory[idx].ingredients) {
+            ingredientsList.push(inventory[idx].ingredients)
+        }
+    }
+
     const data = {
-        name: name,
+        ingredients: ingredientsList
     }
 
     try {
-        console.log('data:',data,'name:',name)
-        const response = yield call([axios, axios.post], RECIPES_API_BASE_URL+'/api'    )   
-        console.log('resultat:',response)
-            yield put(sendRecipesContentSucces(response));
-
- 	
-     
+        const response = yield call([axios, axios.post], RECIPES_API_BASE_URL+'/recipes/getListRecipes', data)   
+        
+        if (response.data) {
+            yield put(getRecipesEnded(true, response.data)); 
+        } else {
+            yield put(getRecipesEnded(false)); 
+        }
     } catch(e) {
-        console.log(e);
+        yield put(getRecipesEnded(false))
     }
 }
 
 export default function* recipesSaga() {
-    yield takeLatest('FIND_RECIPES_CONTENT', fetchRecipesContent)
+    yield takeLatest('GET_RECIPES', fetchRecipes)
 }
