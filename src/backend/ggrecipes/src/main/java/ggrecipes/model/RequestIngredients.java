@@ -6,10 +6,11 @@ import java.util.*;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @JsonSerialize
-public class Request implements Serializable{
+public class RequestIngredients implements Serializable{
     private static final long serialVersionUID = 59455649129687880L;
     
-    public List<String> ingredients;
+    private int startIdx;
+    private List<String> ingredients;
     
     public List<String> getIngredients() {
         return this.ingredients;
@@ -17,6 +18,14 @@ public class Request implements Serializable{
 
     public void setArticles(List<String> ingredients) {
         this.ingredients = ingredients;
+    }
+
+    public int getStartIdx() {
+        return this.startIdx;
+    }
+
+    public void setStartIdx(int startIdx) {
+        this.startIdx = startIdx;
     }
 
 }

@@ -51,6 +51,24 @@ const reducer = (state = {}, action) => {
             } else {
                 return {...state, recipes: ["recipes not found"]}
             }
+        case 'GET_RECIPE_DETAILS_ENDED_SUCCESS':
+            if (state.recipesDetails) {
+                const newRecipeDetails = {
+                    link: action.details.link,
+                    recipe: action.details.response.recettes[0]
+                }
+
+                return {...state, recipesDetails: [...state.recipesDetails, newRecipeDetails]}
+            } else {
+                const newRecipeDetails = {
+                    link: action.details.link,
+                    recipe: action.details.response.recettes[0]
+                }
+                return {...state, recipesDetails: [newRecipeDetails]}
+            }
+        case 'GET_RECIPE_DETAILS_ENDED_FAILURE':
+            return {...state, recipesDetails: ["recipe detail not found"]}
+            
         default:
             return state;
     }

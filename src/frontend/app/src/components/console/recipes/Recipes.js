@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect } from 'react';
 import RecipesCard from './recipesCard';
 import RecipesFilter from './filterCard';
 import styled from 'styled-components';
@@ -7,6 +7,8 @@ import CardContent from '@material-ui/core/CardContent';
 import { Typography } from '@material-ui/core';
 import Grid from "@material-ui/core/Grid";
 import ItemLoader from '../dashbord/ItemLoader';
+import MemoryIcon from '@material-ui/icons/Memory';
+import Button from '@material-ui/core/Button';
 
 //images
 import fridgeImage from '../../../assets/images/fridge.png'
@@ -18,6 +20,7 @@ import { connect } from 'react-redux'
 import { getRecipes } from '../../../actions';
 
 import './Recipes.css'
+
 const RecipesWrapper = styled.div`
     padding-top: 10px;
     width: 60vw;
@@ -39,116 +42,122 @@ const EmptyMessageWrapper = styled.div`
     margin-bottom: 40px;
 `
 
+const MoreRecipesWrapper = styled.div`
+    text-align: center;
+    margin-top: 30px;
+    margin-bottom: 40px;
+`
 
-class Recipes extends Component {
-    constructor(props) {
-        super(props);
-    }
+function Recipes({inventory, recipes, getRecipes}) {
 
-    render() {
+    const loaderRecipes =
+        <>
+            <ItemLoader></ItemLoader>
+            <br></br>
+            <ItemLoader></ItemLoader>
+            <br></br>
+            <ItemLoader></ItemLoader>
+            <br></br>
+            <ItemLoader></ItemLoader>
+            <br></br>
+            <ItemLoader></ItemLoader>
+        </>
+    const [recipesContent, setRecipesContent] = React.useState([loaderRecipes])
+    const [cachedRecipes, setCachedRecipes] = React.useState([])
+    const [recipesCount, setRecipesCount] = React.useState(0)
 
-        //get the recipes
-        let recipesContent
-        if (this.props.recipes) {
-            if (this.props.recipes.recettes) {
-                let recipesArray = []
-                for (const idx in this.props.recipes.recettes) {
-                    recipesArray.push(
-                        <RecipesCard 
-                            name={this.props.recipes.recettes[idx].name} 
-                            numerateur ={"4"} 
-                            denominateur ={'5'} 
-                            recommendation={this.props.recipes.recettes[idx].recommendation} 
-                            level={'facile'} 
-                            picture={this.props.recipes.recettes[idx].imageURL}
-                        />
-                    )
-                }
-                recipesContent = recipesArray
-            } else {
-                //put an error message insode recipesContent
-                recipesContent = 
-                <EmptyFridgeBox> 
-                    <EmptyMessageWrapper>
-                        <Typography variant="h5">  Les recettes n'ont pas pu être généré ! </Typography>
-                    </EmptyMessageWrapper>
-                    <EmptyFridgeWrapper src={fridgeImage}></EmptyFridgeWrapper>
-                </EmptyFridgeBox>
+    useEffect(() => {
+        //executed when a new batch of recipes is generated (the batch size is 14)
+        if (recipes) {
+            var recipesArray = cachedRecipes
+            for (const idx in recipes.recettes) {
+                recipesArray.push(
+                    <RecipesCard 
+                        name={recipes.recettes[idx].name} 
+                        numerateur ={"4"} 
+                        denominateur ={'5'} 
+                        recommendation={recipes.recettes[idx].recommendation} 
+                        time={recipes.recettes[idx].temps} 
+                        picture={recipes.recettes[idx].imageURL}
+                        linkToRecipe={recipes.recettes[idx].MarmittonURL}
+                    />
+                )
             }
 
+            setRecipesCount(recipesArray.length)
+            setRecipesContent(recipesArray)
+        }
+    }, [recipes])
+
+    useEffect(() => {
+        if (inventory) {
+            getRecipes({startIdx: recipesCount, inventory: inventory})
         } else {
-            //set a loader while recipes are being fetched
-            if (this.props.inventory) {
-                this.props.getRecipes(this.props.inventory)
-                recipesContent = 
-                <>
-                    <ItemLoader></ItemLoader>
-                    <br></br>
-                    <ItemLoader></ItemLoader>
-                    <br></br>
-                    <ItemLoader></ItemLoader>
-                    <br></br>
-                    <ItemLoader></ItemLoader>
-                    <br></br>
-                    <ItemLoader></ItemLoader>
-                </>
-            } else {
-                //The user has not scanned anything yet.
-                recipesContent =
+            //The user has not scanned anything yet.
+            setRecipesContent( 
                 <EmptyFridgeBox> 
                     <EmptyMessageWrapper>
                         <Typography variant="h5">  Remplis ton frigo avec le scanner avant de générer des recettes ! </Typography>
                     </EmptyMessageWrapper>
                     <EmptyFridgeWrapper src={fridgeImage}></EmptyFridgeWrapper>
                 </EmptyFridgeBox>
-            }
-            
+            )
         }
+    }, [inventory])
 
-        return (
+    const handleScroll = (e) => {
+        const bottom = e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
+        if (bottom) {
+            getRecipes({startIdx: recipesCount, inventory: inventory})
+            let cpy = cachedRecipes.slice(0, cachedRecipes.length - 1) 
+            let newContent = [...cpy, loaderRecipes]
+            setRecipesContent(newContent)
+        }
+    }
+
+    return (
             <div className="dashboard-root-content">
-            <Grid container className="dashboard-root-content"
+                <Grid container className="dashboard-root-content"
                     direction="row"
                     justify="flex-start"
-                    >
-                        
-            <Grid md={2.5}>
-            <Card id='filterList' className="scanner-card" variant="outlined">
-                    <CardContent>
-                    <Typography variant="h5" component="h2">
-                       Filtres  
-                    </Typography>
-                    <br></br>
-                    <div className="generate-recipe-button-wrapper">     
-                       <RecipesFilter/>       
-                    </div>  
-                    </CardContent>
-                </Card>
-        </Grid>
-    <Grid md={7} >
-<Card id='recipesList' className="scanner-card" variant="outlined">
-    <CardContent>
-    <div>
-        <Typography variant="h5" component="h2">
-            Recettes                            
-        </Typography>
-    </div>
-    <br></br>
-    <br></br>
-        <div>
-            <>
-            <RecipesWrapper>
-                {recipesContent}
-            </RecipesWrapper>
-            </>
-        </div>
-    </CardContent>
-</Card>
-    </Grid>
-    </Grid>
-    </div>
-        )
-    }
+                >
+                            
+                    <Grid md={2.5}>
+                        <Card id='filterList' className="scanner-card" variant="outlined">
+                            <CardContent>
+                                <Typography variant="h5" component="h2">
+                                Filtres  
+                                </Typography>
+                                <br></br>
+                                <div className="generate-recipe-button-wrapper">     
+                                    <RecipesFilter/>       
+                                </div>  
+                            </CardContent>
+                        </Card>
+                    </Grid>
+                    <Grid md={7} >
+                        <Card id='recipesList' className="scanner-card" variant="outlined">
+                            <CardContent>
+                                <div>
+                                    <Typography variant="h5" component="h2">
+                                        Recettes                            
+                                    </Typography>
+                                </div>
+                                <br></br>
+                                <br></br>
+                                <div>
+                                    <>
+                                        <RecipesWrapper onScroll={(e) => handleScroll(e)}>
+                                            {recipesContent}
+                                        </RecipesWrapper>
+                                    </>
+                                </div>
+                            </CardContent>
+                        </Card>
+                    </Grid>
+                </Grid>
+            </div>
+    );
 }
 
 const mapStateToProps = (state) => {

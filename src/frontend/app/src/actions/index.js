@@ -109,3 +109,18 @@ export const getRecipesEnded = (success, recipes=null) => ({
     success: success,
     recipes: recipes,
 })
+
+// get recipe details
+export const fetchRecipeDetails = (payload) => ({
+    type: 'GET_RECIPE_DETAILS',
+    payload: payload
+})
+
+export const getRecipeDetailsEndedSuccess = (payload) => ({
+    type: 'GET_RECIPE_DETAILS_ENDED_SUCCESS',
+    details: payload,
+})
+
+export const getRecipeDetailsEndedFailure = () => ({
+    type: 'GET_RECIPE_DETAILS_ENDED_FAILURE',
+})

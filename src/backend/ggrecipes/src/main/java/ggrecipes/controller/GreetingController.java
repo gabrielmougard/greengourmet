@@ -29,35 +29,30 @@ public final class GreetingController {
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@RequestMapping(value = "/getListRecipes", method = RequestMethod.POST)
-	Response postGetListRecipes(@RequestBody @Valid Request request) throws IOException{
-		logger.info("Here is the payload : "+request.getIngredients().toString());
+	Response postGetListRecipes(@RequestBody @Valid RequestIngredients request) throws IOException{
 		getRecipes = new GetRecipes();
 		Response response = new Response();
-		response.recettes = getRecipes.GetRecipesDescription(request.getIngredients());
+		response.recettes = getRecipes.GetRecipesDescription(request.getIngredients(), request.getStartIdx());
 		response.status = getRecipes.status;
 		return response;
 	}
 
-
-	@PostMapping("/getRecipe")
-	public @ResponseBody Response postGetRecipes(@RequestBody Recette recette) throws IOException{
-		return getRecipe(recette);
-	}
-	@GetMapping("/getRecipe")
-	public @ResponseBody Response getRecipe(@RequestBody Recette recette) throws IOException {
+	@RequestMapping(value = "/getRecipeDetails", method = RequestMethod.POST)
+	Response getRecipe(@RequestBody @Valid RequestRecette request) throws IOException {
 		generateRecipes = new GenerateRecipes();
 		Response response = new Response();
 		response.status = 200;
-		response.recettes.add(generateRecipes.Recipe(recette.MarmittonURL));
+		response.recettes.add(generateRecipes.Recipe(request.getLink()));
 		return response;
 	}
+
 	@GetMapping("/testList")
 	public Response testList(){
 		ArrayList<String> ingrList = new ArrayList<String>();
 		Response response = new Response();
 		ingrList.add("oeuf");
 		getRecipes = new GetRecipes();
-		response.recettes = getRecipes.GetRecipesDescription(ingrList);
+		response.recettes = getRecipes.GetRecipesDescription(ingrList, 0);
 		response.status = getRecipes.status;
 		// response.recettes = generateRecipes.getListRecettes();
 		return response;

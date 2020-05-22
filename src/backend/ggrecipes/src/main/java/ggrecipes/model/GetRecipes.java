@@ -4,7 +4,6 @@ import java.util.List; // import just the List interface
 import java.util.ArrayList; // import just the ArrayList class
 import java.util.Map; // import just the List interface
 import java.util.HashMap;
-import java.util.Iterator;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.io.UnsupportedEncodingException;
@@ -37,7 +36,7 @@ public class GetRecipes {
 
     private final String URLMarimitton = "https://www.marmiton.org/recettes/recherche.aspx";
 
-    public ArrayList<Recette> GetRecipesDescription(List<String> ingredientRecette) {
+    public ArrayList<Recette> GetRecipesDescription(List<String> ingredientRecette, int startIdx) {
         logger.info("Get recipes description...");
         String urlMarmittonRecherche = URLBuilder(ingredientRecette);
         logger.info("URL builder content : "+urlMarmittonRecherche);
@@ -84,11 +83,12 @@ public class GetRecipes {
         // RESULT-----------------------------------
         ArrayList<Recette> recettes = new ArrayList<Recette>();
         if (boolInitialisation) {
-            int requestLimit = 5;
-            for (int i = 1; i < nbrsElementInt; i++) {
+            int requestLimit = startIdx;
+            for (int i = startIdx; i < nbrsElementInt; i++) {
                 WebClient wC = webClientCreator();
                 wC.getOptions().setRedirectEnabled(true);
                 if (i > requestLimit) {
+                    //logger.info(" i = "+i);
                     break;
                 }
                 
@@ -149,12 +149,6 @@ public class GetRecipes {
                             logger.info("No recommendations for index : "+w);
                         }
                         
-                        /*
-                         * System.out.println(titre.get(w).asText());
-                         * System.out.println(description.get(w).asText());
-                         * System.out.println("https://www.marmiton.org"
-                         * +liens.get(w).getHrefAttribute()); System.out.println();
-                         */
                         recettes.add(recette);
                     }
                 } catch (Exception e) {

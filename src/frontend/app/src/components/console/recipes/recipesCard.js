@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect } from 'react';
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
@@ -7,9 +7,17 @@ import Button from '@material-ui/core/Button';
 import {Typography} from "@material-ui/core";
 import {StyledThumbnail} from 'baseui/card';
 import Modal from "@material-ui/core/Modal";
+import ItemLoader from '../dashbord/ItemLoader';
 import './recipesCard.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import RestaurantOutlinedIcon from '@material-ui/icons/RestaurantOutlined';
+
+//redux
+import { connect } from 'react-redux'
+
+//actions 
+import { fetchRecipeDetails } from '../../../actions'
+
 function getModalStyle() {
   const top = 50;
   const left = 50;
@@ -22,6 +30,9 @@ function getModalStyle() {
 } 
 
 const useStyles = makeStyles(theme => ({
+  root: {
+    cursor: 'pointer',
+  },
   paper: {
     padding: theme.spacing(3),
     width: 380,
@@ -172,10 +183,71 @@ scoring:{
 }));
 
 
-function RecipesCard({name,recommendation,numerateur,denominateur,level,picture}){
+function RecipesCard({name, recommendation, numerateur, denominateur, time, picture, linkToRecipe, recipesDetails, fetchRecipeDetails}){
+  const [modalStyle] = React.useState(getModalStyle);
+  const [modalContent, setModalContent] = React.useState(<></>)
+  const [open, setOpen] = React.useState(false);
+  
+  useEffect(() => {
+    if (open) {
+      //content of modal 
+      
+        if (recipesDetails) {
+          let loaded = false
+          let loadedContent
+          
+          for (const idx in recipesDetails) {
+            if (recipesDetails[idx].link == linkToRecipe) {
+              loaded = true
+              loadedContent = recipesDetails[idx].recipe
+              break
+            }
+          }
+
+          if (loaded) {
+        
+            setModalContent(buildModalContent(loadedContent))
+
+          } else {
+
+            console.log("recipesDetails does not countain our link. Calling API to retrieve data.")
+            fetchRecipeDetails(linkToRecipe)
+            setModalContent( 
+              <>
+                <ItemLoader></ItemLoader>
+                <br></br>
+                <ItemLoader></ItemLoader>
+                <br></br>
+                <ItemLoader></ItemLoader>            
+              </>
+            )
+          }
+        } else {
+            console.log("recipesDetails is undefined. Calling API to retrieve data.")
+            fetchRecipeDetails(linkToRecipe)
+            setModalContent( 
+              <>
+                <ItemLoader></ItemLoader>
+                <br></br>
+                <ItemLoader></ItemLoader>
+                <br></br>
+                <ItemLoader></ItemLoader>            
+              </>
+            )
+        }
+       
+      //
+    }
+  }, [open, recipesDetails])
+
+  const buildModalContent = (content) => {
+    console.log("Inside BUILDMODAL")
+    console.log(content)
+  }
+  
     const classes = useStyles();
     
-    const recipesLevel = level
+    const recipesLevel = 'facile'
     let paperClass
     if (recipesLevel === 'facile') { 
         paperClass = classes.paperEasy
@@ -205,8 +277,7 @@ function RecipesCard({name,recommendation,numerateur,denominateur,level,picture}
       fontColor = classes.percentBad
     }
 
-      const [modalStyle] = React.useState(getModalStyle);
-      const [open, setOpen] = React.useState(false);
+      
     
       const handleOpen = () => {
         setOpen(true);
@@ -214,7 +285,7 @@ function RecipesCard({name,recommendation,numerateur,denominateur,level,picture}
       const handleClose = () => {
         setOpen(false);
       };
-    
+        
       const body = (
         <div style={modalStyle} className={classes.paperModal}>
         <Grid container  
@@ -235,50 +306,7 @@ function RecipesCard({name,recommendation,numerateur,denominateur,level,picture}
           </Grid>
         </Grid>
               <div id = 'ModalContain'>
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.  
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.  
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+                {modalContent}
               </div>
           <Grid container
                 direction="row"
@@ -332,7 +360,6 @@ function RecipesCard({name,recommendation,numerateur,denominateur,level,picture}
                   </Paper>
                 </div>
                 <div id='recipesDetail'>
-                  <span className={classes.scoring}>Ingrédients: </span> {numerateur}/{denominateur}
                   <span className={classes.scoring}>Recommandations: </span> {recommendation}
                   </div>
                 </div>
@@ -341,19 +368,27 @@ function RecipesCard({name,recommendation,numerateur,denominateur,level,picture}
                   <Paper className={paperClass} id='recipesLevel'>
                   <div >
                     <Typography variant="h5" className={classes.titleLevel} noWrap>
-                     {level}
+                     {time}
                     </Typography>
                   </div>
               </Paper>
               </Grid>
-              <Grid item className={fontColor} id ='pourcentage'>
-              {convertFraction}%
-              </Grid>
-              
           </Grid>
          </div>
         </>
         )
 }
 
-export default RecipesCard;
+const mapStateToProps = (state) => {
+  return {
+      recipesDetails: state.recipesDetails,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+      fetchRecipeDetails: (link) => {dispatch(fetchRecipeDetails(link))},
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(RecipesCard);
