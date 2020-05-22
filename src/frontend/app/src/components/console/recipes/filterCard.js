@@ -34,32 +34,21 @@ const GreenRadio = withStyles({
 
   function RecipesFilter(){
     const classes = useStyles();
-      const [state, setState] = React.useState({
-        checkedF: false,
-        checkedM: false,
-        checkedD: false,
-        checkedE: false,
-        checkedH: false,
-        checkedP: false,
-        checkedA: false,
-      });
-     /*
-      const handleChange = event => {
-        setState({ ...state, [event.target.name]: event.target.checked });
-      };*/
-      const [value, setValue] = React.useState('female');
+ 
+      
+    const [value1, setValue1] = React.useState('a');
+    const [value2, setValue2] = React.useState('b');
+    const [value3, setValue3] = React.useState('c');
 
-      const handleChange = (event) => {
-        setValue(event.target.value);
+      const handleChangeDifficulty = (event) => {
+        setValue1(event.target.value);
       };
-/*
-const GreenCheckbox = withStyles({
-  root: {
-    color: "#02c39a"
-  }
-})(props => <Checkbox color="default" {...props} />);
-*/ 
-
+      const handleChangeCost = (event) => {
+        setValue2(event.target.value);
+      };
+      const handleChangeDiet = (event) => {
+        setValue3(event.target.value);
+      };
     return (
       <>
       
@@ -72,30 +61,29 @@ const GreenCheckbox = withStyles({
       <Grid md={5}>
         Difficulté
       </Grid>
-      <form>
       <FormControl component="fieldset">
-      <RadioGroup aria-label="difficulte" name="difficulte1" value={value} onChange={handleChange}>
-        <FormControlLabel value="dtresfacile" control={<GreenRadio />} label="Très Facile" />
-        <FormControlLabel value="dfacile" control={<GreenRadio />} label="Facile" />
-        <FormControlLabel value="dmoyen" control={<GreenRadio />} label="Moyen" />
-        <FormControlLabel value="ddifficile" control={<GreenRadio />} label="Difficile" />
+      <RadioGroup aria-label="difficulte" name="difficulte1" value={value1} onChange={handleChangeDifficulty}>
+        <FormControlLabel value="tresfacile" control={<GreenRadio />} label="Très Facile" />
+        <FormControlLabel value="facile" control={<GreenRadio />} label="Facile" />
+        <FormControlLabel value="moyen" control={<GreenRadio />} label="Moyen" />
+        <FormControlLabel value="difficile" control={<GreenRadio />} label="Difficile" />
       </RadioGroup>
     </FormControl>
     <Grid md={3}>
         Coût
       </Grid>
       <FormControl component="fieldset">
-      <RadioGroup aria-label="difficulte" name="difficulte1" value={value} onChange={handleChange}>
+      <RadioGroup aria-label="difficulte" name="difficulte1" value={value2} onChange={handleChangeCost}>
         <FormControlLabel value="faible" control={<GreenRadio />} label="Coût faible" />
         <FormControlLabel value="moyen" control={<GreenRadio />} label="Coût moyen" />
         <FormControlLabel value="eleve" control={<GreenRadio />} label="Coût élevé" />
-      </RadioGroup>
+      </RadioGroup> 
     </FormControl>
     <Grid md ={5}>
         Spécificité
       </Grid>
       <FormControl component="fieldset">
-      <RadioGroup aria-label="specificite" name="specificite1" value={value} onChange={handleChange}>
+      <RadioGroup aria-label="specificite" name="specificite1" value={value3} onChange={handleChangeDiet}>
         <FormControlLabel value="vegetarien" control={<GreenRadio />} label="Végétarien" />
         <FormControlLabel value="sansgluten" control={<GreenRadio />} label="Sans Gluten" />
         <FormControlLabel value="vegan" control={<GreenRadio />} label="Vegan" />
@@ -106,7 +94,6 @@ const GreenCheckbox = withStyles({
     <Button type="submit" variant="outlined" startIcon={<SearchIcon />} color="primary" className={classes.button}>
           Check Answer
         </Button>
-        </form>
      </Grid>
       <br></br>
     </div>

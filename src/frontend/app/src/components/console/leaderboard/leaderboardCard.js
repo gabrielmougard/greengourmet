@@ -11,12 +11,11 @@ import { red } from '@material-ui/core/colors';
 import { blue } from '@material-ui/core/colors';
 import { yellow } from '@material-ui/core/colors';
 import FormControl from '@material-ui/core/FormControl';
-import './leaderboardCard.css';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    maxWidth: 752,
   },
   demo: {
     backgroundColor: theme.palette.background.paper,
@@ -26,11 +25,11 @@ const useStyles = makeStyles((theme) => ({
   },
   number:{
     color: '#02c39a',
-    marginRight:150,
+    marginRight:160,
   },
   number2:{
     color: '#02c39a',
-    marginRight:210,
+    marginRight:220,
   },
   itemcontain:{
     width:500,

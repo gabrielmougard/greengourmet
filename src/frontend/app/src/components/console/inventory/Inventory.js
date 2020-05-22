@@ -7,7 +7,7 @@ import CardContent from '@material-ui/core/CardContent';
 import './Inventory.css'
 const ArticleWrapper = styled.div`
     padding-top: 10px;
-    padding-left: 6.7vw;
+    padding-left: 5.3vw;
     width: 60vw;
     height: 51vh;
     overflow-x: hidden;

@@ -1,17 +1,12 @@
-import React, { Component } from 'react';
+import * as React from 'react';
+import StatisticsCard from './StatisticsGraph'
+import Card from '@material-ui/core/Card';
+function Statistics(){
 
-class Statistics extends Component {
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-        return (
-            <>
-                <p>This is the Statistics !</p>
-            </>
-        )
-    }
-}
-
-export default Statistics;
+    return (
+<div className ='dashboard-root-content'>
+        <StatisticsCard/>
+    </div>
+    );
+  }
+export default Statistics
