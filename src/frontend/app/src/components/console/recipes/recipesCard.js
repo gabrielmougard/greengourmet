@@ -4,10 +4,14 @@ import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Tooltip from '@material-ui/core/Tooltip';
 import Button from '@material-ui/core/Button';
+import {Button as BaseButton} from 'baseui/button';
+import {SHAPE} from 'baseui/button';
 import {Typography} from "@material-ui/core";
 import {StyledThumbnail} from 'baseui/card';
 import Modal from "@material-ui/core/Modal";
 import ItemLoader from '../dashbord/ItemLoader';
+import {Tag} from 'baseui/tag';
+import styled, { keyframes } from 'styled-components'
 import './recipesCard.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import RestaurantOutlinedIcon from '@material-ui/icons/RestaurantOutlined';
@@ -18,6 +22,49 @@ import { connect } from 'react-redux'
 //actions 
 import { fetchRecipeDetails } from '../../../actions'
 
+const ContentWrapper = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 30px;
+  grid-auto-rows: minmax(100px, auto);
+`
+
+const NeededThingsWrapper = styled.div`
+  grid-column: 1
+`
+
+const ContentDescWrapper = styled.div`
+  grid-column: 2/4
+`
+
+const IngredientsWrapper = styled.div`
+  grid-row: 1/4;
+`
+
+const CookToolsWrapper = styled.div`
+  grid-row: 4/7
+`
+
+const MetaWrapper = styled.div`
+  grid-row: 1;
+`
+
+const StepsWrapper = styled.div`
+  margin-top: 30px;
+  grid-row: 2/7;
+`
+
+const StepsContainer = styled.div`
+  overflow: scroll;
+`
+
+const IngredientsContainer = styled.div`
+  overflow: scroll;
+`
+
+const UstensilesContainer = styled.div`
+  overflow: scroll;
+`
 function getModalStyle() {
   const top = 50;
   const left = 50;
@@ -241,8 +288,143 @@ function RecipesCard({name, recommendation, numerateur, denominateur, time, pict
   }, [open, recipesDetails])
 
   const buildModalContent = (content) => {
-    console.log("Inside BUILDMODAL")
     console.log(content)
+    //meta : difficulte
+    let difficulteMeta
+    if (content.difficulte.includes("facile")) {
+      difficulteMeta = 
+      <Tag closeable={false} variant="solid" kind="positive">
+          {content.difficulte}
+      </Tag>
+    } else if (content.difficulte.includes("moyen")) {
+      difficulteMeta =
+      <Tag closeable={false} variant="solid" kind="warning">
+        {content.difficulte}
+      </Tag>
+    } else {
+      difficulteMeta =
+      <Tag closeable={false} variant="solid" kind="negative">
+        {content.difficulte}
+      </Tag>
+    }
+
+    //steps
+    let steps
+    let stepsArray = []
+    for (const idx in content.steps) {
+      stepsArray.push(
+        <p>
+          <BaseButton shape={SHAPE.pill}>
+            {(parseInt(idx, 10)+1)+") "+content.steps[idx].split(" ")[0]}
+          </BaseButton>
+          {"\t"+content.steps[idx].split(" ").slice(1, content.steps[idx].length - 1).join(" ")}
+        </p>
+      )
+    }
+    steps =
+    <StepsContainer>
+      {stepsArray}
+    </StepsContainer>
+    //
+
+    //ingredients
+    let ingredients
+    let ingredientsArray = []
+    for (let [key, value] of Object.entries(content.ingredients)) {
+      if (value == null) {
+        value = ""
+      }
+      ingredientsArray.push(
+        <p>
+          <BaseButton 
+            shape={SHAPE.pill} 
+            overrides={{
+              BaseButton: {
+                style: ({ $theme }) => {
+                  return {
+                    backgroundColor: $theme.colors.positive400
+                  };
+                }
+              }
+            }}>
+            {value+" "+key}
+          </BaseButton>
+        </p>
+      )
+    }
+    ingredients =
+    <IngredientsContainer>
+      {ingredientsArray}
+    </IngredientsContainer>
+    //
+
+    //ustensiles
+    let ustensiles
+    let ustensilesArray = []
+    for (const idx in content.ustensiles) {
+      ustensilesArray.push(
+        <p>
+          <BaseButton 
+            shape={SHAPE.pill} 
+            overrides={{
+              BaseButton: {
+                style: ({ $theme }) => {
+                  return {
+                    backgroundColor: $theme.colors.positive400
+                  };
+                }
+              }
+            }}>
+            {content.ustensiles[idx]}
+          </BaseButton>
+        </p>
+      )
+    }
+
+    ustensiles =
+    <UstensilesContainer>
+      {ustensilesArray}
+    </UstensilesContainer>
+    //
+
+    return (
+      <ContentWrapper>
+
+        <NeededThingsWrapper>
+          <IngredientsWrapper>
+            <Typography variant="h5">Ingredients</Typography>
+            <br></br>
+            {ingredients}
+          </IngredientsWrapper>
+          <CookToolsWrapper>
+            <Typography variant="h5">Ustensiles</Typography>
+            <br></br>
+            {ustensiles}
+          </CookToolsWrapper>
+        </NeededThingsWrapper>
+
+        <ContentDescWrapper>
+          <MetaWrapper>
+            <React.Fragment>
+              {difficulteMeta}
+              <Tag closeable={false} variant="solid" kind="accent">
+                temps : {content.temps}
+              </Tag>
+              <Tag closeable={false} variant="solid" kind="primary">
+                pour {content.personnes} personnes
+              </Tag>
+            </React.Fragment>
+          </MetaWrapper>
+
+          <StepsWrapper>
+            <Typography variant="h5">Etapes</Typography>
+            <br></br>
+            {steps}
+          </StepsWrapper>
+        </ContentDescWrapper>
+
+      </ContentWrapper>
+    )
   }
   
     const classes = useStyles();

@@ -18,3 +18,8 @@ spring:
       user: root
       password: iuzkghkuzegdo
       authentication-database: admin
+
+    redis:
+      host: rediscluster
+      port: 6379
+      password : uhoaizdhukazdadz
