@@ -4,12 +4,12 @@ import styled from 'styled-components'
 import { Typography } from '@material-ui/core';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import './Inventory.css'
+import './InventoryDash.css'
 const ArticleWrapper = styled.div`
     padding-top: 10px;
-    padding-left: 6.25vw;
+    padding-left: 8vw;
     width: 60vw;
-    height: 52vh;
+    height: 51vh;
     overflow-x: hidden;
 `
 

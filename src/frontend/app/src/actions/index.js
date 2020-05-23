@@ -74,16 +74,11 @@ export const regeneratePincode = (userEmail) => ({
         userEmail: userEmail,
     }
 })
-
 export const regeneratePincodeEnded = (success) => ({
     type: 'REGENERATE_PINCODE_ENDED',
     payload: {
         success: success,
     }
-})
-
-export const unlockPincodeScreen = () => ({
-    type: 'UNLOCK_PINCODE_SCREEN',
 })
 //recipes
 

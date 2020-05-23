@@ -10,4 +10,3 @@ export const SCANNER_API_BASE_URL = 'http://localhost:8081';
 export const INVENTORY_RUD_API_BASE_URL = 'http://localhost:8082';
 
 export const MAIL_API_BASE_URL = 'http://localhost:8083';
-export const RECIPES_API_BASE_URL = 'http://127.0.0.1:5000';

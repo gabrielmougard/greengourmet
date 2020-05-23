@@ -9,7 +9,7 @@ import MemoryIcon from '@material-ui/icons/Memory';
 import ItemLoader from './ItemLoader';
 import Webcam from "react-webcam";
 import './Dashboard.css';
-import Inventory from '../inventory/Inventory.js';
+import Inventory from '../inventory/InventoryDash';
 //import Article from './articleCard';
 
 

@@ -19,9 +19,9 @@ const data = [
   { diet: 'glucides', val: 20 ,val2: 15},
   { diet: 'proteines', val: 12,val2: 8 },
   { diet: 'lipides', val: 30,val2: 5 },
-  { diet: 'acide gras', val: 20 ,val2: 6},
-  { diet: 'vitamine', val: 10,val2: 4 },
-  { diet: 'sucre', val: 11,val2: 15 },
+  { diet: 'acide gras', val: 11 ,val2: 15},
+  { diet: 'vitamine', val: 4,val2: 10 },
+  { diet: 'sucre', val: 11,val2: 6 },
 ];
   
 const useStyles = makeStyles({
@@ -51,7 +51,7 @@ function StatisticsCard() {
             innerRadius={0.6}
           />
           <Title
-            text="Votre apport nutritionnel des 2 derniere semaines"
+            text="Votre apport nutritionnel des 2 dernieres semaines"
           />
           <Animation />
         </Chart>
@@ -112,7 +112,7 @@ function StatisticsCard() {
             innerRadius={0.6}
           />
           <Title
-            text="Votre apport nutritionnel des 2 derniere semaines"
+            text="apport nutritionnel recommandé pour 2 semaines"
           />
           <Animation />
         </Chart>

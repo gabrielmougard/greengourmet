@@ -12,7 +12,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { connect } from 'react-redux'
 
 //action 
-import { sendPincode, regeneratePincode, unlockPincodeScreen } from '../../../actions';
+import { sendPincode, regeneratePincode } from '../../../actions';
 
 //css
 import './pincode.css'
@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function PinCodeEmail({userEmail, sendPincode, pincodeEnded, regeneratePincode, regeneratePincodeEnded, unlockPincodeScreen }) {
+function PinCodeEmail({userEmail, sendPincode, pincodeEnded, regeneratePincode, regeneratePincodeEnded }) {
     
     const classes = useStyles();
     const [valuesPinCode, setValuesPinCode] = React.useState(['', '', '', '', '', '']);
@@ -51,9 +51,7 @@ function PinCodeEmail({userEmail, sendPincode, pincodeEnded, regeneratePincode, 
                 setLoading(false)
             }
             //after a small delay unlock screen
-            setTimeout(() => {
-                unlockPincodeScreen()
-            },300)
+            
 
 
         } else {
@@ -158,7 +156,6 @@ const mapDispatchToProps = (dispatch) => {
     return {
         sendPincode: (pincode, userEmail) => {dispatch(sendPincode(pincode, userEmail))},
         regeneratePincode: (userEmail) => {dispatch(regeneratePincode(userEmail))},
-        unlockPincodeScreen: () => {dispatch(unlockPincodeScreen())},
     }
 }
   
