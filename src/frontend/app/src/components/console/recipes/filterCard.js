@@ -6,7 +6,15 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from '@material-ui/core/FormControl';
 import Checkbox from "@material-ui/core/Checkbox";
 import Radio from '@material-ui/core/Radio';
+<<<<<<< HEAD
 
+=======
+import RadioGroup from '@material-ui/core/RadioGroup';
+import Modal from '@material-ui/core/Modal';
+import Button from '@material-ui/core/Button';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import SendIcon from '@material-ui/icons/Send';
+>>>>>>> de98c1856f55f38653079712d92af797e06e6723
 import './filterCard.css'
 
 
@@ -18,18 +26,12 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const GreenCheckbox = withStyles({
-  root: {
-    color: "#02c39a"
-  }
-})(props => <Checkbox color="default" {...props} />);
-
 const GreenRadio = withStyles({
   root: {
     color: "#02c39a"
+
   }
 })(props => <Radio color="default" {...props} />);
-
 
   function RecipesFilter(){
     const classes = useStyles();
@@ -48,21 +50,37 @@ const GreenRadio = withStyles({
       };*/
       const [value, setValue] = React.useState('female');
 
-      const handleChange = (event) => {
-        setValue(event.target.value);
+      const [difficulte, setDifficulte] = React.useState('');
+      const [cout, setCout] = React.useState('');
+      const [specificite, setSpecificite] = React.useState('');
+      const [helperText, setHelperText] = React.useState('');
+
+      const handleChangeDif = (event) => {
+        setDifficulte(event.target.value);
+        console.log(event.target.value);
       };
-/*
-const GreenCheckbox = withStyles({
-  root: {
-    color: "#02c39a"
-  }
-})(props => <Checkbox color="default" {...props} />);
-*/ 
+      
+      const handleChangeCout = (event) => {
+        setCout(event.target.value);
+        console.log(event.target.value);
+      };
+
+      const handleChangeSpec = (event) => {
+        setSpecificite(event.target.value);
+        console.log(event.target.value);
+      };
+      const getSubmit = (event) => {
+        console.log("La difficulté est : " + difficulte);
+        console.log("Le cout est : " + cout);
+        console.log("La spécificité est : " + specificite);
+        setHelperText('Votre filtre est : d:'+difficulte+', c: '+cout+' ,s: '+specificite)
+      };
+
 
     return (
       <>
       
-    <div className={classes.root}>
+    <div className={classes.root}  >
     <Grid container 
           direction="column"
           justify="flex-start"
