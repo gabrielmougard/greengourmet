@@ -47,6 +47,7 @@ const IconWrapper = styled.div`
 const TextWrapper = styled.div`
   flex: 7;
   padding: ${rem(30)} 0;
+  text-align: center;
 
   ${mobile(css`
     h1 {
@@ -83,8 +84,7 @@ const StaticImage = styled.div`
 `
 
 export const ConsoleButton = styled(Button)`
-  margin-top: ${rem(30)};
-
+  margin-top: ${rem(50)};
 `
 
 const Sub = styled(SubHeader)`
@@ -116,6 +116,16 @@ const Text = ({ subHeader, header, description, button }) => (
       >
         {header}
       </Title>
+      <div id="greengourmet-title">
+        <Title
+          style={{ margin: `0 0 ${rem(20)}` }}
+          size={72}
+          color="#02c39a"
+        >
+          {"' GreenGourmet '"}
+        </Title>
+      </div>
+      
       <Sub
         style={{ margin: `0 0 ${rem(8)}` }}
         size={18}
@@ -126,7 +136,7 @@ const Text = ({ subHeader, header, description, button }) => (
         button && button.length &&
         <ConsoleButton
           mint
-          onClick={() => scrollToForm()}
+          onClick={event =>  window.location.href='/console/me'}
         >
           {button}
         </ConsoleButton>
@@ -173,12 +183,13 @@ class Hero extends Component {
 
     render() {
       return (
+        <div id="hero">
       <Wrapper>
         <StartPageBackground />
         <Content>
          
             <Text
-                header='Tu as faim ? Pourquoi attendre ? Prends-toi un " GreenGourmet "' 
+                header='Tu as faim ? Pourquoi attendre ? Prends-toi un' 
                 subHeader="Reprends le contrôle de ton frigo !"
                 description="La première application de gestion et de création d'une cuisine plus écologique, économique et créative !"
                 button="J'y vais !" 
@@ -186,6 +197,7 @@ class Hero extends Component {
         </Content>
         <IconWrapper></IconWrapper>
       </Wrapper>
+      </div>
       )
     }
 };

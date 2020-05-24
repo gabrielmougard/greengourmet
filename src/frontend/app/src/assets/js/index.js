@@ -38,7 +38,7 @@ export const Container = styled.div`
 
 export const Title = styled.h1`
   display: block;
-  text-align: left;
+  text-align: center;
   width: 100%;
 
   font-size: ${({ size }) => (size && rem(size)) || rem(42)};

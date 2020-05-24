@@ -3,8 +3,13 @@
     z-index: 1;
 }
 
-#iphone-wrapper {
-    position: absolute;
-    z-index: 3;
+#hero{
+    overflow-y:hidden;
+    overflow-x: hidden;
+    width:'100%';
+} 
+
+#greengourmet-title {
+    text-align: center;
 }
 
