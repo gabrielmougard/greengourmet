@@ -73,6 +73,7 @@ function Recipes({inventory, recipes, getRecipes}) {
             for (const idx in recipes.recettes) {
                 recipesArray.push(
                     <RecipesCard 
+                        inventory={inventory}
                         name={recipes.recettes[idx].name} 
                         numerateur ={"4"} 
                         denominateur ={'5'} 

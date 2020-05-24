@@ -46,9 +46,13 @@ export const validateCart = (payload) => ({
     payload,
 })
 
-export const validateCartEnded = (payload) => ({
-    type: 'VALIDATE_CART_ENDED',
+export const validateCartEndedSuccess = (payload) => ({
+    type: 'VALIDATE_CART_ENDED_SUCCESS',
     payload,
+})
+
+export const validateCartEndedFailure = () => ({
+    type: 'VALIDATE_CART_ENDED_FAILURE',
 })
 
 ////////////
@@ -96,6 +100,20 @@ export const getInventoryEnded = (success, data=null) => ({
     type: 'GET_INVENTORY_ENDED',
     success: success,
     data: data,
+})
+
+export const updateInventory = (payload) => ({
+    type: 'UPDATE_INVENTORY',
+    payload,
+})
+
+export const updateInventorySuccess = (payload) => ({
+    type: 'UPDATE_INVENTORY_SUCCESS',
+    payload
+})
+
+export const updateInventoryFailure = () => ({
+    type: 'UPDATE_INVENTORY_FAILURE',
 })
 
 // get recipes

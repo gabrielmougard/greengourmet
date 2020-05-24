@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect } from "react";
+import React, { useEffect } from "react";
 import styled from 'styled-components'
 import Drawer from '@material-ui/core/Drawer';
 import FormControl from '@material-ui/core/FormControl';
@@ -7,6 +7,11 @@ import { green, red } from '@material-ui/core/colors';
 import { connect } from 'react-redux'
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import ListSubheader from '@material-ui/core/ListSubheader';
+import Select from '@material-ui/core/Select';
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 
@@ -60,10 +65,18 @@ const CancelButton = withStyles((theme) => ({
   },
 }))(Button);
 
+const useStyles = makeStyles((theme) => ({
+    formControl: {
+      margin: theme.spacing(1),
+      minWidth: 120,
+    },
+  }));
+
 function ScannerDrawer({barcodeResult, unknownBarcode, sendArticleToCart, cancelArticleToCart}) {
+    const classes = useStyles();
     const [drawerState, setDrawerState] = React.useState(false)
     const [contentItem, setContentItem] = React.useState({})
-
+    const [dateArticle, setDateArticle] = React.useState(Date.now())
     // edit the data in the drawer after the scan
     const handleContentItemChange = (event) => {
         let newContent = Object.assign({}, contentItem);
@@ -76,6 +89,7 @@ function ScannerDrawer({barcodeResult, unknownBarcode, sendArticleToCart, cancel
         setContentItem(newContent)
     }
     const handleQuantityUnitItemChange = (event) => {
+        console.log(event.target.value)
         let newContent = Object.assign({}, contentItem);
         newContent.quantity[1] = event.target.value
         setContentItem(newContent)
@@ -84,6 +98,7 @@ function ScannerDrawer({barcodeResult, unknownBarcode, sendArticleToCart, cancel
         let newContent = Object.assign({}, contentItem);
         newContent.peremptionDate = event
         setContentItem(newContent)
+        setDateArticle(event)
     }
     /////
 
@@ -143,22 +158,32 @@ function ScannerDrawer({barcodeResult, unknownBarcode, sendArticleToCart, cancel
                         />
                     </div>
                     <div>
-                    <TextField
-                        id="outlined-helperText"
-                        onChange={e => handleQuantityUnitItemChange(e)}
-                        label="Unité"
-                        variant="outlined"
-                        defaultValue={barcodeResult.quantity[1]}
-                    />
+                        
+                        <FormControl className={classes.formControl}>
+                            <InputLabel htmlFor="grouped-select">Unité</InputLabel>
+                            <Select defaultValue="" id="grouped-select" onChange={e => handleQuantityUnitItemChange(e)}>
+                                <ListSubheader>Masse</ListSubheader>
+                                <MenuItem value={"g"}>gramme(s)</MenuItem>
+                                <MenuItem value={"kg"}>kilogramme(s)</MenuItem>
+                                <ListSubheader>Volume</ListSubheader>
+                                <MenuItem value={"ml"}>millilitre(s)</MenuItem>
+                                <MenuItem value={"cl"}>centilitre(s)</MenuItem>
+                                <MenuItem value={"dl"}>decilitre(s)</MenuItem>
+                                <MenuItem value={"l"}>litre(s)</MenuItem>
+                                <MenuItem value={"tasse"}>tasse(s)</MenuItem>
+                                <MenuItem value={"csoupe"}>cuillère(s) à soupe</MenuItem>
+                                <MenuItem value={"ccafe"}>cuillère(s) à café</MenuItem>
+                            </Select>
+                        </FormControl>
                     </div>
                     <div>
                         <MuiPickersUtilsProvider utils={DateFnsUtils}>
                         <KeyboardDatePicker
                             disableToolbar
-                            variant="outlined"
                             format="MM/dd/yyyy"
                             onChange={e => handleDateItemChance(e)}
                             margin="normal"
+                            value={dateArticle}
                             id="date-picker-inline"
                             label="Date de préremption"
                             KeyboardButtonProps={{

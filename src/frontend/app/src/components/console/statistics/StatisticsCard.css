@@ -1,0 +1,8 @@
+#graph{
+    height: 100%;
+}
+.container{
+    flex-direction: column;
+    text-align: center;
+    color: black;
+}

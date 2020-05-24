@@ -1,3 +1,5 @@
+import { intersectionInventory } from '../libs/inventory-matcher'
+
 //here we define our reducer(s)
 const reducer = (state = {}, action) => {
     switch (action.type) {
@@ -20,10 +22,12 @@ const reducer = (state = {}, action) => {
             if (action.payload.name) {
                 return { ...state, articleToCart: action.payload}
             }
-        case 'VALIDATE_CART_ENDED':
+        case 'VALIDATE_CART_ENDED_SUCCESS':
             if (action.payload) {
-                return { ...state, cartValidated: action.payload}
+                return { ...state, cartValidated: true, inventory: [...state.inventory, ...action.payload]}
             }
+        case 'VALIDATE_CART_ENDED_FAILURE':
+            return { ...state, cartValidated: false, inventory: [...state.inventory, action.payload.newArticles]}
         case 'CANCEL_ARTICLE_TO_CART':
             console.log("cancel cart !!!")
             return { ...state, cancelArticleToCart: action.payload}
@@ -45,6 +49,17 @@ const reducer = (state = {}, action) => {
             } else {
                 return state
             }
+        case 'UPDATE_INVENTORY_SUCCESS':
+            if (action.payload) {
+                //TODO : update the value of state.inventory according to action.payload.toUpdate and action.payload.toDeletex
+                const newInventory = intersectionInventory(state.inventory, action.payload)
+
+                return {...state, inventory: newInventory, inventoryUpdated: true}
+            } else {
+                return {...state, inventoryUpdated: false}
+            }
+        case 'UPDATE_INVENTORY_FAILURE':
+            return {...state, inventoryUpdated: false}
         case 'GET_RECIPES_ENDED':
             if (action.success) {
                 return {...state, recipes: action.recipes}

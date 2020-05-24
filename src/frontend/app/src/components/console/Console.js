@@ -8,7 +8,7 @@ import { connect } from 'react-redux'
 
 import Dashboard from './dashbord/Dashboard';
 import Scanner from './scanner/Scanner';
-import Inventory from './inventory/Inventory';
+import InventoryPage from "./inventory/InventoryPage";
 import Recipes from './recipes/Recipes';
 import Leaderboard from './leaderboard/Leaderboard';
 import Statistics from './statistics/Statistics';
@@ -16,6 +16,7 @@ import PinCodeEmail from './pincode/PinCodeEmail';
 
 //actions
 import { getInventory } from '../../actions'
+
 
 class Console extends Component {
     constructor(props) {
@@ -25,7 +26,6 @@ class Console extends Component {
         }
         if (!this.props.inventory) {
             //call the saga
-            console.log("call inventory")
             this.props.getInventory(this.props.currentUser.id)
         }
     }
@@ -54,7 +54,7 @@ class Console extends Component {
                 consoleContent = <Scanner userId={this.props.currentUser.id}/>
                 break;
             case 'inventory':
-                consoleContent = <Inventory {...this.props} />
+                consoleContent = <InventoryPage {...this.props} />
                 break;
             case 'recipes':
                 consoleContent = <Recipes {...this.props} />
@@ -72,7 +72,6 @@ class Console extends Component {
 
         return (
             <>
-                
                 <ConsoleHeader {...this.props}/>
                 <ConsoleTabs {...this.props}/>
                 {consoleContent}

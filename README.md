@@ -1,5 +1,6 @@
 # GreenGourmet repository
 The official greengourmet.fr project repository.
+![](src/frontend/app/src/assets/fullLogoTransparent.png)
 
 ## API documentation :
 List the API endpoints below with the associated http verb, request body content (JSON format), response body content (JSON format).

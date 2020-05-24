@@ -2,7 +2,7 @@ import { call, put, takeLatest } from 'redux-saga/effects'
 import axios from 'axios';
 
 //actions
-import { sendBarcodeContentEndedSuccess, sendBarcodeContentEndedFailure, validateCartEnded } from '../../actions';
+import { sendBarcodeContentEndedSuccess, sendBarcodeContentEndedFailure, validateCartEndedSuccess, validateCartEndedFailure } from '../../actions';
 import { SCANNER_API_BASE_URL, INVENTORY_CRUD_API_BASE_URL } from '../../CONSTANTS';
 
 function* fetchBarcodeContent(action) {
@@ -30,22 +30,21 @@ function* fetchBarcodeContent(action) {
 
 function* validateCart(action) {
     
-    console.log("les articles : ")
     
     const data = {articles: action.payload.cartContentData}
     console.log(data)
     try {
         var response = yield call([axios, axios.post], INVENTORY_CRUD_API_BASE_URL+'/article', data)
-        console.log("response")
+
         console.log(response)
         if (response.data.success) {
-            yield put(validateCartEnded(true));
+            yield put(validateCartEndedSuccess(action.payload.cartContentData));
         } else {
-            yield put(validateCartEnded(false));
+            yield put(validateCartEndedFailure());
         }
     } catch(e) {
         console.log(e);
-        yield put(validateCartEnded(false));
+        yield put(validateCartEndedFailure());
     }
 }
 

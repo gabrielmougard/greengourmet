@@ -4,6 +4,7 @@ import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Tooltip from '@material-ui/core/Tooltip';
 import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import {Button as BaseButton} from 'baseui/button';
 import {SHAPE} from 'baseui/button';
 import {Typography} from "@material-ui/core";
@@ -15,12 +16,13 @@ import styled, { keyframes } from 'styled-components'
 import './recipesCard.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import RestaurantOutlinedIcon from '@material-ui/icons/RestaurantOutlined';
+import Alert from 'react-s-alert';
 
 //redux
 import { connect } from 'react-redux'
 
 //actions 
-import { fetchRecipeDetails } from '../../../actions'
+import { fetchRecipeDetails, updateInventory } from '../../../actions'
 
 const ContentWrapper = styled.div`
   display: grid;
@@ -230,9 +232,11 @@ scoring:{
 }));
 
 
-function RecipesCard({name, recommendation, numerateur, denominateur, time, picture, linkToRecipe, recipesDetails, fetchRecipeDetails}){
+function RecipesCard({inventory, name, recommendation, numerateur, denominateur, time, picture, linkToRecipe, recipesDetails, fetchRecipeDetails, updateInventory, inventoryUpdated}){
   const [modalStyle] = React.useState(getModalStyle);
   const [modalContent, setModalContent] = React.useState(<></>)
+  const [recipeIngredients, setRecipeIngredients] = React.useState({})
+  const [cookLoaderButton, setCookLoaderButton] = React.useState(false)
   const [open, setOpen] = React.useState(false);
   
   useEffect(() => {
@@ -254,7 +258,7 @@ function RecipesCard({name, recommendation, numerateur, denominateur, time, pict
           if (loaded) {
         
             setModalContent(buildModalContent(loadedContent))
-
+            setRecipeIngredients(loadedContent.ingredients)
           } else {
 
             console.log("recipesDetails does not countain our link. Calling API to retrieve data.")
@@ -286,6 +290,28 @@ function RecipesCard({name, recommendation, numerateur, denominateur, time, pict
       //
     }
   }, [open, recipesDetails])
+
+  useEffect(() => {
+    if (inventoryUpdated) {
+      Alert.success("Inventaire mis à jour avec succès !");
+      setCookLoaderButton(false) //stop cook loader
+      setOpen(false) //close the modal
+    } else {
+      //undefined of false
+      if (inventoryUpdated == false) {
+        Alert.error("La mise à jour de l'inventaire n'a pas pu se faire.");
+        setCookLoaderButton(false) //stop cook loader
+      } //if undefined, do nothing
+    }
+  }, [inventoryUpdated])
+
+  const handleCookButton = () => {
+    if (recipeIngredients) {
+      console.log(recipeIngredients)
+      setCookLoaderButton(true)
+      updateInventory({inventory: inventory, recipeIngredients: recipeIngredients})
+    }
+  }
 
   const buildModalContent = (content) => {
     console.log(content)
@@ -501,8 +527,8 @@ function RecipesCard({name, recommendation, numerateur, denominateur, time, pict
               </Button>
             </Grid>
             <Grid item id='activeButton' >
-              <Button variant="contained" className={classes.ModalCook} color="secondary" type="button">
-              Je la cuisine !
+              <Button onClick={() => handleCookButton()} variant="contained" className={classes.ModalCook} color="secondary" type="button">
+              {(cookLoaderButton) ? (<CircularProgress />) : ("Je la cuisine !")}
               </Button>
             </Grid>
           </Grid>
@@ -564,12 +590,14 @@ function RecipesCard({name, recommendation, numerateur, denominateur, time, pict
 const mapStateToProps = (state) => {
   return {
       recipesDetails: state.recipesDetails,
+      inventoryUpdated: state.inventoryUpdated,
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
       fetchRecipeDetails: (link) => {dispatch(fetchRecipeDetails(link))},
+      updateInventory: (recipeIngredients) => {dispatch(updateInventory(recipeIngredients))},
   }
 }
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import SwipeableViews from 'react-swipeable-views';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
@@ -50,12 +50,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ConsoleTabs = ({sendTabPosition}) => {
+const ConsoleTabs = ({sendTabPosition, tabPosition}) => {
   const classes = useStyles();
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
   const mapPos2Title = {0:"dashboard", 1:"scanner", 2:"inventory", 3:"recipes", 4:"leaderboard", 5:"statistics"}
+  const mapTitle2Pos = {"dashboard":0, "scanner":1, "inventory":2, "recipes":3, "leaderboard":4, "statistics":5}
 
+  useEffect(() => {
+    if (tabPosition) {
+      setValue(mapTitle2Pos[tabPosition])
+    }
+  }, [tabPosition])
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -115,7 +121,7 @@ const ConsoleTabs = ({sendTabPosition}) => {
 
 const mapStateToProps = (state) => {
   return {
-      
+      tabPosition: state.tabPosition
   }
 }
 

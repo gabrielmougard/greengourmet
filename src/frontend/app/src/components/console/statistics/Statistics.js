@@ -1,36 +1,13 @@
-import React, { Component } from 'react';
-import styled from 'styled-components'
-//images
-import wip from '../../../assets/images/wip.png'
+  
+import * as React from 'react';
+import StatisticsCard from './StatisticsCard'
 
-const WipWrapper = styled.div`
-    top: 50%;
-    left: 50%;
-    text-align: center;
-    padding-top: 150px;
-`
+function Statistics(){
 
-const WipImage = styled.img(props => ({
-    src: props.src,
-    borderRadius: '50px',
-    width: '400px',
-    height: '400px'
-}));
-
-class Statistics extends Component {
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-        return (
-            <>
-                <WipWrapper>
-                <WipImage src={wip}/>
-                </WipWrapper>
-            </>
-        )
-    }
-}
-
-export default Statistics;
+    return (
+        <div className ='dashboard-root-content'>
+            <StatisticsCard/>
+        </div>
+    );
+  }
+export default Statistics
