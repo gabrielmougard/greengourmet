@@ -1,5 +1,5 @@
 import React, { Component, useEffect } from 'react';
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Tooltip from '@material-ui/core/Tooltip';
@@ -231,6 +231,11 @@ scoring:{
   },
 }));
 
+const ColorCircularProgress = withStyles({
+  root: {
+    color: '#FFFFFF',
+  },
+})(CircularProgress);
 
 function RecipesCard({inventory, name, recommendation, numerateur, denominateur, time, picture, linkToRecipe, recipesDetails, fetchRecipeDetails, updateInventory, inventoryUpdated}){
   const [modalStyle] = React.useState(getModalStyle);
@@ -528,7 +533,7 @@ function RecipesCard({inventory, name, recommendation, numerateur, denominateur,
             </Grid>
             <Grid item id='activeButton' >
               <Button onClick={() => handleCookButton()} variant="contained" className={classes.ModalCook} color="secondary" type="button">
-              {(cookLoaderButton) ? (<CircularProgress />) : ("Je la cuisine !")}
+              {(cookLoaderButton) ? (<ColorCircularProgress />) : ("Je la cuisine !")}
               </Button>
             </Grid>
           </Grid>

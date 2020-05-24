@@ -39,11 +39,11 @@ class Console extends Component {
 
     render() {
         console.log(this.props)
-
-        /*let pinCode
+        let email = this.props.currentUser.email
+        let pinCode
         if (!this.props.currentUser.emailVerified) {
             pinCode = <PinCodeEmail userEmail={email} {...this.props}/>
-        }*/
+        }
 
         let consoleContent;
         switch(this.state.currentTab) {
@@ -74,6 +74,7 @@ class Console extends Component {
             <>
                 <ConsoleHeader {...this.props}/>
                 <ConsoleTabs {...this.props}/>
+                {(this.props.pincodeUnlocked == true) ? (<></>) : (pinCode) }
                 {consoleContent}
             </>
         )

@@ -74,10 +74,10 @@ const ResetButton = withStyles((theme) => ({
 function Cart({userId, articleToCart, validateCart, cartValidated}) {
 
     const initialCartContent = 
-        <div>
+        [<div>
             vous n'avez pas d'articles.<br></br> Faites chauffer le scanner !
             <img src={barcodeAnimation} />
-        </div>
+        </div>]
     const [initialCartState, setInitialCartState] = React.useState(true)
     const [cartContent, setCartContent] = React.useState(initialCartContent)
     const [cartContentData, setCartContentData] = React.useState([])
@@ -109,6 +109,8 @@ function Cart({userId, articleToCart, validateCart, cartValidated}) {
                 }])
                 setInitialCartState(false)
             } else {
+                console.log("cart content")
+                console.log(cartContent)
                 setCartContent([ ...cartContent,
                     <Article name={articleToCart.name} quantity={articleToCart.quantity[0]} quantityUnit={articleToCart.quantity[1]} peremptionDate={articleToCart.peremptionDate}/>
                 ]);

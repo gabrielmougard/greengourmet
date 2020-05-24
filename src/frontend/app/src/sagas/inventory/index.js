@@ -30,7 +30,7 @@ function* updateInventory(action) {
     const inventoryUpdated = updateLocalInventory(data.inventory, data.recipeIngredients) //update locally
     console.log("UPDATE INVENTORY")
     console.log(inventoryUpdated)
-    /*
+    
     try {
         let successfulAPIhit = 0
 
@@ -70,7 +70,7 @@ function* updateInventory(action) {
         console.log(e)
         yield put(updateInventoryFailure())
     }
-    */
+    
 }
 
 export default function* inventorySaga() {

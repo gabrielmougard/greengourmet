@@ -5,9 +5,12 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import VideocamIcon from '@material-ui/icons/Videocam';
 import MenuBookIcon from '@material-ui/icons/MenuBook';
+import CachedIcon from '@material-ui/icons/Cached';
 import MemoryIcon from '@material-ui/icons/Memory';
+import Tooltip from '@material-ui/core/Tooltip';
 import ItemLoader from './ItemLoader';
 import Webcam from "react-webcam";
+import styled from 'styled-components'
 import './Dashboard.css';
 import Inventory from '../inventory/Inventory.js';
 //import Article from './articleCard';
@@ -17,8 +20,11 @@ import Inventory from '../inventory/Inventory.js';
 import { connect } from 'react-redux'
 
 //actions
-import { sendTabPosition } from '../../../actions';
+import { sendTabPosition, getInventory } from '../../../actions';
 
+const SynchronizeInventoryWrapper = styled.span`
+    float: right;
+`
 class Dashboard extends Component {
     constructor(props) {
         super(props);
@@ -26,6 +32,11 @@ class Dashboard extends Component {
         this.handleScannerButton = this.handleScannerButton.bind(this);
         this.handleMyRecipesButton = this.handleMyRecipesButton.bind(this);
         this.handleGenerateRecipeButton = this.handleGenerateRecipeButton.bind(this);
+        this.handleSyncInventory = this.handleSyncInventory.bind(this);
+    }
+
+    handleSyncInventory() {
+        this.props.getInventory(this.props.currentUser.id)
     }
 
     handleScannerButton() {
@@ -101,9 +112,17 @@ class Dashboard extends Component {
                 <div className="split right">
                     <Card className="scanner-card" variant="outlined">
                         <CardContent>
-                            <Typography variant="h5" component="h2">
-                            Inventaire
-                            </Typography>
+                            <div>
+                                <Typography variant="h5" component="h2">
+                                    Inventaire 
+                                    <SynchronizeInventoryWrapper>
+                                        <Tooltip title="Synchronisez l'inventaire">
+                                            <Button onClick={this.handleSyncInventory}><CachedIcon /></Button>
+                                        </Tooltip>
+                                    </SynchronizeInventoryWrapper>
+                                </Typography>
+                                
+                            </div>
                             <br></br>
                             <br></br>
                             <Inventory />
@@ -125,6 +144,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         sendTabPosition: (position) => {dispatch(sendTabPosition(position))},
+        getInventory: (userId) => {dispatch(getInventory(userId))}
     }
 }
 
