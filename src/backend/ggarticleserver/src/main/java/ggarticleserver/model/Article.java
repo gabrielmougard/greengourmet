@@ -28,7 +28,7 @@ public class Article implements Serializable {
 	private String ingredients;
 	
 	@NotNull
-	private float quantity;
+	private String quantity;
 	
 	@NotNull
 	private String quantityUnit;
@@ -74,11 +74,11 @@ public class Article implements Serializable {
 		this.ingredients = ingredients;
 	}
 	
-	public float getQuantity() {
+	public String getQuantity() {
 		return this.quantity;
 	}
 	
-	public void setQuantity(float quantity) {
+	public void setQuantity(String quantity) {
 		this.quantity = quantity;
 	}
 	

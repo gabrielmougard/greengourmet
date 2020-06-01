@@ -1,3 +1,11 @@
+export const loadUser = (payload) => ({
+    type: 'LOAD_USER',
+})
+
+export const goToDashboard = () => ({
+    type: 'GOTO_DASHBOARD',
+})
+
 //here we export our actions
 export const sendTabPosition = (position) => ({
     type: 'TAB_POSITION',

@@ -19,6 +19,12 @@ import 'react-s-alert/dist/s-alert-css-effects/slide.css';
 
 import { login } from '../../libs/APIUtils';
 
+//redux
+import { connect } from 'react-redux'
+
+//actions
+import { loadUser } from '../../actions';
+
 const Wrapper = styled.section`height: 100vh;
         padding-top: ${({ theme }) => theme.navHeight};
         position: relative;
@@ -39,6 +45,7 @@ class Login extends Component {
             email: "",
             password: "",
             signupClicked: false,
+            accessToken: null
         }
 
         this.handleLogin = this.handleLogin.bind(this);
@@ -51,9 +58,9 @@ class Login extends Component {
         login(loginRequest)
         .then(response => {
             localStorage.setItem(ACCESS_TOKEN, response.accessToken);
-            Alert.success("Successfully logged in !");
-            console.log(response)
+            this.props.loadUser()
             this.props.history.push("/console/me");
+            Alert.success("Successfully logged in !");
         }).catch(error => {
             Alert.error((error && error.message) || "Oups ! Une erreur s'est produite.");
         })
@@ -64,6 +71,9 @@ class Login extends Component {
     }
 
     render() {
+        if (this.props.goToDashboard) {
+            this.props.history.push("/console/me")
+        }
 
         if(this.props.authenticated) {
             return <Redirect
@@ -132,4 +142,15 @@ class Login extends Component {
     }
 }
 
-export default Login;
+const mapStateToProps = (state) => {
+    return {
+        goToDashboard: state.goToDashboard,
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        loadUser: () => {dispatch(loadUser())},
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

@@ -16,6 +16,11 @@ import { ACCESS_TOKEN } from './CONSTANTS';
 import Alert from 'react-s-alert';
 import { getCurrentUser } from './libs/APIUtils';
 
+//redux
+import { connect } from 'react-redux'
+
+//action
+import { goToDashboard } from './actions'
 
 class LoginComponent extends Component {
   constructor(props) {
@@ -60,7 +65,8 @@ class App extends Component {
     this.state = {
       authenticated: false,
       currentUser: null,
-      loading: false
+      loading: false,
+      loadUser: false
     }
 
     this.loadCurrentlyLoggedInUser = this.loadCurrentlyLoggedInUser.bind(this);
@@ -91,7 +97,8 @@ class App extends Component {
     localStorage.removeItem(ACCESS_TOKEN);
     this.setState({
       authenticated: false,
-      currentUser: null
+      currentUser: null,
+      accessToken: null,
     });
     Alert.success("You're safely logged out!");
   }
@@ -105,7 +112,7 @@ class App extends Component {
     if(this.state.loading) {
       return <LoadingIndicator />
     }
-
+    
     return (
       <BrowserRouter>
         <div>
@@ -137,4 +144,16 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = (state) => {
+  return {
+    loadUser: state.loadUser
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    goToDashboard: () => {dispatch(goToDashboard())},
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

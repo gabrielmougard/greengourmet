@@ -51,7 +51,8 @@ class Signup extends Component {
             signup(signupRequest)
             .then(response => {
                 Alert.success("Vous avez bien été enregistré ! Connectez vous pour continuer !");
-                this.props.history.push("/login");
+                this.props.history.push("/");
+                
             }).catch(error => {
                 Alert.error((error && error.message) || "Oups ! Une erreur s'est produite.");
             })

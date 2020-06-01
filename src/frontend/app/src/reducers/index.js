@@ -3,6 +3,10 @@ import { intersectionInventory } from '../libs/inventory-matcher'
 //here we define our reducer(s)
 const reducer = (state = {}, action) => {
     switch (action.type) {
+        case 'LOAD_USER':
+            return {...state, loadUser: true}
+        case 'GOTO_DASHBOARD':
+            return {...state, goToDashboard: true}
         case 'TAB_POSITION_ENDED':
             if (action.payload.position) {
                 return { ...state, tabPosition: action.payload.position}
